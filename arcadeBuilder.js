@@ -1,6 +1,7 @@
+import * as THREE from "three";
 import { loader, scene } from "/arcadeRenderer.js";
 import { modelPaths } from "/modelPaths.js";
-export { buildArcade };
+export { buildArcade, populateArcadeDecor };
 
 function buildArcade() {    
     // Load model resources
@@ -8,136 +9,98 @@ function buildArcade() {
 
     // Create flooring
     loader.load(modelPaths.FLOOR, 
-        function(floor) {
+        (floor) => {
             // Once loaded
             // Create main floor
             for(let col = 0; col < 5; col++) {
-                for(let row = 0; row < 10; row++) {
-                    const floorScene = floor.scene.clone();
-                    floorScene.position.set(row, 0, -col);
-                    scene.add(floorScene);
-                }
+                for(let row = 0; row < 10; row++) cloneAndPlace(floor, new THREE.Vector3(row, 0, -col));
             }
             // Create offshoot floor
             for(let col = 0; col < 2; col++) {
-                for(let row = 0; row < 5; row++) {
-                    const floorScene = floor.scene.clone();
-                    floorScene.position.set(row + 5, 0, -col - 5);
-                    scene.add(floorScene);
-                }
+                for(let row = 0; row < 5; row++) cloneAndPlace(floor, new THREE.Vector3(row + 5, 0, -col - 5));
             }
-        }, loadHandling, errorHandling);
+        }, loadHandling, errorHandling
+    );
 
     // Create walls
     loader.load(modelPaths.WALL,
-        function(wall) {
+        (wall) => {
             // Create main floor back walls
             for(let i = 0; i < 4; i++) {
-                if (i == 1) continue; // make a gap for a door
-                const wallScene = wall.scene.clone();
-                wallScene.position.set(i + 1, 0, -4);
-                scene.add(wallScene);
+                if (i == 1) continue; // Make gap for door
+                else cloneAndPlace(wall, new THREE.Vector3(i + 1, 0, -4));
             }
             // Create offshoot floor back walls
             for(let i = 0; i < 3; i++) {
                 if (i == 1) continue; // make gap for window
-                const wallScene = wall.scene.clone();
-                wallScene.position.set(i + 6, 0, -6);
-                scene.add(wallScene);
+                else cloneAndPlace(wall, new THREE.Vector3(i + 6, 0, -6));
             }
             // Create left wall
             for(let i = 0; i < 5; i++) {
-                const wallScene = wall.scene.clone();
-                if (i == 4) wallScene.position.set(5, 0, -5); // Special case where need to set offshoot left wall
-                else wallScene.position.set(0, 0, -i);
-                wallScene.rotateY(Math.PI / 2);
-                scene.add(wallScene);
+                if (i == 4) cloneAndPlace(wall, new THREE.Vector3(5, 0, -5), 90) // Add disjointed left wall
+                else cloneAndPlace(wall, new THREE.Vector3(0, 0, -i), 90);
             }
             // Create right wall
             for(let i = 0; i < 6; i++) {
-                const wallScene = wall.scene.clone();
-                if (i == 2 || i == 5) continue; // Make gap for window
-                wallScene.position.set(9, 0, -i);
-                wallScene.rotateY(-Math.PI / 2);
-                scene.add(wallScene);
+                if (i == 2 || i == 5) continue; // Create gap for window
+                else cloneAndPlace(wall, new THREE.Vector3(9, 0, -i), -90);
             }
         }, loadHandling, errorHandling
     );
+
     // Create wall corners
     loader.load(modelPaths.WALL_CORNER,
-        function (corner) {
+        (corner) => {
             // Fill corners of walls
-            let cornerScene = corner.scene.clone();
-            cornerScene.position.set(0, 0, -4);
-            cornerScene.rotateY(Math.PI / 2);
-            scene.add(cornerScene);
+            cloneAndPlace(corner, new THREE.Vector3(0, 0, -4), 90);
+            cloneAndPlace(corner, new THREE.Vector3(5, 0, -6), 90);
+            cloneAndPlace(corner, new THREE.Vector3(9, 0, -6));
+            cloneAndPlace(corner, new THREE.Vector3(5, 0, -4), -90);
             
-            cornerScene = corner.scene.clone();
-            cornerScene.position.set(5, 0, -6);
-            cornerScene.rotateY(Math.PI / 2);
-            scene.add(cornerScene);
-
-            cornerScene = corner.scene.clone();
-            cornerScene.position.set(9, 0, -6);
-            scene.add(cornerScene);
-
-            cornerScene = corner.scene.clone();
-            cornerScene.position.set(5, 0, -4);
-            cornerScene.rotateY(-Math.PI / 2);
-            scene.add(cornerScene);
-
         }, loadHandling, errorHandling
     );
+
+    // Create random columns against wall
     loader.load(modelPaths.COLUMN,
-        function (column) {
-            // Add columns to wall semi-randomly
-            let columnScene = column.scene.clone();
-            columnScene.position.set(5.1, 0, -3.9);
-            scene.add(columnScene);
-            
-            columnScene = column.scene.clone();
-            columnScene.position.set(0.25, 0, 0);
-            scene.add(columnScene);
+        (column) => {
+            cloneAndPlace(column, new THREE.Vector3(5.1, 0, -3.9));
+            cloneAndPlace(column, new THREE.Vector3(0.25, 0, 0));
+            cloneAndPlace(column, new THREE.Vector3(0.25, 0, -3));
+            cloneAndPlace(column, new THREE.Vector3(8.75, 0, -3.9));
+            cloneAndPlace(column, new THREE.Vector3(8.75, 0, 0));
 
-            columnScene = column.scene.clone();
-            columnScene.position.set(0.25, 0, -3);
-            scene.add(columnScene);
-
-            columnScene = column.scene.clone();
-            columnScene.position.set(8.75, 0, -3.9);
-            scene.add(columnScene);
-
-            columnScene = column.scene.clone();
-            columnScene.position.set(8.75, 0, 0);
-            scene.add(columnScene);
         }, loadHandling, errorHandling
     );
-    // Create window
-    loader.load(modelPaths.WINDOW, function(window) {
-        let windowScene = window.scene.clone();
-        windowScene.position.set(9, 0, -2);
-        windowScene.rotateY(-Math.PI / 2);
-        scene.add(windowScene);
 
-        windowScene = window.scene.clone();
-        windowScene.position.set(9, 0, -5);
-        windowScene.rotateY(-Math.PI / 2);
-        scene.add(windowScene);
-
-        windowScene = window.scene.clone();
-        windowScene.position.set(7, 0, -6);
-        scene.add(windowScene);
+    // Create windows
+    loader.load(modelPaths.WINDOW, 
+        (window) => {
+            cloneAndPlace(window, new THREE.Vector3(9, 0, -2), -90);
+            cloneAndPlace(window, new THREE.Vector3(9, 0, -5), -90);
+            cloneAndPlace(window, new THREE.Vector3(7, 0, -6));
 
     }, loadHandling, errorHandling);
-    // Create door
-    loader.load(modelPaths.DOOR, function(door) {
-        let doorScene = door.scene.clone();
-        doorScene.position.set(2, 0, -4);
-        scene.add(doorScene);
 
-    }, loadHandling, errorHandling)
+    // Create door
+    loader.load(modelPaths.DOOR, (door) => cloneAndPlace(door, new THREE.Vector3(2, 0, -4)), loadHandling, errorHandling);
+}
+
+function populateArcadeDecor() {
+    loader.load(modelPaths.AIR_HOCKEY, (hockey) => cloneAndPlace(hockey, new THREE.Vector3(3.5, 0, -3.25)), loadHandling, errorHandling);
+    
 }
     
+// HELPER FUNCTIONS
+function cloneAndPlace(modelData, positionVector, rotationDegrees = 0) {
+    let modelScene = modelData.scene.clone();
+    modelScene.position.set(positionVector.x, positionVector.y, positionVector.z);
+    // Convert to rad, since degrees is more familiar to work with
+    const angleInRad = rotationDegrees * Math.PI / 180;
+    // Will only support rotating on Y axis since all models are upright
+    modelScene.rotateY(angleInRad);
+    scene.add(modelScene);
+}
+
 function errorHandling(error) {
     console.error(`ERROR LOADING: ${error}`);
 }
