@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
-import { buildArcade } from "/arcadeBuilder.js";
+import { buildArcade, populateArcadeDecor } from "/arcadeBuilder.js";
 
 // Setup scene
 const scene = new THREE.Scene();
@@ -25,6 +25,7 @@ camera.lookAt(4,0,-2);
 
 // Create the arcade
 buildArcade();
+populateArcadeDecor();
 
 // Render the scene
 renderer.setAnimationLoop(process);
