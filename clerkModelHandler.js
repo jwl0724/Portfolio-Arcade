@@ -1,18 +1,18 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
-import { scene, camera, loader, mixers, player as playerRef } from "/arcadeRenderer.js";
+import { scene, camera, loader, mixers, clerk as clerkRef } from "/arcadeRenderer.js";
 import { modelPaths } from "/modelPaths.js";
 
 export { loadModel };
 
 function loadModel() {
     // TODO: Refactor to move loading code into separate file
-    loader.load(modelPaths.PLAYER, (player) => {
-            const playerScene = player.scene;
-            playerScene.position.set(2, 0, -3.5);
-            startLoopingAnimations(player, playerScene, "idle");
-            scene.add(playerScene);
-            playerRef = playerScene
+    loader.load(modelPaths.EMPLOYEE, (employee) => {
+            const employeeScene = employee.scene;
+            employeeScene.position.set(7, 0, -5.5);
+            startLoopingAnimations(employee, employeeScene, "idle");
+            scene.add(employeeScene);
+            clerkRef = employeeScene;
         }, undefined, undefined);
 }
 
