@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
-import { scene, camera, loader, mixers, player as playerRef } from "/arcadeRenderer.js";
+import { scene, camera, loader, mixers } from "/arcadeRenderer.js";
 import { modelPaths } from "/modelPaths.js";
 
 export { loadModel };
@@ -12,7 +12,42 @@ function loadModel() {
             playerScene.position.set(2, 0, -3.5);
             startLoopingAnimations(player, playerScene, "idle");
             scene.add(playerScene);
-            playerRef = playerScene
+            
+            // TODO: MOVE THIS SOMEWHERE ELSE FOR THE LOVE OF GOD
+            document.addEventListener("keydown", (event) => {
+                switch (event.key) {
+                    case "w":
+                        playerScene.position.z -= 0.05;
+                        break;
+                    case "a":
+                        playerScene.position.x -= 0.05;
+                        break;
+                    case "s":
+                        playerScene.position.z += 0.05;
+                        break;
+                    case "d":
+                        playerScene.position.x += 0.05;
+                        break;
+                }
+            });
+
+            // TODO: SAME HERE MOVE THIS SOMEWHERE ELSE, JUST HERE FOR PROOF OF WORK
+            document.addEventListener("keyup", (event) => {
+                switch (event.key) {
+                    case "w":
+                        playerScene.position.z -= 0;
+                        break;
+                    case "a":
+                        playerScene.position.x -= 0;
+                        break;
+                    case "s":
+                        playerScene.position.z += 0;
+                        break;
+                    case "d":
+                        playerScene.position.x += 0;
+                        break;
+                }
+            });
         }, undefined, undefined);
 }
 
