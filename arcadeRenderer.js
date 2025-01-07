@@ -3,9 +3,11 @@ import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import { buildArcade, populateArcadeDecor } from "/arcadeBuilder.js";
 
 // Setup scene
+const clock = new THREE.Clock();
 const scene = new THREE.Scene();
-const camera = new THREE.PerspectiveCamera(90, window.innerWidth / window.innerHeight, 0.1, 300);
+const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 300);
 const loader = new GLTFLoader();    
+const mixers = new Array();
 
 // Add lighting
 let light = new THREE.AmbientLight(0xffffff, 2); // White light, with 2 intensity
@@ -17,11 +19,12 @@ renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
 // Export important variables for building scene
-export { scene, camera, renderer, loader };
+export { scene, camera, renderer, loader, mixers };
 
 // Position camera
-camera.position.set(4, 5, -2);
-camera.lookAt(4,0,-2);
+camera.position.set(5, 3, 2);
+camera.lookAt(5, 0, 2);
+camera.rotateX(Math.PI / 3);
 
 // Create the arcade
 buildArcade();
@@ -31,5 +34,11 @@ populateArcadeDecor();
 renderer.setAnimationLoop(process);
 
 function process() {
+    // Play animations
+    const delta = clock.getDelta();
+    mixers.forEach(mixer => {
+        mixer.update(delta)
+    });
+
     renderer.render(scene, camera);
 }
