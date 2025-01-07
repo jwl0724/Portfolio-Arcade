@@ -17,8 +17,9 @@ const modelPaths = Object.freeze({
     DANCE_MACHINE: "/models/dance-machine.glb",
     GAMBLING_MACHINE: "/models/gambling-machine.glb",
     PINBALL: "/models/pinball.glb",
+    PRIZES: "/models/prizes.glb",
     PRIZE_WHEEL: "/models/prize-wheel.glb",
-    TICKET_MACHINE: "/models/ticket-machine",
+    TICKET_MACHINE: "/models/ticket-machine.glb",
     VENDING_MACHINE: "/models/vending-machine.glb",
 
     // Characters
