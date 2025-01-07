@@ -10,11 +10,11 @@ const loader = new GLTFLoader();
 const mixers = new Array();
 
 // Add lighting
-let light = new THREE.AmbientLight(0xffffff, 2); // White light, with 2 intensity
+let light = new THREE.AmbientLight(0xffffe6, 2); // White light, with 2 intensity
 scene.add(light);
 
 // Setup renderer
-const renderer = new THREE.WebGLRenderer();
+const renderer = new THREE.WebGLRenderer( { antialias: true, reverseDepthBuffer: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
