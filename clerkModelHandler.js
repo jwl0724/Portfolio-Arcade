@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
-import { scene, camera, loader, mixers, clerk as clerkRef } from "/arcadeRenderer.js";
+import { scene, camera, loader, mixers } from "/arcadeRenderer.js";
 import { modelPaths } from "/modelPaths.js";
 
 export { loadModel };
@@ -12,7 +12,6 @@ function loadModel() {
             employeeScene.position.set(7, 0, -5.5);
             startLoopingAnimations(employee, employeeScene, "idle");
             scene.add(employeeScene);
-            clerkRef = employeeScene;
         }, undefined, undefined);
 }
 

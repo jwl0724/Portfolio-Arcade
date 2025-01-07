@@ -1,6 +1,8 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import { buildArcade, populateArcadeDecor } from "/arcadeBuilder.js";
+import { instantiatePlayer } from "./characterControl.js";
+import { instantiateClerk } from "./clerkHandler.js";
 
 // Setup scene
 const clock = new THREE.Clock();
@@ -14,7 +16,7 @@ let light = new THREE.AmbientLight(0xffffe6, 2); // White light, with 2 intensit
 scene.add(light);
 
 // Setup renderer
-const renderer = new THREE.WebGLRenderer( { antialias: true, reverseDepthBuffer: true });
+const renderer = new THREE.WebGLRenderer( { antialias: true });
 renderer.setSize(window.innerWidth, window.innerHeight);
 document.body.appendChild(renderer.domElement);
 
@@ -29,6 +31,8 @@ camera.rotateX(Math.PI / 3);
 // Create the arcade
 buildArcade();
 populateArcadeDecor();
+instantiateClerk();
+instantiatePlayer();
 
 // Render the scene
 renderer.setAnimationLoop(process);
