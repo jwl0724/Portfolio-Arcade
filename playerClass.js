@@ -1,22 +1,29 @@
+import { Model } from './modelClass.js';
+
 export { Player };
 
 class Player {
     // Data members
-    #moveSpeed;
-    #directionVector;
-    #modelClass;
-    #isMoving;
+    #isMoving = false;
+    #moveSpeed = 0.1;
+    #directionVector = new THREE.Vector3(0, 0, 0);
+    #modelClass = null;
     
     constructor(modelFilePath) {
-        this.#moveSpeed = 0.1;
-        this.#directionVector = new THREE.Vector3(0, 0, 0);
+        this.#modelClass = new Model(modelFilePath);
     }
 
-    readInput() {
-
+    isMoving() {
+        return this.#isMoving;
     }
 
-    updatePosition() {
+    // Input direction will be wherever the screen is clicked OR keyboard input direction
+    updateDirectionVector(inputDirection) {
+        this.#directionVector = inputDirection.normalized();
+    }
 
+    // Will move the player in the direction of the direction vector
+    updatePosition(delta) {
+        this.#modelClass.updatePosition(this.#directionVector.multiplyScalar(this.#moveSpeed * delta));
     }
 }
