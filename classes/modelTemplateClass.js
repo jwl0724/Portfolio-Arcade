@@ -43,7 +43,7 @@ class ModelTemplate {
             action.loop = THREE.LoopRepeat;
 
             // Offset animation by a bit to desync from shared animations
-            setTimeout(() => action.play(), Math.random() * 1000 / 2);
+            setTimeout(() => action.play(), Math.random() * 1000 / 4);
         }
         this.#placedScenes.push(clone);
         arcadeScene.add(clone);
