@@ -17,6 +17,8 @@ class Arcade {
     #cameraManager;
     #animationMixers;
     #arcadeScene;
+    #player;
+    #clerk;
 
     constructor() {
         // Set data members
@@ -168,5 +170,10 @@ class Arcade {
             arcadeTemplate.place(this.#arcadeScene, new THREE.Vector3(i * 0.7 + 2.2, 0, -1), i * 2 - 5);
             arcadeTemplate.place(this.#arcadeScene, new THREE.Vector3(i * 0.7 + 2.2, 0, -1.7), i * 2 - 185);
         }
+    }
+
+    async instantiatePlayer() {
+        this.#player = new Player(new THREE.Vector3(2, 0, -3.5), 0);
+        await this.#player.createPlayer(this.#arcadeScene, this.#animationMixers);
     }
 }

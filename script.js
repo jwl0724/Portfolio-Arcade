@@ -4,3 +4,4 @@ import { Arcade } from "./classes/arcadeClass";
 
 const arcade = new Arcade();
 await arcade.buildArcade();
+await arcade.instantiatePlayer();
