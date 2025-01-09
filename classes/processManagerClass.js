@@ -1,18 +1,28 @@
+import * as THREE from 'three';
+
 export { ProcessManager };
 
 // Physics and general need to have delta argument, input must have no arguments
 class ProcessManager {
     
+    #clock
+    #renderer;
+    #sceneRenderFunction;
     #inputProcesses;
     #physicsProcesses;
     #generalProcesses;
 
-    constructor() {
+    constructor(renderer, renderFunction) {
         this.#inputProcesses = new Array();
         this.#physicsProcesses = new Array();
         this.#generalProcesses = new Array();
+        this.#clock = new THREE.Clock();
+
+        this.#renderer = renderer;
+        this.#renderer.setAnimationLoop(() => this.#doProcess());
+        this.#sceneRenderFunction = renderFunction;
     }
-    
+
     addPhysicsProcess(process) {
         if (process) this.#physicsProcesses.push(process);
     }
@@ -53,5 +63,13 @@ class ProcessManager {
 
     processPhysics(delta) {
         this.#physicsProcesses.forEach(process => process(delta));
+    }
+
+    #doProcess() {
+        const delta = this.#clock.getDelta();
+        this.processInput();
+        this.process(delta);
+        this.processPhysics(delta);
+        this.#sceneRenderFunction();
     }
 }

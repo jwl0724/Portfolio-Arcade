@@ -22,13 +22,12 @@ class Arcade {
 
     constructor() {
         // Set data members
-        this.#processManager = new ProcessManager();
         this.#arcadeScene = new THREE.Scene();
         this.#clock = new THREE.Clock();
-
+        
         this.#cameraManager = new CameraManager(75, window.innerWidth / window.innerHeight, 0.1, 300);
         this.#animationMixers = new Array();
-
+        
         // Setup scene properties
         this.#arcadeScene.add(new THREE.AmbientLight(0xffffe6, 2)); // Slight yellow light
         this.#renderer = new THREE.WebGLRenderer({ antialias: true });
@@ -36,20 +35,12 @@ class Arcade {
         document.body.appendChild(this.#renderer.domElement);
         
         // Set the processes
+        this.#processManager = new ProcessManager(this.#renderer, () => this.#renderer.render(this.#arcadeScene, this.#cameraManager.getCamera()));
         this.#processManager.addProcess((delta) => this.#animationMixers.forEach(mixer => mixer.update(delta)));
-        this.#renderer.setAnimationLoop(() => this.#doProcesses());
     }
 
     resizeRenderWindow(x, y) {
         render.setSize(x, y);
-    }
-
-    #doProcesses() {
-        const delta = this.#clock.getDelta();
-        this.#processManager.processInput();
-        this.#processManager.process(delta);
-        this.#processManager.processPhysics(delta);
-        this.#renderer.render(this.#arcadeScene, this.#cameraManager.getCamera());
     }
 
     async buildArcade() {
@@ -175,5 +166,8 @@ class Arcade {
     async instantiatePlayer() {
         this.#player = new Player(new THREE.Vector3(2, 0, -3.5), 0);
         await this.#player.createPlayer(this.#arcadeScene, this.#animationMixers);
+        this.#processManager.addPhysicsProcess((delta) => this.#player.playerPhysicsProcess(delta));
+        this.#processManager.addProcess((delta) => this.#player.playerProcess(delta));
+        this.#processManager.addInputProcess(() => this.#player.playerInputProcess());
     }
 }
