@@ -1,5 +1,3 @@
-import { Model } from './modelClass.js';
-
 export { Player };
 
 class Player {
@@ -10,7 +8,7 @@ class Player {
     #modelClass = null;
     
     constructor(modelFilePath) {
-        this.#modelClass = new Model(modelFilePath);
+        
     }
 
     isMoving() {
