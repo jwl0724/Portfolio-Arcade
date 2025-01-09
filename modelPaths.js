@@ -1,5 +1,5 @@
 // Model path enum
-const modelPaths = Object.freeze({
+const ModelPaths = Object.freeze({
     // Structures
     FLOOR: "/models/floor.glb",
     WINDOW: "/models/wall-window.glb",
@@ -27,4 +27,4 @@ const modelPaths = Object.freeze({
     PLAYER: "/models/character-gamer.glb",
 });
 
-export { modelPaths };
+export { ModelPaths };
