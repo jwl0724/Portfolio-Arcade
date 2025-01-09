@@ -65,6 +65,7 @@ class CharacterModel {
     }
 
     updateModel(positionVector) {
+        if (this.#characterScene.position.equals(positionVector)) return;
         this.#characterScene.lookAt(positionVector);
         this.#characterScene.position.set(positionVector.x, positionVector.y, positionVector.z);
     }
