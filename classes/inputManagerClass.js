@@ -40,10 +40,19 @@ class InputManager {
             if (key == "s") this.#pressedKeys.delete("s");
             if (key == "d") this.#pressedKeys.delete("d");
         });
+
+        // Add external circumstances where key pressed need to be cleared
+        this.#addPressedKeyClearEvents("blur", "contextmenu");
     }
 
     // TODO: Implement WAYYY later when want to support mobile
     #setupMouseInputReading() {
 
+    }
+
+    #addPressedKeyClearEvents(...events) {
+        events.forEach(event => {
+            window.addEventListener(event, () => this.#pressedKeys.clear())
+        });
     }
 }
