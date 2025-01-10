@@ -5,6 +5,7 @@ import { Player } from "./playerClass";
 import { ProcessManager } from "./processManagerClass";
 import { CameraManager } from "./cameraManagerClass";
 import { CharacterModel } from "./characterModelClass";
+import { CollisionManager } from "./collisionManagerClass";
 
 export { Arcade };
 
@@ -14,6 +15,7 @@ class Arcade {
     #renderer;
     #processManager;
     #cameraManager;
+    #collisionManager;
     #animationMixers;
     #arcadeScene;
     #player;
@@ -33,6 +35,7 @@ class Arcade {
         document.body.appendChild(this.#renderer.domElement);
         
         // Set the processes
+        this.#collisionManager = new CollisionManager();
         this.#processManager = new ProcessManager(this.#renderer, () => this.#renderer.render(this.#arcadeScene, this.#cameraManager.getCamera()));
         this.#processManager.addProcess((delta) => this.#animationMixers.forEach(mixer => mixer.update(delta)));
         this.#processManager.addProcess((delta) => this.#cameraManager.cameraProcess(delta));
@@ -136,6 +139,8 @@ class Arcade {
         await clawTemplate.loadTemplate();
         await arcadeTemplate.loadTemplate();
 
+        // Add track bounding boxes
+
         // Place items with no animations
         hockeyTemplate.place(this.#arcadeScene, new THREE.Vector3(3, 0, -3.25));
         basketballTemplate.place(this.#arcadeScene, new THREE.Vector3(4.5, 0, -3.25));
@@ -161,15 +166,40 @@ class Arcade {
             arcadeTemplate.place(this.#arcadeScene, new THREE.Vector3(i * 0.7 + 2.2, 0, -1), i * 2 - 5);
             arcadeTemplate.place(this.#arcadeScene, new THREE.Vector3(i * 0.7 + 2.2, 0, -1.7), i * 2 - 185);
         }
+
+        // Add hitboxes to collision manager
+        wallTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+        cornerTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+        columnTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+        windowTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+        doorTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+        hockeyTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+        basketballTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+        registerTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+        vendingTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+        danceTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+        pinballTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+        prizesTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+        gambleTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+        wheelTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+        ticketTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+        clawTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+        arcadeTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
     }
 
     async instantiatePlayer() {
         this.#player = new Player(new THREE.Vector3(2, 0, -3.5), 0);
         await this.#player.createPlayer(this.#arcadeScene, this.#animationMixers);
+
+        // Add player processes
         this.#processManager.addPhysicsProcess((delta) => this.#player.playerPhysicsProcess(delta));
         this.#processManager.addProcess((delta) => this.#player.playerProcess(delta));
         this.#processManager.addInputProcess(() => this.#player.playerInputProcess());
         this.#cameraManager.setTarget(this.#player.getModel());
+
+        // Start collision system once player is instantiated
+        this.#collisionManager.addPlayerClass(this.#player);
+        this.#processManager.addProcess((delta) => this.#collisionManager.collisionProcess(delta));
     }
 
     async instantiateClerk() {

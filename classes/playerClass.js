@@ -10,9 +10,11 @@ class Player {
     #isMoving = false;
     #inputManager;
     #moveSpeed = 1.75;
+    #lastFramePosition;
     #position = new THREE.Vector3(0, 0, 0);
     #rotation = 0; // Only rotate around the y-axis, DEBATE IF THIS IS NEEDED
     #directionVector = new THREE.Vector3(0, 0, 0);
+    #collisionHitBox;
     #modelClass;
     
     constructor(positionVector, rotationAngle) {
@@ -35,8 +37,17 @@ class Player {
 
     }
 
+    getCollisionHitBox() {
+        return this.#collisionHitBox;
+    }
+
     getModel() {
         return this.#modelClass.getModel();
+    }
+
+    undoMovement() {
+        this.#position = this.#lastFramePosition;
+        this.#modelClass.updateModel(this.#position);
     }
 
     async createPlayer(arcadeScene, mixerCollection) {
@@ -44,6 +55,7 @@ class Player {
         this.#modelClass = new CharacterModel(ModelPaths.PLAYER);
         await this.#modelClass.loadModel(arcadeScene, mixerCollection);
         this.#modelClass.setPosition(this.#position.x, this.#position.y, this.#position.z);
+        this.#collisionHitBox = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3()).setFromObject(this.#modelClass.getModel());
     }
 
     #updateDirectionVector() {
@@ -59,5 +71,6 @@ class Player {
         const nextPoint = this.#directionVector.multiplyScalar(this.#moveSpeed * delta);
         this.#position = this.#position.add(nextPoint);
         this.#modelClass.updateModel(this.#position);
+        this.#lastFramePosition = this.#position;
     }
 }
