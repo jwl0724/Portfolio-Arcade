@@ -40,7 +40,8 @@ class Arcade {
     }
 
     resizeRenderWindow(x, y) {
-        render.setSize(x, y);
+        this.#cameraManager.setAspectRatio(x / y);
+        this.#renderer.setSize(x, y);
     }
 
     async buildArcade() {

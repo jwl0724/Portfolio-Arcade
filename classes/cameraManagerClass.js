@@ -16,4 +16,9 @@ class CameraManager {
     getCamera() {
         return this.#camera;
     }
+
+    setAspectRatio(aspect) {
+        this.#camera.aspect = aspect;
+        this.#camera.updateProjectionMatrix();
+    }
 }
