@@ -28,7 +28,7 @@ class Player {
     }
 
     playerProcess(delta) {
-        this.#modelClass.updateMoveAnimation(this.#isMoving);
+        this.#modelClass.updateMoveAnimation(this.#isMoving, delta);
     }
 
     playerInputProcess() {
@@ -39,7 +39,6 @@ class Player {
         // Load player model
         this.#modelClass = new CharacterModel(ModelPaths.PLAYER);
         await this.#modelClass.loadModel(arcadeScene, mixerCollection);
-        this.#modelClass.playAnimation(CharacterModel.ANIMATION_NAMES.IDLE, THREE.LoopRepeat);
         this.#modelClass.setPosition(this.#position.x, this.#position.y, this.#position.z);
     }
 

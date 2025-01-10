@@ -46,13 +46,16 @@ class CharacterModel {
         // Add player animation mixer to mixer collection
         this.#animationMixer = new THREE.AnimationMixer(this.#characterScene);
         mixerCollection.push(this.#animationMixer);
-        
+
         // Generate clips
         gltf.animations.forEach(clip => {
             const animation = this.#animationMixer.clipAction(clip);
             this.#animations.set(clip.name, animation);
         });
 
+        // Setup movement animations
+        this.#setupMovementAnimations(CharacterModel.ANIMATION_NAMES.IDLE);
+        
         // Add to scene
         arcadeScene.add(this.#characterScene);
     }
@@ -67,10 +70,35 @@ class CharacterModel {
         nextAnimation.play();
     }
 
-    transitionAnimation(prevAnimation, nextAnimation, blendTime) {
+    updateMovementBlend(prevAnimation, nextAnimation, delta) {
+        const transitionStrength = 10;
         const prev = this.#animations.get(prevAnimation);
         const next = this.#animations.get(nextAnimation);
-        prev.crossFadeTo(next, blendTime, true);
+        const newPrevWeight = prev.getEffectiveWeight() < 0 ? 0 : prev.getEffectiveWeight() - transitionStrength * delta;
+        const newNextWeight = next.getEffectiveWeight() > 1 ? 1 : next.getEffectiveWeight() + transitionStrength * delta;
+        prev.setEffectiveWeight(newPrevWeight);
+        next.setEffectiveWeight(newNextWeight);
+    }
+
+    // Setups animations that constantly play but weight needs to adjust (i.e. idle, walk, run)
+    #setupMovementAnimations(startAnimation) {
+        const walkAnimation = this.#animations.get(CharacterModel.ANIMATION_NAMES.WALK);
+        const idleAnimation = this.#animations.get(CharacterModel.ANIMATION_NAMES.IDLE);
+        const runAnimation = this.#animations.get(CharacterModel.ANIMATION_NAMES.RUN); // Maybe drop, not sure yet
+
+        // Set weights to 0 and play
+        walkAnimation.setEffectiveWeight(0);
+        walkAnimation.loop = THREE.LoopRepeat;
+        walkAnimation.play();
+        idleAnimation.setEffectiveWeight(0);
+        idleAnimation.loop = THREE.LoopRepeat;
+        idleAnimation.play();
+        runAnimation.setEffectiveWeight(0);
+        runAnimation.loop = THREE.LoopRepeat;
+        runAnimation.play();
+
+        // Set the starting animation weight to 1
+        this.#animations.get(startAnimation).setEffectiveWeight(1);
     }
 
     updateModel(positionVector) {
@@ -80,17 +108,8 @@ class CharacterModel {
     }
 
     // Used to update between idle and walking
-    updateMoveAnimation(isMoving) {
-        if (isMoving && this.#animations.get(CharacterModel.ANIMATION_NAMES.WALK).isRunning()) return;
-        if (!isMoving && this.#animations.get(CharacterModel.ANIMATION_NAMES.IDLE).isRunning()) return;
-        if (isMoving) {
-            // this.transitionAnimation(CharacterModel.ANIMATION_NAMES.IDLE, CharacterModel.ANIMATION_NAMES.WALK, 0.1);
-            this.playAnimation(CharacterModel.ANIMATION_NAMES.WALK, THREE.LoopRepeat);
-            this.stopAnimation(CharacterModel.ANIMATION_NAMES.IDLE, true);
-        } else {
-            // this.transitionAnimation(CharacterModel.ANIMATION_NAMES.WALK, CharacterModel.ANIMATION_NAMES.IDLE, 0.1);
-            this.playAnimation(CharacterModel.ANIMATION_NAMES.IDLE, THREE.LoopRepeat);
-            this.stopAnimation(CharacterModel.ANIMATION_NAMES.WALK, true);
-        }
+    updateMoveAnimation(isMoving, delta) {
+        if (isMoving) this.updateMovementBlend(CharacterModel.ANIMATION_NAMES.IDLE, CharacterModel.ANIMATION_NAMES.WALK, delta);
+        else this.updateMovementBlend(CharacterModel.ANIMATION_NAMES.WALK, CharacterModel.ANIMATION_NAMES.IDLE, delta);
     }
 }
