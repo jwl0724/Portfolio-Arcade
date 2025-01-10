@@ -11,7 +11,7 @@ class Player {
     #inputManager;
     #moveSpeed = 1.75;
     #position = new THREE.Vector3(0, 0, 0);
-    #rotation = 0; // Only rotate around the y-axis
+    #rotation = 0; // Only rotate around the y-axis, DEBATE IF THIS IS NEEDED
     #directionVector = new THREE.Vector3(0, 0, 0);
     #modelClass;
     
@@ -33,6 +33,10 @@ class Player {
 
     playerInputProcess() {
 
+    }
+
+    getModel() {
+        return this.#modelClass.getModel();
     }
 
     async createPlayer(arcadeScene, mixerCollection) {

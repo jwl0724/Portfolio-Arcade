@@ -60,6 +60,10 @@ class CharacterModel {
         arcadeScene.add(this.#characterScene);
     }
 
+    getModel() {
+        return this.#characterScene;
+    }
+
     setPosition(x, y, z) {
         this.#characterScene.position.set(x, y, z);
     }
