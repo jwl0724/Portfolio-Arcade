@@ -103,7 +103,16 @@ class CharacterModel {
 
     updateModel(positionVector) {
         if (this.#characterScene.position.equals(positionVector)) return;
-        this.#characterScene.lookAt(positionVector);
+        
+        // Calculate new angle
+        const difference = positionVector.clone().sub(this.#characterScene.position);
+        const newAngle = Math.atan2(difference.x, difference.z);
+        
+        // Calculate interpolated angle
+        const transitionAngle = this.#lerpAngle(this.#characterScene.rotation.y, newAngle, 0.1);
+        this.#characterScene.rotation.y = transitionAngle;
+        
+        // Set position
         this.#characterScene.position.set(positionVector.x, positionVector.y, positionVector.z);
     }
 
@@ -111,5 +120,14 @@ class CharacterModel {
     updateMoveAnimation(isMoving, delta) {
         if (isMoving) this.updateMovementBlend(CharacterModel.ANIMATION_NAMES.IDLE, CharacterModel.ANIMATION_NAMES.WALK, delta);
         else this.updateMovementBlend(CharacterModel.ANIMATION_NAMES.WALK, CharacterModel.ANIMATION_NAMES.IDLE, delta);
+    }
+
+    #lerpAngle(oldAngle, newAngle, strength) {
+        const difference = newAngle - oldAngle;
+
+        // Wrap angle
+        if (difference > Math.PI) newAngle -= Math.PI * 2;
+        else if (difference < -Math.PI) newAngle += Math.PI * 2;
+        return oldAngle + strength * (newAngle - oldAngle);
     }
 }
