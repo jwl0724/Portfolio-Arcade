@@ -18,22 +18,22 @@ class CharacterModel {
         PICKUP: "pickup",
         EMOTE_YES: "emote-yes",
         EMOTE_NO: "emote-no",
-        HOLD_LEFT: "holding-left-",
-        HOLD_RIGHT: "holding-right-",
-        HOLD_BOTH: "holding-both-",
+        HOLD_LEFT: "holding-left",
+        HOLD_RIGHT: "holding-right",
+        HOLD_BOTH: "holding-both",
         INTERACT_LEFT: "interact-left",
         INTERACT_RIGHT: "interact-right",
     });
 
     // Data members
     #modelFilePath;
-    #gltfData;
     #animationMixer;
-    #animationClips;
     #characterScene;
+    #animations;
     
     constructor(modelFilePath) {
         this.#modelFilePath = modelFilePath;
+        this.#animations = new Map();
     }
 
     // Must be called before using the model
@@ -41,13 +41,17 @@ class CharacterModel {
         // Get gltf data
         const loader = new GLTFLoader();
         const gltf = await loader.loadAsync(this.#modelFilePath);
-        this.#gltfData = gltf;
         this.#characterScene = gltf.scene;
-        this.#animationClips = gltf.animations; // Assume animations are present
-
+        
         // Add player animation mixer to mixer collection
         this.#animationMixer = new THREE.AnimationMixer(this.#characterScene);
         mixerCollection.push(this.#animationMixer);
+        
+        // Generate clips
+        gltf.animations.forEach(clip => {
+            const animation = this.#animationMixer.clipAction(clip);
+            this.#animations.set(clip.name, animation);
+        });
 
         // Add to scene
         arcadeScene.add(this.#characterScene);
@@ -58,15 +62,31 @@ class CharacterModel {
     }
 
     playAnimation(animationName, loop = THREE.LoopOnce) {
-        const clip = THREE.AnimationClip.findByName(this.#animationClips, animationName);
-        const action = this.#animationMixer.clipAction(clip);
-        action.loop = loop;
-        action.play();
+        const nextAnimation = this.#animations.get(animationName);
+        nextAnimation.loop = loop;
+        nextAnimation.play();
+    }
+
+    stopAnimation(animationName) {
+        this.#animations.get(animationName).stop();
     }
 
     updateModel(positionVector) {
         if (this.#characterScene.position.equals(positionVector)) return;
         this.#characterScene.lookAt(positionVector);
         this.#characterScene.position.set(positionVector.x, positionVector.y, positionVector.z);
+    }
+
+    // Used to update between idle and walking
+    updateMoveAnimation(isMoving) {
+        if (isMoving && this.#animations.get(CharacterModel.ANIMATION_NAMES.WALK).isRunning()) return;
+        if (!isMoving && this.#animations.get(CharacterModel.ANIMATION_NAMES.IDLE).isRunning()) return;
+        if (isMoving) {
+            this.playAnimation(CharacterModel.ANIMATION_NAMES.WALK, THREE.LoopRepeat);
+            this.stopAnimation(CharacterModel.ANIMATION_NAMES.IDLE);
+        } else {
+            this.playAnimation(CharacterModel.ANIMATION_NAMES.IDLE, THREE.LoopRepeat);
+            this.stopAnimation(CharacterModel.ANIMATION_NAMES.WALK);
+        }
     }
 }
