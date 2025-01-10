@@ -37,6 +37,7 @@ class Arcade {
         // Set the processes
         this.#processManager = new ProcessManager(this.#renderer, () => this.#renderer.render(this.#arcadeScene, this.#cameraManager.getCamera()));
         this.#processManager.addProcess((delta) => this.#animationMixers.forEach(mixer => mixer.update(delta)));
+        this.#processManager.addProcess((delta) => this.#cameraManager.cameraProcess(delta));
     }
 
     resizeRenderWindow(x, y) {
@@ -170,5 +171,6 @@ class Arcade {
         this.#processManager.addPhysicsProcess((delta) => this.#player.playerPhysicsProcess(delta));
         this.#processManager.addProcess((delta) => this.#player.playerProcess(delta));
         this.#processManager.addInputProcess(() => this.#player.playerInputProcess());
+        this.#cameraManager.setTarget(this.#player.getModel());
     }
 }
