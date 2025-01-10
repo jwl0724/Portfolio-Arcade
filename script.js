@@ -5,6 +5,7 @@ import { Arcade } from "./classes/arcadeClass";
 const arcade = new Arcade();
 await arcade.buildArcade();
 await arcade.instantiatePlayer();
+await arcade.instantiateClerk();
 
 // Add event listener to resize camera when window size changes
 window.addEventListener("resize", () => arcade.resizeRenderWindow(window.innerWidth, window.innerHeight));

@@ -4,7 +4,7 @@ import { ModelTemplate } from "./modelTemplateClass";
 import { Player } from "./playerClass";
 import { ProcessManager } from "./processManagerClass";
 import { CameraManager } from "./cameraManagerClass";
-import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import { CharacterModel } from "./characterModelClass";
 
 export { Arcade };
 
@@ -172,5 +172,11 @@ class Arcade {
         this.#processManager.addProcess((delta) => this.#player.playerProcess(delta));
         this.#processManager.addInputProcess(() => this.#player.playerInputProcess());
         this.#cameraManager.setTarget(this.#player.getModel());
+    }
+
+    async instantiateClerk() {
+        this.#clerk = new CharacterModel(ModelPaths.EMPLOYEE);
+        await this.#clerk.loadModel(this.#arcadeScene, this.#animationMixers);
+        this.#clerk.setPosition(7, 0, -5.5);
     }
 }
