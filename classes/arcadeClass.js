@@ -12,7 +12,6 @@ export { Arcade };
 class Arcade {
 
     #renderer;
-    #clock;
     #processManager;
     #cameraManager;
     #animationMixers;
@@ -23,7 +22,6 @@ class Arcade {
     constructor() {
         // Set data members
         this.#arcadeScene = new THREE.Scene();
-        this.#clock = new THREE.Clock();
         
         this.#cameraManager = new CameraManager(75, window.innerWidth / window.innerHeight, 0.1, 300);
         this.#animationMixers = new Array();
