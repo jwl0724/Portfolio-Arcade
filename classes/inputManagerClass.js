@@ -25,18 +25,20 @@ class InputManager {
     #setupKeyboardReading() {
         // For when key is pressed/held
         document.addEventListener("keydown", (event) => {
-            if (event.key === "w") this.#pressedKeys.add("w");
-            if (event.key === "a") this.#pressedKeys.add("a");
-            if (event.key === "s") this.#pressedKeys.add("s");
-            if (event.key === "d") this.#pressedKeys.add("d");    
+            const key = event.key.toLowerCase();
+            if (key === "w") this.#pressedKeys.add("w");
+            if (key === "a") this.#pressedKeys.add("a");
+            if (key === "s") this.#pressedKeys.add("s");
+            if (key === "d") this.#pressedKeys.add("d");    
         });
         
         // For when key is released (i.e. not held anymore)
         document.addEventListener("keyup", (event) => {
-            if (event.key == "w") this.#pressedKeys.delete("w");
-            if (event.key == "a") this.#pressedKeys.delete("a");
-            if (event.key == "s") this.#pressedKeys.delete("s");
-            if (event.key == "d") this.#pressedKeys.delete("d");
+            const key = event.key.toLowerCase();
+            if (key == "w") this.#pressedKeys.delete("w");
+            if (key == "a") this.#pressedKeys.delete("a");
+            if (key == "s") this.#pressedKeys.delete("s");
+            if (key == "d") this.#pressedKeys.delete("d");
         });
     }
 
