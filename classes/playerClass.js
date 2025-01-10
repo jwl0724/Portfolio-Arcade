@@ -28,22 +28,11 @@ class Player {
     }
 
     playerProcess(delta) {
-
+        this.#modelClass.updateMoveAnimation(this.#isMoving);
     }
 
     playerInputProcess() {
 
-    }
-
-    #updateDirectionVector() {
-        const inputVector = this.#inputManager.getInputVector();
-        this.#directionVector = inputVector.normalize();
-    }
-
-    #updatePosition(delta) {
-        const nextPoint = this.#directionVector.multiplyScalar(this.#moveSpeed * delta);
-        this.#position = this.#position.add(nextPoint);
-        this.#modelClass.updateModel(this.#position);
     }
 
     async createPlayer(arcadeScene, mixerCollection) {
@@ -52,5 +41,20 @@ class Player {
         await this.#modelClass.loadModel(arcadeScene, mixerCollection);
         this.#modelClass.playAnimation(CharacterModel.ANIMATION_NAMES.IDLE, THREE.LoopRepeat);
         this.#modelClass.setPosition(this.#position.x, this.#position.y, this.#position.z);
+    }
+
+    #updateDirectionVector() {
+        // Set is moving variable
+        if (this.#directionVector.x === 0 && this.#directionVector.z === 0) this.#isMoving = false;
+        else this.#isMoving = true;
+
+        const inputVector = this.#inputManager.getInputVector();
+        this.#directionVector = inputVector.normalize();
+    }
+
+    #updatePosition(delta) {
+        const nextPoint = this.#directionVector.multiplyScalar(this.#moveSpeed * delta);
+        this.#position = this.#position.add(nextPoint);
+        this.#modelClass.updateModel(this.#position);
     }
 }
