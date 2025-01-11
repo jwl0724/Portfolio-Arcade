@@ -14,14 +14,15 @@ class CollisionManager {
 
     collisionProcess(delta) {
         let collision = false;
+        const playerNextPosition = this.#playerClass.getNextFramePosition(delta);
         for(let i = 0; i < this.#environmentHitboxes.length; i++) {
-            if (this.#environmentHitboxes[i].containsPoint(this.#playerClass.getNextFramePosition(delta))) {
-                this.#playerClass.notifyCollision(true);
+            if (this.#environmentHitboxes[i].containsPoint(playerNextPosition)) {
+                this.#playerClass.notifyCollision(this.#environmentHitboxes[i]);
                 collision = true;
                 break;
             }
         }
-        if (!collision) this.#playerClass.notifyCollision(false);
+        if (!collision) this.#playerClass.notifyCollision(null);
     }
 
     addPlayerClass(playerClass) {
