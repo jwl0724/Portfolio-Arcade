@@ -19,7 +19,6 @@ class CollisionManager {
             if (this.#environmentHitboxes[i].containsPoint(playerNextPosition)) {
                 this.#playerClass.notifyCollision(this.#environmentHitboxes[i]);
                 collision = true;
-                break;
             }
         }
         if (!collision) this.#playerClass.notifyCollision(null);
