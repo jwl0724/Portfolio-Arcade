@@ -1,3 +1,5 @@
+import * as THREE from 'three';
+
 export { CollisionManager };
 
 class CollisionManager {
@@ -11,12 +13,11 @@ class CollisionManager {
     }
 
     collisionProcess(delta) {
-        console.log(this.#playerClass.getCollisionHitBox());
         this.#environmentHitboxes.forEach((hitbox) => {
-            if (hitbox.intersectsBox(this.#playerClass.getCollisionHitBox())) {
+            if (hitbox.containsPoint(this.#playerClass.getNextFramePosition(delta))) {
                 console.log("Collision detected!");
-                this.#playerClass.undoMovement();
-            }
+                this.#playerClass.notifyCollision(true);
+            } else this.#playerClass.notifyCollision(false);
         });
     }
 

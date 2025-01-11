@@ -57,7 +57,7 @@ class ModelTemplate {
         }
         // Bounding box and placed scene should be the same index
         this.#placedScenes.push(clone);
-        const hitbox = new THREE.Box3(new THREE.Vector3(), new THREE.Vector3()).setFromObject(clone);
+        const hitbox = new THREE.Box3().setFromObject(clone);
         this.#boundingBoxes.push(hitbox);
         arcadeScene.add(clone);
     }
