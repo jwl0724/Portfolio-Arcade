@@ -13,12 +13,15 @@ class CollisionManager {
     }
 
     collisionProcess(delta) {
-        this.#environmentHitboxes.forEach((hitbox) => {
-            if (hitbox.containsPoint(this.#playerClass.getNextFramePosition(delta))) {
-                console.log("Collision detected!");
+        let collision = false;
+        for(let i = 0; i < this.#environmentHitboxes.length; i++) {
+            if (this.#environmentHitboxes[i].containsPoint(this.#playerClass.getNextFramePosition(delta))) {
                 this.#playerClass.notifyCollision(true);
-            } else this.#playerClass.notifyCollision(false);
-        });
+                collision = true;
+                break;
+            }
+        }
+        if (!collision) this.#playerClass.notifyCollision(false);
     }
 
     addPlayerClass(playerClass) {
