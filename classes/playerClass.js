@@ -42,7 +42,7 @@ class Player {
     }
 
     getNextFramePosition(delta) {
-        return this.#position.add(this.#directionVector.multiplyScalar(this.#moveSpeed * delta));
+        return this.#position.clone().add(this.#directionVector.multiplyScalar(this.#moveSpeed * delta));
     }
 
     notifyCollision(collision) {
