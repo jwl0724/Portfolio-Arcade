@@ -9,12 +9,12 @@ export { Player };
 class Player {
     // Data members
     #isMoving = false;
-    #isColliding = false;
     #inputManager;
     #moveSpeed = 1.75;
     #position = new THREE.Vector3(0, 0, 0);
     #rotation = 0; // Only rotate around the y-axis, DEBATE IF THIS IS NEEDED
     #directionVector = new THREE.Vector3(0, 0, 0);
+    #collider;
     #modelClass;
     
     constructor(positionVector, rotationAngle) {
@@ -45,8 +45,8 @@ class Player {
         return this.#position.clone().add(this.#directionVector.multiplyScalar(this.#moveSpeed * delta));
     }
 
-    notifyCollision(collision) {
-        this.#isColliding = collision;
+    notifyCollision(collider) {
+        this.#collider = collider;
     }
 
     async createPlayer(arcadeScene, mixerCollection) {
@@ -66,8 +66,30 @@ class Player {
     }
 
     #updatePosition(delta) {
-        if (this.#isColliding) return;
-        const nextPoint = this.#directionVector.multiplyScalar(this.#moveSpeed * delta);
+        const nextPoint = this.#directionVector.clone().multiplyScalar(this.#moveSpeed * delta);
+        // Slide across on valid angle
+        if (this.#collider) {
+            const testPointX = new THREE.Vector3(
+                this.#position.x, 
+                this.#position.y + nextPoint.y, 
+                this.#position.z + nextPoint.z
+            );
+            const testPointZ = new THREE.Vector3(
+                this.#position.x + nextPoint.x, 
+                this.#position.y + nextPoint.y, 
+                this.#position.z
+            );
+            if (!this.#collider.containsPoint(testPointX)) {
+                this.#position = testPointX;
+                this.#modelClass.updateModel(this.#position);
+
+            } else if (!this.#collider.containsPoint(testPointZ)) {
+                this.#position = testPointZ;
+                this.#modelClass.updateModel(this.#position);
+            }
+            return;
+        }
+        // If no collision occurs
         this.#position = this.#position.add(nextPoint);
         this.#modelClass.updateModel(this.#position);
     }
