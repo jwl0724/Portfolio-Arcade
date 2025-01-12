@@ -14,11 +14,12 @@ class Player {
     #position = new THREE.Vector3(0, 0, 0);
     #rotation = 0; // Only rotate around the y-axis, DEBATE IF THIS IS NEEDED
     #directionVector = new THREE.Vector3(0, 0, 0);
-    #collider;
+    #colliders;
     #modelClass;
     
     constructor(positionVector, rotationAngle) {
         this.#inputManager = new InputManager(this);
+        this.#colliders = new Array();
         this.#position = positionVector;
         this.#rotation = rotationAngle;
     }
@@ -46,7 +47,7 @@ class Player {
     }
 
     notifyCollision(collider) {
-        this.#collider = collider;
+        if (collider) this.#colliders.push(collider);
     }
 
     async createPlayer(arcadeScene, mixerCollection) {
@@ -68,7 +69,8 @@ class Player {
     #updatePosition(delta) {
         const nextPoint = this.#directionVector.clone().multiplyScalar(this.#moveSpeed * delta);
         // Slide across on valid angle
-        if (this.#collider) {
+        if (this.#colliders.length > 0) {
+            let passX = true, passZ = true;
             const testPointX = new THREE.Vector3(
                 this.#position.x, 
                 this.#position.y + nextPoint.y, 
@@ -79,14 +81,19 @@ class Player {
                 this.#position.y + nextPoint.y, 
                 this.#position.z
             );
-            if (!this.#collider.containsPoint(testPointX)) {
+            this.#colliders.forEach(collider => {
+                if (collider.containsPoint(testPointX)) passX = false;
+                else if (collider.containsPoint(testPointZ)) passZ = false;
+            });
+            if (passX) {
                 this.#position = testPointX;
                 this.#modelClass.updateModel(this.#position);
 
-            } else if (!this.#collider.containsPoint(testPointZ)) {
+            } else if (passZ) {
                 this.#position = testPointZ;
                 this.#modelClass.updateModel(this.#position);
             }
+            this.#colliders.length = 0;
             return;
         }
         // If no collision occurs
