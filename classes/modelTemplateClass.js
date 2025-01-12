@@ -10,10 +10,20 @@ class ModelTemplate {
     #animationClips = null;
     #scenePrototype = null;
     #placedScenes;
+    #boundingBoxes;
 
     constructor(modelFilePath) {
         this.#modelFilePath = modelFilePath;
         this.#placedScenes = new Array();
+        this.#boundingBoxes = new Array();
+    }
+
+    getAllPlacedScenes() {
+        return this.#placedScenes;
+    }
+
+    getBoundingBoxes() {
+        return this.#boundingBoxes;
     }
 
     // Needs to be called by the user before using place
@@ -45,7 +55,10 @@ class ModelTemplate {
             // Offset animation by a bit to desync from shared animations
             setTimeout(() => action.play(), Math.random() * 1000 / 4);
         }
+        // Bounding box and placed scene should be the same index
         this.#placedScenes.push(clone);
+        const hitbox = new THREE.Box3().setFromObject(clone).expandByScalar(0.22);
+        this.#boundingBoxes.push(hitbox);
         arcadeScene.add(clone);
     }
 

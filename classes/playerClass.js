@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { CharacterModel } from './characterModelClass';
 import { ModelPaths } from '../modelPaths';
 import { InputManager } from './inputManagerClass';
+import { getDirection } from 'three/tsl';
 
 export { Player };
 
@@ -13,10 +14,12 @@ class Player {
     #position = new THREE.Vector3(0, 0, 0);
     #rotation = 0; // Only rotate around the y-axis, DEBATE IF THIS IS NEEDED
     #directionVector = new THREE.Vector3(0, 0, 0);
+    #colliders;
     #modelClass;
     
     constructor(positionVector, rotationAngle) {
         this.#inputManager = new InputManager(this);
+        this.#colliders = new Array();
         this.#position = positionVector;
         this.#rotation = rotationAngle;
     }
@@ -39,6 +42,14 @@ class Player {
         return this.#modelClass.getModel();
     }
 
+    getNextFramePosition(delta) {
+        return this.#position.clone().add(this.#directionVector.multiplyScalar(this.#moveSpeed * delta));
+    }
+
+    notifyCollision(collider) {
+        if (collider) this.#colliders.push(collider);
+    }
+
     async createPlayer(arcadeScene, mixerCollection) {
         // Load player model
         this.#modelClass = new CharacterModel(ModelPaths.PLAYER);
@@ -56,7 +67,36 @@ class Player {
     }
 
     #updatePosition(delta) {
-        const nextPoint = this.#directionVector.multiplyScalar(this.#moveSpeed * delta);
+        const nextPoint = this.#directionVector.clone().multiplyScalar(this.#moveSpeed * delta);
+        // Slide across on valid angle
+        if (this.#colliders.length > 0) {
+            let passX = true, passZ = true;
+            const testPointX = new THREE.Vector3(
+                this.#position.x, 
+                this.#position.y + nextPoint.y, 
+                this.#position.z + nextPoint.z
+            );
+            const testPointZ = new THREE.Vector3(
+                this.#position.x + nextPoint.x, 
+                this.#position.y + nextPoint.y, 
+                this.#position.z
+            );
+            this.#colliders.forEach(collider => {
+                if (collider.containsPoint(testPointX)) passX = false;
+                else if (collider.containsPoint(testPointZ)) passZ = false;
+            });
+            if (passX) {
+                this.#position = testPointX;
+                this.#modelClass.updateModel(this.#position);
+
+            } else if (passZ) {
+                this.#position = testPointZ;
+                this.#modelClass.updateModel(this.#position);
+            }
+            this.#colliders.length = 0;
+            return;
+        }
+        // If no collision occurs
         this.#position = this.#position.add(nextPoint);
         this.#modelClass.updateModel(this.#position);
     }
