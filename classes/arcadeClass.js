@@ -185,6 +185,10 @@ class Arcade {
         ticketTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
         clawTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
         arcadeTemplate.getBoundingBoxes().forEach(hitbox => this.#collisionManager.addEnvironmentHitbox(hitbox));
+
+        // Add boundary wall at bottom of arcade
+        const bottomBounds = new THREE.Box3(new THREE.Vector3(0, 0, 0.4), new THREE.Vector3(9, 5, 2));
+        this.#collisionManager.addEnvironmentHitbox(bottomBounds);
     }
 
     async instantiatePlayer() {
