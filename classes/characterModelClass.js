@@ -30,10 +30,12 @@ class CharacterModel {
     #animationMixer;
     #characterScene;
     #animations;
+    #movementAnimations;
     
     constructor(modelFilePath) {
         this.#modelFilePath = modelFilePath;
         this.#animations = new Map();
+        this.#movementAnimations = new Array();
     }
 
     // Must be called before using the model
@@ -84,25 +86,39 @@ class CharacterModel {
         next.setEffectiveWeight(newNextWeight);
     }
 
+    blendTo(animationName, delta) {
+        const transitionStrength = 10;
+        this.#movementAnimations.forEach(animation => {
+            if (animation.getClip().name === animationName) {
+                const newWeight = animation.getEffectiveWeight() > 1 ? 1 : animation.getEffectiveWeight() + transitionStrength * delta;
+                animation.setEffectiveWeight(newWeight);
+
+            } else {
+                const newWeight = animation.getEffectiveWeight() < 0 ? 0 : animation.getEffectiveWeight() - transitionStrength * delta;
+                animation.setEffectiveWeight(newWeight);
+            }
+        });
+    }
+
     // Setups animations that constantly play but weight needs to adjust (i.e. idle, walk, run)
     #setupMovementAnimations(startAnimation) {
         const walkAnimation = this.#animations.get(CharacterModel.ANIMATION_NAMES.WALK);
         const idleAnimation = this.#animations.get(CharacterModel.ANIMATION_NAMES.IDLE);
-        const runAnimation = this.#animations.get(CharacterModel.ANIMATION_NAMES.RUN); // Maybe drop, not sure yet
+        const runAnimation = this.#animations.get(CharacterModel.ANIMATION_NAMES.RUN);
 
-        // Set weights to 0 and play
-        walkAnimation.setEffectiveWeight(0);
-        walkAnimation.loop = THREE.LoopRepeat;
-        walkAnimation.play();
-        idleAnimation.setEffectiveWeight(0);
-        idleAnimation.loop = THREE.LoopRepeat;
-        idleAnimation.play();
-        runAnimation.setEffectiveWeight(0);
-        runAnimation.loop = THREE.LoopRepeat;
-        runAnimation.play();
+        // Add endless loop animations to array
+        this.#movementAnimations.push(walkAnimation, idleAnimation, runAnimation);
+
+        // Set weights to 0 and play all
+        this.#movementAnimations.forEach(animation => {
+            animation.setEffectiveWeight(0);
+            animation.loop = THREE.LoopRepeat;
+            animation.play();
+        });
 
         // Set the starting animation weight to 1
         this.#animations.get(startAnimation).setEffectiveWeight(1);
+        console.log(runAnimation.getClip().name);
     }
 
     updateModel(positionVector) {
@@ -121,9 +137,10 @@ class CharacterModel {
     }
 
     // Used to update between idle and walking
-    updateMoveAnimation(isMoving, delta) {
-        if (isMoving) this.updateMovementBlend(CharacterModel.ANIMATION_NAMES.IDLE, CharacterModel.ANIMATION_NAMES.WALK, delta);
-        else this.updateMovementBlend(CharacterModel.ANIMATION_NAMES.WALK, CharacterModel.ANIMATION_NAMES.IDLE, delta);
+    updateMoveAnimation(isMoving, isSprinting, delta) {
+        if (isSprinting && isMoving) this.blendTo(CharacterModel.ANIMATION_NAMES.RUN, delta);
+        else if (isMoving) this.blendTo(CharacterModel.ANIMATION_NAMES.WALK, delta);
+        else this.blendTo(CharacterModel.ANIMATION_NAMES.IDLE, delta);
     }
 
     #lerpAngle(oldAngle, newAngle, strength) {
