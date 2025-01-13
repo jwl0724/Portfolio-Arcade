@@ -12,17 +12,16 @@ class Player {
     #isSprinting = false;
     #inputManager;
     #moveSpeed = 1.75;
+    #sprintFactor = 1.4;
     #position = new THREE.Vector3(0, 0, 0);
-    #rotation = 0; // Only rotate around the y-axis, DEBATE IF THIS IS NEEDED
     #directionVector = new THREE.Vector3(0, 0, 0);
     #colliders;
     #modelClass;
     
-    constructor(positionVector, rotationAngle) {
+    constructor(positionVector) {
         this.#inputManager = new InputManager(this);
         this.#colliders = new Array();
         this.#position = positionVector;
-        this.#rotation = rotationAngle;
     }
 
     // PROCESS SECTION: Put code that needs to run per frame in these parts
@@ -39,12 +38,16 @@ class Player {
 
     }
 
+    getSpeed() {
+        return this.#isSprinting ? this.#moveSpeed * this.#sprintFactor : this.#moveSpeed;
+    }
+
     getModel() {
         return this.#modelClass.getModel();
     }
 
     getNextFramePosition(delta) {
-        return this.#position.clone().add(this.#directionVector.multiplyScalar(this.#moveSpeed * delta));
+        return this.#position.clone().add(this.#directionVector.multiplyScalar(this.getSpeed() * delta));
     }
 
     notifyCollision(collider) {
@@ -69,8 +72,7 @@ class Player {
     }
 
     #updatePosition(delta) {
-        let speed = this.#isSprinting ? this.#moveSpeed * 1.2 : this.#moveSpeed;
-        const nextPoint = this.#directionVector.clone().multiplyScalar(speed * delta);
+        const nextPoint = this.#directionVector.clone().multiplyScalar(this.getSpeed() * delta);
         // Slide across on valid angle
         if (this.#colliders.length > 0) {
             this.#calculateSlideMovement(nextPoint);
