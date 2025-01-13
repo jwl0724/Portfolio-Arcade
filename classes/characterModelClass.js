@@ -118,7 +118,6 @@ class CharacterModel {
 
         // Set the starting animation weight to 1
         this.#animations.get(startAnimation).setEffectiveWeight(1);
-        console.log(runAnimation.getClip().name);
     }
 
     updateModel(positionVector) {
