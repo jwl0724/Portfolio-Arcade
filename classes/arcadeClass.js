@@ -192,7 +192,7 @@ class Arcade {
     }
 
     async instantiatePlayer() {
-        this.#player = new Player(new THREE.Vector3(2, 0, -3.5));
+        this.#player = new Player(new THREE.Vector3(2, 0, -3.25));
         await this.#player.createPlayer(this.#arcadeScene, this.#animationMixers);
 
         // Add player processes
