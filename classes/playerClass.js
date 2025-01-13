@@ -70,34 +70,38 @@ class Player {
         const nextPoint = this.#directionVector.clone().multiplyScalar(this.#moveSpeed * delta);
         // Slide across on valid angle
         if (this.#colliders.length > 0) {
-            let passX = true, passZ = true;
-            const testPointX = new THREE.Vector3(
-                this.#position.x, 
-                this.#position.y + nextPoint.y, 
-                this.#position.z + nextPoint.z
-            );
-            const testPointZ = new THREE.Vector3(
-                this.#position.x + nextPoint.x, 
-                this.#position.y + nextPoint.y, 
-                this.#position.z
-            );
-            this.#colliders.forEach(collider => {
-                if (collider.containsPoint(testPointX)) passX = false;
-                else if (collider.containsPoint(testPointZ)) passZ = false;
-            });
-            if (passX) {
-                this.#position = testPointX;
-                this.#modelClass.updateModel(this.#position);
-
-            } else if (passZ) {
-                this.#position = testPointZ;
-                this.#modelClass.updateModel(this.#position);
-            }
+            this.#calculateSlideMovement(nextPoint);
             this.#colliders.length = 0;
             return;
         }
         // If no collision occurs
         this.#position = this.#position.add(nextPoint);
         this.#modelClass.updateModel(this.#position);
+    }
+
+    #calculateSlideMovement(nextPoint) {
+        let passX = true, passZ = true;
+        const testPointX = new THREE.Vector3(
+            this.#position.x, 
+            this.#position.y + nextPoint.y, 
+            this.#position.z + nextPoint.z
+        );
+        const testPointZ = new THREE.Vector3(
+            this.#position.x + nextPoint.x, 
+            this.#position.y + nextPoint.y, 
+            this.#position.z
+        );
+        this.#colliders.forEach(collider => {
+            if (collider.containsPoint(testPointX)) passX = false;
+            else if (collider.containsPoint(testPointZ)) passZ = false;
+        });
+        if (passX) {
+            this.#position = testPointX;
+            this.#modelClass.updateModel(this.#position);
+
+        } else if (passZ) {
+            this.#position = testPointZ;
+            this.#modelClass.updateModel(this.#position);
+        }
     }
 }
