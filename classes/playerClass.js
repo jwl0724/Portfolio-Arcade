@@ -9,6 +9,7 @@ export { Player };
 class Player {
     // Data members
     #isMoving = false;
+    #isSprinting = false;
     #inputManager;
     #moveSpeed = 1.75;
     #position = new THREE.Vector3(0, 0, 0);
@@ -31,7 +32,7 @@ class Player {
     }
 
     playerProcess(delta) {
-        this.#modelClass.updateMoveAnimation(this.#isMoving, delta);
+        this.#modelClass.updateMoveAnimation(this.#isMoving, this.#isSprinting, delta);
     }
 
     playerInputProcess() {
@@ -63,11 +64,13 @@ class Player {
         else this.#isMoving = true;
 
         const inputVector = this.#inputManager.getInputVector();
+        this.#isSprinting = this.#inputManager.getSprintKeyPressed();
         this.#directionVector = inputVector.normalize();
     }
 
     #updatePosition(delta) {
-        const nextPoint = this.#directionVector.clone().multiplyScalar(this.#moveSpeed * delta);
+        let speed = this.#isSprinting ? this.#moveSpeed * 1.2 : this.#moveSpeed;
+        const nextPoint = this.#directionVector.clone().multiplyScalar(speed * delta);
         // Slide across on valid angle
         if (this.#colliders.length > 0) {
             this.#calculateSlideMovement(nextPoint);
