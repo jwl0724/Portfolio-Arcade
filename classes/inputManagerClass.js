@@ -22,6 +22,10 @@ class InputManager {
         return new THREE.Vector3(horizontal, 0, vertical);
     }
 
+    getSprintKeyPressed() {
+        return this.#pressedKeys.has("shift");
+    }
+
     #setupKeyboardReading() {
         // For when key is pressed/held
         document.addEventListener("keydown", (event) => {
@@ -29,7 +33,8 @@ class InputManager {
             if (key === "w") this.#pressedKeys.add("w");
             if (key === "a") this.#pressedKeys.add("a");
             if (key === "s") this.#pressedKeys.add("s");
-            if (key === "d") this.#pressedKeys.add("d");    
+            if (key === "d") this.#pressedKeys.add("d");
+            if (key === "shift") this.#pressedKeys.add("shift");    
         });
         
         // For when key is released (i.e. not held anymore)
@@ -39,6 +44,7 @@ class InputManager {
             if (key == "a") this.#pressedKeys.delete("a");
             if (key == "s") this.#pressedKeys.delete("s");
             if (key == "d") this.#pressedKeys.delete("d");
+            if (key === "shift") this.#pressedKeys.delete("shift");
         });
 
         // Add external circumstances where key pressed need to be cleared
