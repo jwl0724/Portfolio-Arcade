@@ -18,9 +18,9 @@ class Player {
     #colliders;
     #modelClass;
     
-    constructor(positionVector) {
-        this.#inputManager = new InputManager(this);
+    constructor(positionVector, inputManager) {
         this.#colliders = new Array();
+        this.#inputManager = inputManager;
         this.#position = positionVector;
     }
 
