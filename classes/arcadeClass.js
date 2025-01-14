@@ -6,6 +6,8 @@ import { ProcessManager } from "./processManagerClass";
 import { CameraManager } from "./cameraManagerClass";
 import { CharacterModel } from "./characterModelClass";
 import { CollisionManager } from "./collisionManagerClass";
+import { Clerk } from "./clerkClass";
+import { InputManager } from "./inputManagerClass";
 
 export { Arcade };
 
@@ -16,6 +18,7 @@ class Arcade {
     #processManager;
     #cameraManager;
     #collisionManager;
+    #inputManager;
     #animationMixers;
     #arcadeScene;
     #player;
@@ -26,6 +29,7 @@ class Arcade {
         this.#arcadeScene = new THREE.Scene();
         
         this.#cameraManager = new CameraManager(75, window.innerWidth / window.innerHeight, 0.1, 300);
+        this.#inputManager = new InputManager(this);
         this.#animationMixers = new Array();
         
         // Setup scene properties
@@ -192,7 +196,7 @@ class Arcade {
     }
 
     async instantiatePlayer() {
-        this.#player = new Player(new THREE.Vector3(2, 0, -3.25));
+        this.#player = new Player(new THREE.Vector3(2, 0, -3.25), this.#inputManager);
         await this.#player.createPlayer(this.#arcadeScene, this.#animationMixers);
 
         // Add player processes
@@ -207,8 +211,27 @@ class Arcade {
     }
 
     async instantiateClerk() {
-        this.#clerk = new CharacterModel(ModelPaths.EMPLOYEE);
-        await this.#clerk.loadModel(this.#arcadeScene, this.#animationMixers);
-        this.#clerk.setPosition(7, 0, -5.5);
+        // Add create clerk class and add to scene
+        this.#clerk = new Clerk(new THREE.Vector3(7, 0, -5.5), this.#inputManager);
+        await this.#clerk.createClerk(this.#arcadeScene, this.#animationMixers);
+        this.#processManager.addProcess((delta) => this.#clerk.clerkProcess(delta));
+    }
+
+    notifyInteractPressed() {
+        if (this.#clerk.validInteract(this.#player)) {
+            this.#clerk.positionDialogueModel(this.#cameraManager.getCamera());
+            this.#cameraManager.enterDialogueCamera();
+            this.#inputManager.pauseInput(true);
+        }
+        // Temp code to test exit dialogue, will need to have button later
+        else {
+            this.exitDialogue();
+        }
+    }
+
+    exitDialogue() {
+        this.#clerk.stopInteraction();
+        this.#cameraManager.exitDialogueCamera(this.#player.getModel());
+        this.#inputManager.pauseInput(false);
     }
 }

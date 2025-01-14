@@ -4,16 +4,18 @@ export { InputManager };
 
 class InputManager {
 
-    #player;
+    #arcadeClass;
     #pressedKeys = new Set();
+    #isPaused = false;
     
-    constructor(playerClass) {
-        this.#player = playerClass;
+    constructor(arcadeClass) {
+        this.#arcadeClass = arcadeClass;
         this.#setupKeyboardReading();
         this.#setupMouseInputReading();
     }
 
     getInputVector() {
+        if (this.#isPaused) return new THREE.Vector3(0, 0, 0) // return no direction for no movement
         let horizontal = 0, vertical = 0;
         if (this.#pressedKeys.has("w")) vertical -= 1;
         if (this.#pressedKeys.has("a")) horizontal -= 1;
@@ -26,6 +28,10 @@ class InputManager {
         return this.#pressedKeys.has("shift");
     }
 
+    pauseInput(pause) {
+        this.#isPaused = pause;
+    }
+
     #setupKeyboardReading() {
         // For when key is pressed/held
         document.addEventListener("keydown", (event) => {
@@ -34,7 +40,7 @@ class InputManager {
             if (key === "a") this.#pressedKeys.add("a");
             if (key === "s") this.#pressedKeys.add("s");
             if (key === "d") this.#pressedKeys.add("d");
-            if (key === "shift") this.#pressedKeys.add("shift");    
+            if (key === "shift") this.#pressedKeys.add("shift"); // sprint key
         });
         
         // For when key is released (i.e. not held anymore)
@@ -46,6 +52,12 @@ class InputManager {
             if (key == "d") this.#pressedKeys.delete("d");
             if (key === "shift") this.#pressedKeys.delete("shift");
         });
+
+        // For when interact is pressed
+        document.addEventListener("keypress", (event) => {
+            const key = event.key.toLowerCase();
+            if (key === "e") this.#arcadeClass.notifyInteractPressed();
+        })
 
         // Add external circumstances where key pressed need to be cleared
         this.#addPressedKeyClearEvents("blur", "contextmenu");

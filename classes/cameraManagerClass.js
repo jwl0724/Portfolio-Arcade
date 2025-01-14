@@ -7,9 +7,11 @@ class CameraManager {
     #camera;
     #offsetFromTarget;
     #target;
+    #defaultFov;
 
     constructor(fov, aspect, near, far) {
         this.#camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
+        this.#defaultFov = fov;
         this.#offsetFromTarget = new THREE.Vector3(0, 2, 3);
     }
 
@@ -19,6 +21,19 @@ class CameraManager {
             this.#calculateCameraPosition(targetPosition);
             this.#camera.lookAt(targetPosition);
         }
+    }
+
+    enterDialogueCamera() {
+        this.#target = null;
+        this.#camera.fov = 60;
+        this.#camera.rotation.x = 0;
+        this.#camera.updateProjectionMatrix();
+    }
+
+    exitDialogueCamera(target) {
+        this.#camera.fov = this.#defaultFov;
+        this.setTarget(target);
+        this.#camera.updateProjectionMatrix();
     }
 
     getCamera() {
