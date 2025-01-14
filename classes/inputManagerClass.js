@@ -4,10 +4,12 @@ export { InputManager };
 
 class InputManager {
 
+    #arcadeClass;
     #pressedKeys = new Set();
     #isPaused = false;
     
-    constructor() {
+    constructor(arcadeClass) {
+        this.#arcadeClass = arcadeClass;
         this.#setupKeyboardReading();
         this.#setupMouseInputReading();
     }
@@ -26,10 +28,6 @@ class InputManager {
         return this.#pressedKeys.has("shift");
     }
 
-    getInteractPressed() {
-        return this.#pressedKeys.has("e");
-    }
-
     pauseInput(pause) {
         this.#isPaused = pause;
     }
@@ -42,7 +40,6 @@ class InputManager {
             if (key === "a") this.#pressedKeys.add("a");
             if (key === "s") this.#pressedKeys.add("s");
             if (key === "d") this.#pressedKeys.add("d");
-            if (key === "e") this.#pressedKeys.add("e"); // interact key
             if (key === "shift") this.#pressedKeys.add("shift"); // sprint key
         });
         
@@ -53,9 +50,14 @@ class InputManager {
             if (key == "a") this.#pressedKeys.delete("a");
             if (key == "s") this.#pressedKeys.delete("s");
             if (key == "d") this.#pressedKeys.delete("d");
-            if (key === "e") this.#pressedKeys.add("e");
             if (key === "shift") this.#pressedKeys.delete("shift");
         });
+
+        // For when interact is pressed
+        document.addEventListener("keypress", (event) => {
+            const key = event.key.toLowerCase();
+            if (key === "e") this.#arcadeClass.notifyInteractPressed();
+        })
 
         // Add external circumstances where key pressed need to be cleared
         this.#addPressedKeyClearEvents("blur", "contextmenu");
