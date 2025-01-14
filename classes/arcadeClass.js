@@ -214,6 +214,7 @@ class Arcade {
         // Add create clerk class and add to scene
         this.#clerk = new Clerk(new THREE.Vector3(7, 0, -5.5), this.#inputManager);
         await this.#clerk.createClerk(this.#arcadeScene, this.#animationMixers);
+        this.#processManager.addProcess((delta) => this.#clerk.clerkProcess(delta));
     }
 
     notifyInteractPressed() {
