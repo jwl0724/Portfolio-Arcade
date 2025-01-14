@@ -221,6 +221,7 @@ class Arcade {
         if (this.#clerk.validInteract(this.#player)) {
             this.#clerk.positionDialogueModel(this.#cameraManager.getCamera());
             this.#cameraManager.enterDialogueCamera();
+            this.#inputManager.pauseInput(true);
         }
         // Temp code to test exit dialogue, will need to have button later
         else {
@@ -231,5 +232,6 @@ class Arcade {
     exitDialogue() {
         this.#clerk.stopInteraction();
         this.#cameraManager.exitDialogueCamera(this.#player.getModel());
+        this.#inputManager.pauseInput(false);
     }
 }
