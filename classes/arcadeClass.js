@@ -6,6 +6,7 @@ import { ProcessManager } from "./processManagerClass";
 import { CameraManager } from "./cameraManagerClass";
 import { CharacterModel } from "./characterModelClass";
 import { CollisionManager } from "./collisionManagerClass";
+import { Clerk } from "./clerkClass";
 
 export { Arcade };
 
@@ -207,8 +208,12 @@ class Arcade {
     }
 
     async instantiateClerk() {
-        this.#clerk = new CharacterModel(ModelPaths.EMPLOYEE);
-        await this.#clerk.loadModel(this.#arcadeScene, this.#animationMixers);
-        this.#clerk.setPosition(7, 0, -5.5);
+        // Add create clerk class and add to scene
+        this.#clerk = new Clerk(new THREE.Vector3(7, 0, -5.5));
+        await this.#clerk.createClerk(this.#arcadeScene, this.#animationMixers);
+
+        // Add clerk processes
+        this.#processManager.addProcess((delta) => this.#clerk.clerkProcess(delta));
+        this.#processManager.addInputProcess(() => this.#clerk.clerkInputProcess());
     }
 }
