@@ -29,7 +29,7 @@ class Arcade {
         this.#arcadeScene = new THREE.Scene();
         
         this.#cameraManager = new CameraManager(75, window.innerWidth / window.innerHeight, 0.1, 300);
-        this.#inputManager = new InputManager();
+        this.#inputManager = new InputManager(this);
         this.#animationMixers = new Array();
         
         // Setup scene properties
@@ -212,11 +212,11 @@ class Arcade {
 
     async instantiateClerk() {
         // Add create clerk class and add to scene
-        this.#clerk = new Clerk(new THREE.Vector3(7, 0, -5.5));
+        this.#clerk = new Clerk(new THREE.Vector3(7, 0, -5.5), this.#inputManager);
         await this.#clerk.createClerk(this.#arcadeScene, this.#animationMixers);
+    }
 
-        // Add clerk processes
-        this.#processManager.addProcess((delta) => this.#clerk.clerkProcess(delta));
-        this.#processManager.addInputProcess(() => this.#clerk.clerkInputProcess());
+    notifyInteractPressed() {
+        this.#clerk.onInteract(this.#player);
     }
 }
