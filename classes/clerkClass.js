@@ -12,12 +12,14 @@ class Clerk {
     #isInteracting;
     #inputManager;
     #interactBox;
-    #dialogueModel;
     #position;
+    #dialogueModel;
+    #dialogueAnimationQueue;
 
     constructor(position, inputManager) {
         this.#position = position;
         this.#inputManager = inputManager;
+        this.#dialogueAnimationQueue;
     }
 
     clerkProcess(delta) {
@@ -70,5 +72,14 @@ class Clerk {
             this.#position.y + 6,
             this.#position.z
         );
+    }
+
+    playAnimation(animationName, queue = true) {
+        if (queue) this.#queueDialogueModelAnimation.push(animationName);
+        else this.#dialogueModel.playAnimation(animationName);
+    }
+
+    #queueDialogueModelAnimation(animationName) {
+        this.#dialogueAnimationQueue.push(animationName);
     }
 }
