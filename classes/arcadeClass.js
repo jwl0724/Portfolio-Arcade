@@ -7,6 +7,7 @@ import { CameraManager } from "./cameraManagerClass";
 import { CharacterModel } from "./characterModelClass";
 import { CollisionManager } from "./collisionManagerClass";
 import { Clerk } from "./clerkClass";
+import { InputManager } from "./inputManagerClass";
 
 export { Arcade };
 
@@ -17,6 +18,7 @@ class Arcade {
     #processManager;
     #cameraManager;
     #collisionManager;
+    #inputManager;
     #animationMixers;
     #arcadeScene;
     #player;
@@ -27,6 +29,7 @@ class Arcade {
         this.#arcadeScene = new THREE.Scene();
         
         this.#cameraManager = new CameraManager(75, window.innerWidth / window.innerHeight, 0.1, 300);
+        this.#inputManager = new InputManager();
         this.#animationMixers = new Array();
         
         // Setup scene properties
@@ -193,7 +196,7 @@ class Arcade {
     }
 
     async instantiatePlayer() {
-        this.#player = new Player(new THREE.Vector3(2, 0, -3.25));
+        this.#player = new Player(new THREE.Vector3(2, 0, -3.25), this.#inputManager);
         await this.#player.createPlayer(this.#arcadeScene, this.#animationMixers);
 
         // Add player processes
