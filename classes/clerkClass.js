@@ -8,10 +8,11 @@ export { Clerk };
 class Clerk {
     
     #ready = false;
-    #characterModel;
+    #sceneModel;
     #isInteracting;
     #inputManager;
     #interactBox;
+    #dialogueModel;
     #position;
 
     constructor(position, inputManager) {
@@ -19,11 +20,19 @@ class Clerk {
         this.#inputManager = inputManager;
     }
 
+    clerkProcess(delta) {
+        // TODO: Add lerp stuff here for dialogue model for smooth transitioning
+    }
+
     async createClerk(scene, mixers) {
-        // Load clerk model into scene
-        this.#characterModel = new CharacterModel(ModelPaths.EMPLOYEE);
-        await this.#characterModel.loadModel(scene, mixers);
-        this.#characterModel.setPosition(this.#position.x, this.#position.y, this.#position.z);
+        // Load clerk models into scene
+        this.#sceneModel = new CharacterModel(ModelPaths.EMPLOYEE);
+        this.#dialogueModel = new CharacterModel(ModelPaths.EMPLOYEE);
+        await this.#sceneModel.loadModel(scene, mixers);
+        await this.#dialogueModel.loadModel(scene, mixers);
+
+        // Position models
+        this.#sceneModel.setPosition(this.#position.x, this.#position.y, this.#position.z);
 
         // Create interact box for clerk
         this.#interactBox = new THREE.Box3(
@@ -37,18 +46,29 @@ class Clerk {
         this.#ready = true;
     }
 
-    onInteract(player) {
-        if (!this.#ready || this.#isInteracting) return;
-        
+    validInteract(player) {
+        if (!this.#ready || this.#isInteracting) return false;
         // Check if player is in interact range
-        if (!this.#interactBox.containsPoint(player.getModel().position)) return;
+        if (!this.#interactBox.containsPoint(player.getModel().position)) return false;
+        return true;
+    }
 
-        // Check if player is facing towards clerk
-
-        console.log("interacted!");
+    positionDialogueModel(camera) {
+        this.#isInteracting = true;
+        this.#dialogueModel.setPosition(
+            camera.position.x + 0.4, 
+            camera.position.y - 0.4,
+            camera.position.z - 0.75
+        );
+        this.#dialogueModel.getModel().rotation.y = -Math.PI / 3.5;
     }
 
     stopInteraction() {
         this.#isInteracting = false;
+        this.#dialogueModel.setPosition(
+            this.#position.x,
+            this.#position.y + 6,
+            this.#position.z
+        );
     }
 }
