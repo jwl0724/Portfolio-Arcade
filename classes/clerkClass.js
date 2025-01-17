@@ -55,7 +55,7 @@ class Clerk {
         return true;
     }
 
-    positionDialogueModel(camera) {
+    startInteraction(camera) {
         this.#isInteracting = true;
         this.#dialogueModel.setPosition(
             camera.position.x + 0.4, 

@@ -75,15 +75,14 @@ class Arcade {
     }
 
     notifyInteractPressed() {
-        if (this.#clerk.validInteract(this.#player)) {
-            this.#clerk.positionDialogueModel(this.#cameraManager.getCamera());
-            this.#cameraManager.enterDialogueCamera();
-            this.#inputManager.pauseInput(true);
-        }
-        // Temp code to test exit dialogue, will need to have button later
-        else {
-            this.exitDialogue();
-        }
+        if (this.#clerk.validInteract(this.#player)) this.enterDialogue();
+        else this.exitDialogue(); // temp code
+    }
+
+    enterDialogue() {
+        this.#clerk.startInteraction(this.#cameraManager.getCamera());
+        this.#cameraManager.enterDialogueCamera();
+        this.#inputManager.pauseInput(true);
     }
 
     exitDialogue() {
