@@ -84,11 +84,12 @@ class Arcade {
         this.#clerk.startInteraction(this.#cameraManager.getCamera());
         this.#cameraManager.enterDialogueCamera();
         this.#inputManager.pauseInput(true);
-        this.#dialogueManager.createTextbox("abdfaskdlfjlkdsa");
+        this.#dialogueManager.startDialogue(this.#cameraManager.getCamera());
     }
 
     exitDialogue() {
         this.#clerk.stopInteraction();
+        this.#dialogueManager.exitDialogue();
         this.#cameraManager.exitDialogueCamera(this.#player.getModel());
         this.#inputManager.pauseInput(false);
     }
