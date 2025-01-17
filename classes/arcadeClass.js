@@ -1,13 +1,9 @@
 import * as THREE from "three";
-import { ModelPaths } from "../modelPaths";
-import { ModelTemplate } from "./modelTemplateClass";
-import { Player } from "./playerClass";
 import { ProcessManager } from "./processManagerClass";
 import { CameraManager } from "./cameraManagerClass";
-import { CharacterModel } from "./characterModelClass";
 import { ArcadeBuilder } from "./arcadeBuilderClass";
 import { CollisionManager } from "./collisionManagerClass";
-import { Clerk } from "./clerkClass";
+import { DialogueManager } from "./dialogueManagerClass";
 import { InputManager } from "./inputManagerClass";
 
 export { Arcade };
@@ -15,20 +11,25 @@ export { Arcade };
 // Only one should exists, what the script will interface with
 class Arcade {
 
-    #renderer;
+    // Managers
+    #collisionManager;
     #processManager;
     #cameraManager;
-    #collisionManager;
     #inputManager;
-    #animationMixers;
+    #dialogueManager;
+
+    // Scenes
     #arcadeScene;
     #player;
     #clerk;
 
+    #renderer;
+    #animationMixers;
+
     constructor() {
         // Set data members
         this.#arcadeScene = new THREE.Scene();
-        
+        this.#dialogueManager = new DialogueManager(this.#arcadeScene);
         this.#cameraManager = new CameraManager(75, window.innerWidth / window.innerHeight, 0.1, 300);
         this.#inputManager = new InputManager(this);
         this.#animationMixers = new Array();
@@ -83,6 +84,7 @@ class Arcade {
         this.#clerk.startInteraction(this.#cameraManager.getCamera());
         this.#cameraManager.enterDialogueCamera();
         this.#inputManager.pauseInput(true);
+        this.#dialogueManager.createTextbox("abdfaskdlfjlkdsa");
     }
 
     exitDialogue() {
