@@ -1,12 +1,5 @@
 export { DIALOGUE }
 
-const DIALOGUE = Object.freeze({
-    OPTIONS: OPTIONS,
-    CLERK_INTRO: CLERK_INTRO,
-    ABOUT_DIALOGUE: ABOUT_DIALOGUE,
-    PROJECTS_DIALOGUE: PROJECTS_DIALOGUE,
-});
-
 const OPTIONS = Object.freeze({
     ABOUT: "Tell me about Jonathan.",
     PROJECTS: "What projects has Jonathan worked on?",
@@ -35,4 +28,11 @@ const ABOUT_DIALOGUE = Object.freeze({
 const PROJECTS_DIALOGUE = Object.freeze({
     INSTRUCTIONS_DESKTOP: "You can see his projects by pressing E when near the arcade cabinet",
     INSTRUCTRICTIONS_MOBILE: "You can see his projects by tapping the arcade cabinet",
+});
+
+const DIALOGUE = Object.freeze({
+    OPTIONS: OPTIONS,
+    CLERK_INTRO: CLERK_INTRO,
+    ABOUT_DIALOGUE: ABOUT_DIALOGUE,
+    PROJECTS_DIALOGUE: PROJECTS_DIALOGUE,
 });
