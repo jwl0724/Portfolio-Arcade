@@ -26,6 +26,10 @@ class Clerk {
         // TODO: Add lerp stuff here for dialogue model for smooth transitioning
     }
 
+    getPosition() {
+        return this.#position;
+    }
+
     async createClerk(scene, mixers) {
         // Load clerk models into scene
         this.#sceneModel = new CharacterModel(ModelPaths.EMPLOYEE);
