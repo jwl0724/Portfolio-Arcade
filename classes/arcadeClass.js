@@ -73,7 +73,7 @@ class Arcade {
 
     async instantiateClerk() {
         this.#clerk = await ArcadeBuilder.buildClerk(this.#arcadeScene, this.#animationMixers, this.#inputManager);
-        this.#dialogueManager.positionChatPrompt(this.#clerk.getPosition());
+        this.#dialogueManager.createChatPrompt(this.#clerk.getPosition());
         this.#processManager.addProcess((delta) => this.#clerk.clerkProcess(delta));
     }
 

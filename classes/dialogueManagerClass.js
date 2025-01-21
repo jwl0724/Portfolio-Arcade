@@ -46,14 +46,13 @@ class DialogueManager {
         // this.#arcadeScene.add(this.#textbox);
     }
 
-    positionChatPrompt(positionVector) {
-        if (!this.#chatPromptBox) {
-            this.#chatPromptBox = ShapeDrawer.CreateChatPromptMesh();
-            this.#arcadeScene.add(this.#chatPromptBox);
-        }
-        this.#chatPromptBox.position.set(positionVector.x - ShapeDrawer.ChatPromptWidth / 2, 
-            positionVector.y + ShapeDrawer.ChatPromptHeight * 2.5,
-            positionVector.z - ShapeDrawer.ChatPromptWidth / 10
+    createChatPrompt(positionVector) {
+        this.#chatPromptBox = ShapeDrawer.createInteractPromptBox();
+        this.#arcadeScene.add(this.#chatPromptBox);
+        this.#chatPromptBox.position.set(
+            positionVector.x - ShapeDrawer.interactPromptWidth / 2, 
+            positionVector.y + 0.85,
+            positionVector.z - ShapeDrawer.interactPromptWidth / 10
         );
     }
 
