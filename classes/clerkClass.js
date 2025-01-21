@@ -30,6 +30,10 @@ class Clerk {
         return this.#position;
     }
 
+    getInteractBox() {
+        return this.#interactBox;
+    }
+
     async createClerk(scene, mixers) {
         // Load clerk models into scene
         this.#sceneModel = new CharacterModel(ModelPaths.EMPLOYEE);
