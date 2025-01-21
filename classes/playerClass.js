@@ -42,6 +42,10 @@ class Player {
         return this.#isSprinting ? this.#moveSpeed * this.#sprintFactor : this.#moveSpeed;
     }
 
+    getPosition() {
+        return this.#position;
+    }
+
     getModel() {
         return this.#modelClass.getModel();
     }
