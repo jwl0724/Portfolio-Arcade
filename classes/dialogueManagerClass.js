@@ -12,12 +12,14 @@ class DialogueManager {
 
     // Components
     #arcadeScene;
-    #chatPromptBox;
+    #promptBox;
     #chatPromptText;
     #chatPromptCanvas;
 
     // Running variables
-    #animating = false;
+    #theta = 0;
+    #hoverBaselineY;
+    #isTransitioning = false;
 
     constructor(scene) {
         this.#arcadeScene = scene;
@@ -47,16 +49,20 @@ class DialogueManager {
     }
 
     createChatPrompt(positionVector) {
-        this.#chatPromptBox = ShapeDrawer.createInteractPromptBox();
-        this.#arcadeScene.add(this.#chatPromptBox);
-        this.#chatPromptBox.position.set(
+        this.#promptBox = ShapeDrawer.createInteractPromptBox();
+        this.#arcadeScene.add(this.#promptBox);
+        this.#promptBox.position.set(
             positionVector.x - ShapeDrawer.interactPromptWidth / 2, 
             positionVector.y + 0.85,
             positionVector.z - ShapeDrawer.interactPromptWidth / 10
         );
+        this.#hoverBaselineY = positionVector.y + 0.85;
     }
 
     dialogueProcess(delta) {
+        // Hover effect calculation
+        this.#hoverEffect(delta);
+        
         // if (!this.#displayedText) return;
         // const texture = this.#textCanvas.getContext("2d");
 
@@ -97,5 +103,15 @@ class DialogueManager {
 
     #manageDialogue() {
 
+    }
+
+    #hoverEffect(delta) {
+        if (!this.#promptBox) return;
+        const hoverOffset = 0.065;
+        this.#promptBox.position.y = hoverOffset * Math.sin(this.#theta * 4) + this.#hoverBaselineY;
+
+        // Reset theta if full cycle
+        if (this.#theta > Math.PI * 2) this.#theta = 0;
+        else this.#theta += delta;
     }
 }
