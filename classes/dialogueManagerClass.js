@@ -12,67 +12,59 @@ class DialogueManager {
 
     // Components
     #arcadeScene;
-    #promptBox;
-    #chatPromptText;
-    #chatPromptCanvas;
+    #playerScene;
+    #interactPrompt;
+    #chatPrompt;
+    #interactBox;
 
     // Running variables
+    #isReady = false;
     #theta = 0;
     #hoverBaselineY;
     #isTransitioning = false;
 
     constructor(scene) {
         this.#arcadeScene = scene;
-        
-        // Create ellipses text
-        this.#chatPromptCanvas = document.createElement("canvas");
-        this.#chatPromptText = "...";
-        const textTexture = new THREE.Texture();
+    }
 
-        // this.#responseBoxes = new Array();
+    dialogueProcess(delta) {
+        this.#hoverEffect(delta);
+        this.#displayPrompt();
+    }
 
-        // // Create text Texture
-        // this.#textCanvas = document.createElement("canvas");
-        // this.#displayedText = "send help";
-        
-        // // Create text box
-        // const geometry = new THREE.PlaneGeometry(0.4, 0.1);
-        // const textTexture = new THREE.Texture(this.#textCanvas);
-        // textTexture.needsUpdate = true;
-        // textTexture.minFilter= THREE.NearestFilter;
-        // textTexture.magFilter = THREE.NearestFilter;
-
-        // const material = new THREE.MeshBasicMaterial({ color: TEXTBOX_COLOR, side: THREE.DoubleSide, map: textTexture });
-        // this.#textbox = new THREE.Mesh(geometry, material);
-        // this.#textbox.position.set(0, -20, 0); // Hide the text box somewhere else
-        // this.#arcadeScene.add(this.#textbox);
+    setInteractBox(interactBox, player) {
+        // Set the interact box trigger area
+        this.#interactBox = interactBox;
+        this.#playerScene = player;
     }
 
     createChatPrompt(positionVector) {
-        this.#promptBox = ShapeDrawer.createInteractPromptBox();
-        this.#arcadeScene.add(this.#promptBox);
-        this.#promptBox.position.set(
+        this.#hoverBaselineY = positionVector.y + 0.85;
+
+        // Create interact prompt box for far away
+        this.#interactPrompt = ShapeDrawer.createInteractPromptMesh();
+        this.#interactPrompt.position.set(
             positionVector.x - ShapeDrawer.interactPromptWidth / 2, 
             positionVector.y + 0.85,
             positionVector.z - ShapeDrawer.interactPromptWidth / 10
         );
-        this.#hoverBaselineY = positionVector.y + 0.85;
-    }
+        this.#arcadeScene.add(this.#interactPrompt);
 
-    dialogueProcess(delta) {
-        // Hover effect calculation
-        this.#hoverEffect(delta);
-        
-        // if (!this.#displayedText) return;
-        // const texture = this.#textCanvas.getContext("2d");
+        // Create ellipses texture for chat prompt box
+        const texture = ShapeDrawer.createEllipsisTexture();
 
-        // texture.font = "20pt Arial";
-        // texture.fillStyle = "white";
-        // texture.fillRect(0, 0, this.#textCanvas.width, this.#textCanvas.height);
-        // texture.fillStyle = "black";
-        // texture.textAlign = "center";
-        // texture.textBaseline = "middle";
-        // texture.fillText(this.#displayedText, this.#textCanvas.width / 2, this.#textCanvas.height / 2);
+        // Create chat prompt box for close
+        this.#chatPrompt = ShapeDrawer.createChatPromptMesh(texture);
+        this.#chatPrompt.position.set(
+            positionVector.x - ShapeDrawer.chatPromptWidth / 2,
+            positionVector.y + 0.85,
+            positionVector.z - ShapeDrawer.chatPromptWidth / 10
+        );
+        this.#chatPrompt.visible = false;
+        this.#arcadeScene.add(this.#chatPrompt);
+
+        // Set scene to be ready after this is created
+        this.#isReady = true;
     }
 
     startDialogue(camera) {
@@ -83,21 +75,6 @@ class DialogueManager {
         // this.#textbox.position.y -= 20; // Hide the text box somewhere
     }
 
-    #displayText(text) {
-        const loader = new THREE.FontLoader();
-        loader.load("fonts/helvetiker_regular.typeface.json", (font) => {
-            const geometry = new THREE.TextGeometry(text, {
-                font: font,
-                size: 0.1,
-                height: 0.01
-            });
-            const material = new THREE.MeshBasicMaterial({ color: 0xffffff });
-            const textMesh = new THREE.Mesh(geometry, material);
-            textMesh.position.set(-2.5, -0.25, -1.9);
-            this.#arcadeScene.add(textMesh);
-        });
-    }
-
     #createResponseBox(text) {
     }
 
@@ -106,12 +83,28 @@ class DialogueManager {
     }
 
     #hoverEffect(delta) {
-        if (!this.#promptBox) return;
+        if (!this.#interactPrompt) return;
         const hoverOffset = 0.065;
-        this.#promptBox.position.y = hoverOffset * Math.sin(this.#theta * 4) + this.#hoverBaselineY;
+        this.#interactPrompt.position.y = hoverOffset * Math.sin(this.#theta * 4) + this.#hoverBaselineY;
+        this.#chatPrompt.position.y = hoverOffset * Math.sin(this.#theta * 4) + this.#hoverBaselineY;
 
         // Reset theta if full cycle
         if (this.#theta > Math.PI * 2) this.#theta = 0;
         else this.#theta += delta;
+    }
+
+    #displayPrompt() {
+        if (!this.#isReady) return;
+        const playerPosition = this.#playerScene.getPosition();
+        
+        // Check if player is in interact range
+        if (this.#interactBox.containsPoint(playerPosition)) {
+            this.#chatPrompt.visible = true;
+            this.#interactPrompt.visible = false;
+
+        } else {
+            this.#chatPrompt.visible = false;
+            this.#interactPrompt.visible = true;
+        }
     }
 }
