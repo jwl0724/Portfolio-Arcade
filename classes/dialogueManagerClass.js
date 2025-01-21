@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { DIALOGUE } from "../text/dialogue";
+import { ShapeDrawer } from "./shapeDrawerClass";
 
 export { DialogueManager };
 
@@ -25,12 +26,6 @@ class DialogueManager {
         this.#chatPromptCanvas = document.createElement("canvas");
         this.#chatPromptText = "...";
         const textTexture = new THREE.Texture();
-        
-
-        // Create chat prompt box
-        const geometry = new THREE.PlaneGeometry(1.4, 1);
-        
-        
 
         // this.#responseBoxes = new Array();
 
@@ -49,6 +44,17 @@ class DialogueManager {
         // this.#textbox = new THREE.Mesh(geometry, material);
         // this.#textbox.position.set(0, -20, 0); // Hide the text box somewhere else
         // this.#arcadeScene.add(this.#textbox);
+    }
+
+    positionChatPrompt(positionVector) {
+        if (!this.#chatPromptBox) {
+            this.#chatPromptBox = ShapeDrawer.CreateChatPromptMesh();
+            this.#arcadeScene.add(this.#chatPromptBox);
+        }
+        this.#chatPromptBox.position.set(positionVector.x - ShapeDrawer.ChatPromptWidth / 2, 
+            positionVector.y + ShapeDrawer.ChatPromptHeight * 2.5,
+            positionVector.z - ShapeDrawer.ChatPromptWidth / 10
+        );
     }
 
     dialogueProcess(delta) {
