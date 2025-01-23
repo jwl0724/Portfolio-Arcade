@@ -21,6 +21,7 @@ class DialogueManager {
     #isReady = false;
     #theta = 0;
     #hoverBaselineY;
+    #inDialogue = false;
     #isTransitioning = false;
 
     constructor(scene) {
@@ -68,10 +69,12 @@ class DialogueManager {
     }
 
     startDialogue(camera) {
+        this.#inDialogue = true;
         // this.#textbox.position.set(camera.position.x, camera.position.y - 0.1, camera.position.z - 0.275);
     }
     
     exitDialogue() {
+        this.#inDialogue = false;
         // this.#textbox.position.y -= 20; // Hide the text box somewhere
     }
 
@@ -98,7 +101,11 @@ class DialogueManager {
         const playerPosition = this.#playerScene.getPosition();
         
         // Check if player is in interact range
-        if (this.#interactBox.containsPoint(playerPosition)) {
+        if (this.#inDialogue) {
+            this.#chatPrompt.visible = false;
+            this.#interactPrompt.visible = false;
+
+        } else if (this.#interactBox.containsPoint(playerPosition)) {
             this.#chatPrompt.visible = true;
             this.#interactPrompt.visible = false;
 
