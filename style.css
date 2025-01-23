@@ -1,3 +1,35 @@
 body {
     margin: 0;
 }
+
+.dialogue-box {
+    /* positioning/size */
+    position: absolute;
+    top: 65%;
+    left: 5%;
+    margin: 0.5em;
+    padding: 2em 0.5em 2em 0.5em;
+    width: 85%;
+    height: 20%;
+
+    /* centering dialogue text */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    /* visual properties */
+    background-color: whitesmoke;
+    border-style: solid;
+    border-color: darkgray;
+    border-width: 5px;
+    border-radius: 25px;
+}
+
+.dialogue {
+    font-family: 'Courier New', Courier, monospace;
+    font-weight: bold;
+    color: #1f1e1e;
+    font-size: 40px;
+    text-align: center;
+    vertical-align: middle;
+}
