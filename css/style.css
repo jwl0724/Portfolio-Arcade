@@ -13,7 +13,8 @@ body {
     height: 20%;
 
     /* centering dialogue text */
-    display: flex;
+    display: none;
+    /* display: flex; -> Display when shown */
     align-items: center;
     justify-content: center;
 
@@ -25,7 +26,7 @@ body {
     border-radius: 25px;
 
     /* animation properties */
-    animation-duration: 1s;
+    animation-duration: 0.5s;
 }
 
 .dialogue {
