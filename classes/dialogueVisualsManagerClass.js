@@ -3,7 +3,11 @@ import { ShapeDrawer } from "./shapeDrawerClass";
 export { DialogueVisualsManager }
 
 const dialogueBox = document.getElementById("dialogue-box");
-const dialogueText = dialogueBox.firstChild;
+const dialogueText = dialogueBox.firstElementChild;
+
+// CSS animation names
+const showDialogue = "show";
+const closeDialogue = "close";
 
 class DialogueVisualsManager {
     
@@ -14,21 +18,71 @@ class DialogueVisualsManager {
     #chatPrompt;
     #interactPrompt;
 
-    // Running variables
-    #theta = 0;
+    // -- Running Variables --
+    // Hover effect
     hoverOffset = 0.065;
+    #theta = 0;
+
+    // Dialogue box
+    #dialogueOpened = false;
+    #inAnimation = false;
+    #dialogueText;
+    #textRatio = 0;
+    
+    // Constants
+    #textSpeed = 0.75;
     #hoverBaselineY;
+    #animationTimeInSeconds;
 
     constructor(manager) {
         this.#dialogueManager = manager;
-    }
-    
-    getInteractPrompt() {
-        return this.#interactPrompt;
+        this.#animationTimeInSeconds = parseFloat(getComputedStyle(dialogueBox).animationDuration);
+        dialogueText.innerHTML = "";
     }
 
-    getChatPrompt() {
-        return this.#chatPrompt;
+    isFinishedDisplaying() {
+        return this.#textRatio >= 1;
+    }
+
+    openDialogueBox() {
+        if (this.#inAnimation) return;
+        this.#dialogueOpened = true;
+        this.#inAnimation = true;
+        dialogueBox.style.display = "flex";
+        dialogueBox.style.animationName = showDialogue;
+        setTimeout(() => this.#inAnimation = false, this.#animationTimeInSeconds * 1000);
+    }
+
+    closeDialogueBox() {
+        if (this.#inAnimation) return;
+        this.#dialogueOpened = false;
+        this.#inAnimation = true;
+        dialogueBox.style.animationName = closeDialogue;
+        // Hide dialogue box a bit earlier than animation time to prevent one frame showing of box
+        setTimeout(() => {
+            dialogueBox.style.display = "none";
+            dialogueText.innerHTML = "";
+
+        }, (this.#animationTimeInSeconds - 0.1) * 1000);
+        setTimeout(() => this.#inAnimation = false, this.#animationTimeInSeconds * 1000);
+    }
+
+    setDialogueText(text) {
+        this.#textRatio = 0;
+        this.#dialogueText = text;
+    }
+
+    skipDisplaying() {
+        this.#textRatio = 1;
+    }
+
+    runTextSpeed(delta) {
+        if (this.#inAnimation || !this.#dialogueOpened) return;
+        const textLength = Math.floor(this.#dialogueText.length * this.#textRatio);
+        dialogueText.innerHTML = this.#dialogueText.substr(0, textLength);
+
+        if (this.#textRatio >= 1) this.#textRatio = 1;
+        else this.#textRatio += delta *this.#textSpeed;
     }
 
     hoverEffect(delta) {

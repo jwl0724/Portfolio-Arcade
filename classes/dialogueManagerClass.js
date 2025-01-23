@@ -37,6 +37,7 @@ class DialogueManager {
         if (!this.#isReady) return;
         // Visuals Processes
         this.#dialogueVisuals.hoverEffect(delta);
+        this.#dialogueVisuals.runTextSpeed(delta);
         this.#dialogueVisuals.displayPrompt(this.#playerScene, this.#interactArea);
     }
 
@@ -54,12 +55,13 @@ class DialogueManager {
 
     startDialogue(camera) {
         this.#inDialogue = true;
-        // this.#textbox.position.set(camera.position.x, camera.position.y - 0.1, camera.position.z - 0.275);
+        this.#dialogueVisuals.setDialogueText(Dialogue.CLERK_INTRO.INTRO);
+        this.#dialogueVisuals.openDialogueBox();
     }
     
     exitDialogue() {
         this.#inDialogue = false;
-        // this.#textbox.position.y -= 20; // Hide the text box somewhere
+        this.#dialogueVisuals.closeDialogueBox();
     }
 
     #createResponseBox(text) {
