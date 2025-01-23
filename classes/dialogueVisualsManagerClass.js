@@ -3,11 +3,14 @@ import { ShapeDrawer } from "./shapeDrawerClass";
 export { DialogueVisualsManager }
 
 const dialogueBox = document.getElementById("dialogue-box");
-const dialogueText = dialogueBox.firstElementChild;
+const dialogueText = document.getElementById("dialogue-text");
+const clerkName = document.getElementById("clerk-name");
 
 // CSS animation names
-const showDialogue = "show";
-const closeDialogue = "close";
+const showDialogue = "dialogue-show";
+const closeDialogue = "dialogue-close";
+const showClerkName = "clerk-show";
+const closeClerkName = "clerk-close";
 
 class DialogueVisualsManager {
     
@@ -48,6 +51,8 @@ class DialogueVisualsManager {
         if (this.#inAnimation) return;
         this.#dialogueOpened = true;
         this.#inAnimation = true;
+        clerkName.style.display = "flex";
+        clerkName.style.animationName = showClerkName;
         dialogueBox.style.display = "flex";
         dialogueBox.style.animationName = showDialogue;
         setTimeout(() => this.#inAnimation = false, this.#animationTimeInSeconds * 1000);
@@ -58,9 +63,11 @@ class DialogueVisualsManager {
         this.#dialogueOpened = false;
         this.#inAnimation = true;
         dialogueBox.style.animationName = closeDialogue;
+        clerkName.style.animationName = closeClerkName;
         // Hide dialogue box a bit earlier than animation time to prevent one frame showing of box
         setTimeout(() => {
             dialogueBox.style.display = "none";
+            clerkName.style.display = "none";
             dialogueText.innerHTML = "";
 
         }, (this.#animationTimeInSeconds - 0.1) * 1000);

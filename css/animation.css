@@ -1,9 +1,19 @@
-@keyframes show {
+@keyframes dialogue-show {
     from {top: 125%}
     to {top:65%}
 }
 
-@keyframes close {
+@keyframes dialogue-close {
     from {top: 65%}
+    to {top: 125%}
+}
+
+@keyframes clerk-show {
+    from {top: 125%}
+    to {top:58%}
+}
+
+@keyframes clerk-close {
+    from {top: 58%}
     to {top: 125%}
 }
