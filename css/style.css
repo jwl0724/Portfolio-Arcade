@@ -4,7 +4,7 @@ body {
 
 .dialogue-box {
     /* positioning/size */
-    position: absolute;
+    position: fixed;
     top: 65%;
     left: 5%;
     margin: 0.5em;
@@ -23,6 +23,10 @@ body {
     border-color: darkgray;
     border-width: 5px;
     border-radius: 25px;
+
+    /* animation properties */
+    animation-name: show;
+    animation-duration: 1s;
 }
 
 .dialogue {
