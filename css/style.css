@@ -25,7 +25,6 @@ body {
     border-radius: 25px;
 
     /* animation properties */
-    animation-name: show;
     animation-duration: 1s;
 }
 
