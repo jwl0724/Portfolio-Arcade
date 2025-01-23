@@ -1,0 +1,9 @@
+@keyframes show {
+    from {top: 125%}
+    to {top:65%}
+}
+
+@keyframes close {
+    from {top: 65%}
+    to {top: 125%}
+}
