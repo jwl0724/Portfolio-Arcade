@@ -17,3 +17,8 @@
     from {top: 58%}
     to {top: 125%}
 }
+
+@keyframes dialogue-next {
+    from {top: 74%}
+    to {top: 76%}
+}
