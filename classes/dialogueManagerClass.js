@@ -24,6 +24,15 @@ class DialogueManager {
     #inDialogue = false;
     #isTransitioning = false;
 
+    // Dialogue variables tracker
+    #dialogueTree = new Array(
+        Dialogue.CLERK_INTRO.INTRO,
+        Dialogue.CLERK_INTRO.DESCRIPTION,
+        Dialogue.CLERK_INTRO.PROMPT,
+        // TODO: Implement a map for dialogue options that branch into the specific dialogue path
+    );
+    #dialogueIndex = 1; // Since the first dialogue intro is set on first interact
+
     constructor(scene) {
         this.#arcadeScene = scene;
         this.#dialogueVisuals = new DialogueVisualsManager(this);
@@ -60,14 +69,25 @@ class DialogueManager {
     }
     
     exitDialogue() {
+        this.#dialogueIndex = 1;
         this.#inDialogue = false;
         this.#dialogueVisuals.closeDialogueBox();
     }
 
-    #createResponseBox(text) {
-    }
+    nextDialogue(arcadeClass) {
+        if (!this.#dialogueVisuals.isFinishedDisplaying()) {
+            this.#dialogueVisuals.skipDisplaying();
+            return;
 
-    #manageDialogue() {
+        } else {
+            // TEMP CODE TO STOP DIALOGUE, MAKE A BUTTON LATER TO EXIT
+            if (this.#dialogueIndex >= this.#dialogueTree.length) {
+                this.exitDialogue();
+                arcadeClass.exitDialogue(); // TEMP CODE, FIND BETTER WAY TO DO IT LATER
+                return;
+            }
+            this.#dialogueVisuals.setDialogueText(this.#dialogueTree[this.#dialogueIndex++]);
 
+        }
     }
 }
