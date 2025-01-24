@@ -5,6 +5,7 @@ export { DialogueVisualsManager }
 const dialogueBox = document.getElementById("dialogue-box");
 const dialogueText = document.getElementById("dialogue-text");
 const clerkName = document.getElementById("clerk-name");
+const nextPrompt = document.getElementById("next-prompt");
 
 // CSS animation names
 const showDialogue = "dialogue-show";
@@ -49,25 +50,33 @@ class DialogueVisualsManager {
 
     openDialogueBox() {
         if (this.#inAnimation) return;
+        // Set variables
         this.#dialogueOpened = true;
         this.#inAnimation = true;
-        clerkName.style.display = "flex";
-        clerkName.style.animationName = showClerkName;
+
+        // Play animation for dialogue box and show box
         dialogueBox.style.display = "flex";
+        clerkName.style.animationName = showClerkName;
         dialogueBox.style.animationName = showDialogue;
+
+        // Setup callback to alert that animation is finished
         setTimeout(() => this.#inAnimation = false, this.#animationTimeInSeconds * 1000);
     }
 
     closeDialogueBox() {
         if (this.#inAnimation) return;
+        // Set variables
         this.#dialogueOpened = false;
         this.#inAnimation = true;
+
+        // Play close animation for dialogue box
         dialogueBox.style.animationName = closeDialogue;
         clerkName.style.animationName = closeClerkName;
+        nextPrompt.style.display = "none";
+        
         // Hide dialogue box a bit earlier than animation time to prevent one frame showing of box
         setTimeout(() => {
             dialogueBox.style.display = "none";
-            clerkName.style.display = "none";
             dialogueText.innerHTML = "";
 
         }, (this.#animationTimeInSeconds - 0.1) * 1000);
@@ -88,8 +97,14 @@ class DialogueVisualsManager {
         const textLength = Math.floor(this.#dialogueText.length * this.#textRatio);
         dialogueText.innerHTML = this.#dialogueText.substr(0, textLength);
 
-        if (this.#textRatio >= 1) this.#textRatio = 1;
-        else this.#textRatio += delta *this.#textSpeed;
+        if (this.#textRatio >= 1) {
+            this.#textRatio = 1;
+            nextPrompt.style.display = "inherit";
+
+        } else {
+            this.#textRatio += delta *this.#textSpeed;
+            nextPrompt.style.display = "none";
+        }
     }
 
     hoverEffect(delta) {
