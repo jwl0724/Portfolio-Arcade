@@ -1,13 +1,7 @@
-import * as THREE from "three";
 import { Dialogue } from "../text/dialogue";
 import { DialogueVisualsManager } from "./dialogueVisualsManagerClass";
-import { ShapeDrawer } from "./shapeDrawerClass";
 
 export { DialogueManager };
-
-// font family to use: Marker Felt, fantasy
-
-const TEXTBOX_COLOR = 0xdadee6;
 
 class DialogueManager {
 
@@ -15,26 +9,43 @@ class DialogueManager {
     #dialogueVisuals;
     
     // Scenes
-    #arcadeScene;
+    #arcade;
     #playerScene;
     #interactArea;
 
     // Running variables
     #isReady = false;
     #inDialogue = false;
-    #isTransitioning = false;
 
-    // Dialogue variables tracker
-    #dialogueTree = new Array(
+    // Dialogue tree options
+    static #introTree = new Array(
         Dialogue.CLERK_INTRO.INTRO,
         Dialogue.CLERK_INTRO.DESCRIPTION,
         Dialogue.CLERK_INTRO.PROMPT,
-        // TODO: Implement a map for dialogue options that branch into the specific dialogue path
     );
-    #dialogueIndex = 1; // Since the first dialogue intro is set on first interact
+    static #interestsTree = new Array(
+        Dialogue.ABOUT_DIALOGUE.INTERESTS,
+        Dialogue.ABOUT_DIALOGUE.INTERESTS_2
+    );
+    static #educationTree = new Array(
+        Dialogue.ABOUT_DIALOGUE.EDUCATION,
+        Dialogue.ABOUT_DIALOGUE.EDUCATION_2
+    );
+    static #skillsTree = new Array(
+        Dialogue.ABOUT_DIALOGUE.SKILLS,
+        Dialogue.ABOUT_DIALOGUE.SKILLS_2,
+        Dialogue.ABOUT_DIALOGUE.SKILLS_3
+    );
+    static #repeatTree = new Array(
+        Dialogue.CLERK_INTRO.REPEAT_PROMPT
+    );
 
-    constructor(scene) {
-        this.#arcadeScene = scene;
+    // Dialogue variables tracker
+    #currentTree = DialogueManager.#introTree; // Set to intro on first launch
+    #dialogueIndex = 0;
+    
+    constructor(arcade) {
+        this.#arcade = arcade;
         this.#dialogueVisuals = new DialogueVisualsManager(this);
     }
 
@@ -57,37 +68,32 @@ class DialogueManager {
     }
 
     createChatPrompt(positionVector) {
-        this.#dialogueVisuals.createPrompts(this.#arcadeScene, positionVector);
+        this.#dialogueVisuals.createPrompts(this.#arcade.getScene(), positionVector);
         // Set scene to be ready after this is created
         this.#isReady = true;
     }
 
-    startDialogue(camera) {
+    startDialogue() {
         this.#inDialogue = true;
-        this.#dialogueVisuals.setDialogueText(Dialogue.CLERK_INTRO.INTRO);
+        this.nextDialogue();
         this.#dialogueVisuals.openDialogueBox();
     }
     
     exitDialogue() {
-        this.#dialogueIndex = 1;
+        this.#dialogueIndex = 0;
+        this.#currentTree = DialogueManager.#repeatTree;
         this.#inDialogue = false;
         this.#dialogueVisuals.closeDialogueBox();
     }
 
-    nextDialogue(arcadeClass) {
-        if (!this.#dialogueVisuals.isFinishedDisplaying()) {
-            this.#dialogueVisuals.skipDisplaying();
-            return;
-
-        } else {
-            // TEMP CODE TO STOP DIALOGUE, MAKE A BUTTON LATER TO EXIT
-            if (this.#dialogueIndex >= this.#dialogueTree.length) {
-                this.exitDialogue();
-                arcadeClass.exitDialogue(); // TEMP CODE, FIND BETTER WAY TO DO IT LATER
+    nextDialogue() {
+        if (!this.#dialogueVisuals.isFinishedDisplaying()) this.#dialogueVisuals.skipDisplaying();
+        else {
+            if (this.#dialogueIndex >= this.#currentTree.length) {
+                this.#arcade.exitDialogue();
                 return;
             }
-            this.#dialogueVisuals.setDialogueText(this.#dialogueTree[this.#dialogueIndex++]);
-
+            this.#dialogueVisuals.setDialogueText(this.#currentTree[this.#dialogueIndex++]);
         }
     }
 }
