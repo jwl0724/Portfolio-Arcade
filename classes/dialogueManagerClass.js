@@ -17,6 +17,15 @@ class DialogueManager {
     #isReady = false;
     #inDialogue = false;
 
+    // Dialogue options enum
+    static treeOption = Object.freeze({
+        INTRO: 0,
+        INTERESTS: 1,
+        EDUCATION: 2,
+        SKILLS: 3,
+        REPEAT: 4
+    }); 
+
     // Dialogue tree options
     static #introTree = new Array(
         Dialogue.CLERK_INTRO.INTRO,
@@ -81,19 +90,48 @@ class DialogueManager {
     
     exitDialogue() {
         this.#dialogueIndex = 0;
-        this.#currentTree = DialogueManager.#repeatTree;
+        this.switchTree(DialogueManager.treeOption.REPEAT);
         this.#inDialogue = false;
         this.#dialogueVisuals.closeDialogueBox();
     }
 
+    switchTree(option) {
+        // Assumes never anything outside of the enum options
+        switch(option) {
+            case DialogueManager.treeOption.INTRO:
+                this.#dialogueVisuals.closeDialogueOptions();
+                this.#currentTree = DialogueManager.#introTree;
+                break;
+            case DialogueManager.treeOption.INTERESTS:
+                this.#dialogueVisuals.closeDialogueOptions();
+                this.#currentTree = DialogueManager.#interestsTree;
+                break;
+            case DialogueManager.treeOption.EDUCATION:
+                this.#dialogueVisuals.closeDialogueOptions();
+                this.#currentTree = DialogueManager.#educationTree;
+                break;
+            case DialogueManager.treeOption.SKILLS:
+                this.#dialogueVisuals.closeDialogueOptions();
+                this.#currentTree = DialogueManager.#skillsTree;
+                break;
+            case DialogueManager.treeOption.REPEAT:
+                this.#dialogueVisuals.openDialogueOptions();
+                this.#currentTree = DialogueManager.#repeatTree;
+                break;
+        }
+    }
+
     nextDialogue() {
         if (!this.#dialogueVisuals.isFinishedDisplaying()) this.#dialogueVisuals.skipDisplaying();
-        else {
-            if (this.#dialogueIndex >= this.#currentTree.length) {
-                this.#arcade.exitDialogue();
-                return;
-            }
-            this.#dialogueVisuals.setDialogueText(this.#currentTree[this.#dialogueIndex++]);
+
+        // Don't do anything if already on the repeat tree (tree where user input is waited for)
+        if (this.#currentTree === DialogueManager.#repeatTree) return;
+    
+        // If reached at the end of the tree, switch to the repeated prompt tree
+        if (this.#dialogueIndex >= this.#currentTree.length) {
+            this.#dialogueIndex = 0;
+            this.switchTree(DialogueManager.treeOption.REPEAT);
         }
+        this.#dialogueVisuals.setDialogueText(this.#currentTree[this.#dialogueIndex++]);        
     }
 }
