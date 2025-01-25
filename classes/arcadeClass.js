@@ -29,7 +29,7 @@ class Arcade {
     constructor() {
         // Set data members
         this.#arcadeScene = new THREE.Scene();
-        this.#dialogueManager = new DialogueManager(this.#arcadeScene);
+        this.#dialogueManager = new DialogueManager(this);
         this.#cameraManager = new CameraManager(75, window.innerWidth / window.innerHeight, 0.1, 300);
         this.#inputManager = new InputManager(this);
         this.#animationMixers = new Array();
@@ -46,6 +46,10 @@ class Arcade {
         this.#processManager.addProcess((delta) => this.#animationMixers.forEach(mixer => mixer.update(delta)));
         this.#processManager.addProcess((delta) => this.#cameraManager.cameraProcess(delta));
         this.#processManager.addProcess((delta) => this.#dialogueManager.dialogueProcess(delta));
+    }
+
+    getScene() {
+        return this.#arcadeScene;
     }
 
     resizeRenderWindow(x, y) {
@@ -92,7 +96,7 @@ class Arcade {
         this.#clerk.startInteraction(this.#cameraManager.getCamera());
         this.#cameraManager.enterDialogueCamera();
         this.#inputManager.pauseInput(true);
-        this.#dialogueManager.startDialogue(this.#cameraManager.getCamera());
+        this.#dialogueManager.startDialogue();
     }
 
     exitDialogue() {
