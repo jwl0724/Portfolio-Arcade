@@ -45,7 +45,7 @@ class DialogueVisualsManager {
     }
 
     isFinishedDisplaying() {
-        return this.#textRatio >= 1;
+        return this.#textRatio >= 1 || !this.#dialogueText; // On first launch, dialogue text is not set, so its "finished displaying"
     }
 
     openDialogueBox() {
@@ -102,7 +102,7 @@ class DialogueVisualsManager {
             nextPrompt.style.display = "inherit";
 
         } else {
-            this.#textRatio += delta *this.#textSpeed;
+            this.#textRatio += delta * this.#textSpeed;
             nextPrompt.style.display = "none";
         }
     }
