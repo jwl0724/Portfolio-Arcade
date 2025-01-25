@@ -159,4 +159,12 @@ class DialogueVisualsManager {
         this.#chatPrompt.visible = false;
         arcadeScene.add(this.#chatPrompt);
     }
+
+    openDialogueOptions() {
+        console.log("opened, filler TODO here");
+    }
+
+    closeDialogueOptions() {
+        console.log("closed, filler TODO here");
+    }
 }
