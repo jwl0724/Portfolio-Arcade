@@ -72,3 +72,30 @@ body {
     text-align: center;
     vertical-align: middle;
 }
+
+#dialogue-options {
+    /* positioning / size */
+    position: fixed;
+    display: none;
+    flex-direction: column;
+    top: 5%;
+    left: 5%;
+    width: 30%;
+
+    /* animation properties */
+    animation-duration: 1s;
+}
+
+.option {
+    /* positioning/size */
+    position: relative;
+    margin-bottom: 1em;
+    padding: 0.5em 1em 0.5em 1em;
+
+    /* visual properties */
+    background-color: whitesmoke;
+    border-style: solid;
+    border-color: darkgray;
+    border-width: 5px;
+    border-radius: 25px;
+}
