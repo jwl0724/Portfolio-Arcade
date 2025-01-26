@@ -78,9 +78,9 @@ body {
     position: fixed;
     display: none;
     flex-direction: column;
-    top: 5%;
+    top: 10%;
     left: 5%;
-    width: 30%;
+    width: 35%;
 
     /* animation properties */
     animation-duration: 0.5s;
@@ -93,6 +93,7 @@ body {
     padding: 0.5em 1em 0.5em 1em;
 
     /* visual properties */
+    font-size: 25px;
     background-color: whitesmoke;
     border-style: solid;
     border-color: darkgray;
