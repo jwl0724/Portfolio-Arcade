@@ -76,7 +76,7 @@ body {
 #dialogue-options {
     /* positioning / size */
     position: fixed;
-    display: flex;
+    display: none;
     flex-direction: column;
     top: 5%;
     left: 5%;
