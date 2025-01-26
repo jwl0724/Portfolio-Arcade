@@ -5,6 +5,7 @@ const OPTIONS = Object.freeze({
     ABOUT_INTERESTS: "What are Jonathan's interests?",
     ABOUT_EDUCATION: "What is Jonathan's education?",
     ABOUT_SKILLS: "What are Jonathan's skills?",
+    CLOSE: "That's all for now"
 });
 
 const CLERK_INTRO = Object.freeze({
