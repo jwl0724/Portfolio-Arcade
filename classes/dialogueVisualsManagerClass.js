@@ -35,6 +35,8 @@ class DialogueVisualsManager {
 
     // Dialogue box
     #dialogueOpened = false;
+    #optionsOpened = false;
+    #optionsQueued = false;
     #inAnimation = false;
     #dialogueText;
     #textRatio = 0;
@@ -127,6 +129,17 @@ class DialogueVisualsManager {
         }
     }
 
+    queueOpenOptions() {
+        this.#optionsQueued = true;
+    }
+
+    runOptions() {
+        if (!this.#optionsQueued) return;
+        if (!this.isFinishedDisplaying()) return;
+        if (this.#optionsOpened) return;
+        this.openDialogueOptions();
+    }
+
     hoverEffect(delta) {
         this.hoverOffset
         this.#interactPrompt.position.y = this.hoverOffset * Math.sin(this.#theta * 4) + this.#hoverBaselineY;
@@ -181,14 +194,19 @@ class DialogueVisualsManager {
     }
 
     openDialogueOptions() {
+        if (this.#inAnimation || this.#optionsOpened) return;
         this.#inAnimation = true;
+        this.#optionsOpened = true;
         dialogueOptions.style.display = "flex";
         dialogueOptions.style.animationName = showOptions;
         setTimeout(() => this.#inAnimation = false, this.#animationTimeInSeconds * 1000);
     }
 
     closeDialogueOptions() {
+        if (this.#inAnimation || !this.#optionsOpened) return;
         this.#inAnimation = true;
+        this.#optionsOpened = false;
+        this.#optionsQueued = false;
         dialogueOptions.style.animationName = hideOptions;
         setTimeout(() => dialogueOptions.style.display = "none", 
             (this.#animationTimeInSeconds - 0.1) * 1000);

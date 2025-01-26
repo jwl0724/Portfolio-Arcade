@@ -70,6 +70,7 @@ class DialogueManager {
     dialogueProcess(delta) {
         if (!this.#isReady) return;
         // Visuals Processes
+        this.#dialogueVisuals.runOptions();
         this.#dialogueVisuals.hoverEffect(delta);
         this.#dialogueVisuals.runTextSpeed(delta);
         this.#dialogueVisuals.displayPrompt(this.#playerScene, this.#interactArea);
@@ -130,7 +131,7 @@ class DialogueManager {
                 this.#arcade.exitDialogue()
                 break;
             case DialogueManager.treeOption.REPEAT:
-                this.#dialogueVisuals.openDialogueOptions();
+                this.#dialogueVisuals.queueOpenOptions();
                 this.#currentTree = DialogueManager.#repeatTree;
                 break;
         }
@@ -142,9 +143,16 @@ class DialogueManager {
 
         // Don't do anything if already on the repeat tree (tree where user input is waited for)
         if (this.#currentTree === DialogueManager.#repeatTree) return;
-    
+        
+        // Special case where intro tree is reached to the end
+        if (this.#currentTree === DialogueManager.#introTree) {
+            if (this.#dialogueIndex >= this.#currentTree.length) return;
+            if (this.#dialogueIndex === this.#currentTree.length - 1) this.#dialogueVisuals.queueOpenOptions();
+            this.#dialogueVisuals.setDialogueText(this.#currentTree[this.#dialogueIndex++]);
+            return;
+        }
         // If reached at the end of the tree, switch to the repeated prompt tree
         if (this.#dialogueIndex >= this.#currentTree.length) this.switchTree(DialogueManager.treeOption.REPEAT);
-        this.#dialogueVisuals.setDialogueText(this.#currentTree[this.#dialogueIndex++]);        
+        this.#dialogueVisuals.setDialogueText(this.#currentTree[this.#dialogueIndex++]);
     }
 }
