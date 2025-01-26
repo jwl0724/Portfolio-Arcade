@@ -5,9 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="/images/favicon.png">
     <script type="module" src="/script.js" defer></script>
-    <link rel="stylesheet" href="/style.css">
+    <link rel="stylesheet" href="css/animation.css">
+    <link rel="stylesheet" href="css/style.css">
     <title>Jonathan Liu - Arcade</title>
 </head>
 <body>
+    <div id="dialogue-options">
+        <button id="projects" class="dialogue option">option 1</button>
+        <button id="interests" class="dialogue option">option 2</button>
+        <button id="skills" class="dialogue option">option 3</button>
+        <button id="education" class="dialogue option">option 4</button>
+        <button id="close" class="dialogue option">option 5</button>
+    </div>
+    <div id="dialogue-box" class="dialogue-box">
+        <p id="clerk-name" class="dialogue">Clerk</p>
+        <p id="dialogue-text" class="dialogue">
+            Dialogue Here
+        </p>
+        <p id="next-prompt" class="dialogue">🢓</p>
+    </div>
 </body>
 </html>

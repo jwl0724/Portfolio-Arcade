@@ -26,6 +26,14 @@ class Clerk {
         // TODO: Add lerp stuff here for dialogue model for smooth transitioning
     }
 
+    getPosition() {
+        return this.#position;
+    }
+
+    getInteractBox() {
+        return this.#interactBox;
+    }
+
     async createClerk(scene, mixers) {
         // Load clerk models into scene
         this.#sceneModel = new CharacterModel(ModelPaths.EMPLOYEE);
@@ -55,7 +63,7 @@ class Clerk {
         return true;
     }
 
-    positionDialogueModel(camera) {
+    startInteraction(camera) {
         this.#isInteracting = true;
         this.#dialogueModel.setPosition(
             camera.position.x + 0.4, 

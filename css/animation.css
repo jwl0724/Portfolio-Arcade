@@ -1,0 +1,34 @@
+@keyframes dialogue-show {
+    from {top: 125%}
+    to {top:65%}
+}
+
+@keyframes dialogue-close {
+    from {top: 65%}
+    to {top: 125%}
+}
+
+@keyframes clerk-show {
+    from {top: 125%}
+    to {top:58%}
+}
+
+@keyframes clerk-close {
+    from {top: 58%}
+    to {top: 125%}
+}
+
+@keyframes dialogue-next {
+    from {top: 74%}
+    to {top: 76%}
+}
+
+@keyframes options-show {
+    from {left: -50%}
+    to {left: 5%}
+}
+
+@keyframes options-hide {
+    from {left: 5%}
+    to {left: -50%}
+}
