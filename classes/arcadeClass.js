@@ -84,12 +84,10 @@ class Arcade {
 
     notifyInteractPressed() {
         // Handle press when in dialogue
-        if (this.#dialogueManager.isInDialogue()) {
-            this.#dialogueManager.nextDialogue(this); // TEMP CODE, REMOVE THIS LATER
-            return;
-        }
+        if (this.#dialogueManager.isInDialogue()) this.#dialogueManager.nextDialogue();
+        
         // Handle interact within range of clerk
-        if (this.#clerk.validInteract(this.#player)) this.enterDialogue();
+        else if (this.#clerk.validInteract(this.#player)) this.enterDialogue();
     }
 
     enterDialogue() {
