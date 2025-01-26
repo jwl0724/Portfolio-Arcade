@@ -1,7 +1,6 @@
 export { Dialogue }
 
 const OPTIONS = Object.freeze({
-    ABOUT: "Tell me about Jonathan.",
     PROJECTS: "What projects has Jonathan worked on?",
     ABOUT_INTERESTS: "What are Jonathan's interests?",
     ABOUT_EDUCATION: "What is Jonathan's education?",
