@@ -22,3 +22,13 @@
     from {top: 74%}
     to {top: 76%}
 }
+
+@keyframes options-show {
+    from {left: -50%}
+    to {left: 5%}
+}
+
+@keyframes options-hide {
+    from {left: 5%}
+    to {left: -50%}
+}
