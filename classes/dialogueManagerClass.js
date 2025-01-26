@@ -142,7 +142,11 @@ class DialogueManager {
     }
 
     nextDialogue() {
-        if (!this.#dialogueVisuals.isFinishedDisplaying()) this.#dialogueVisuals.skipDisplaying();
+        if (!this.#dialogueVisuals.isFinishedDisplaying()) {
+            // Will automatically fill the current set text, early return so to not set text again
+            this.#dialogueVisuals.skipDisplaying();
+            return;
+        }
 
         // Don't do anything if already on the repeat tree (tree where user input is waited for)
         if (this.#currentTree === DialogueManager.#repeatTree) return;

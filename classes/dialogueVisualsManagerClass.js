@@ -114,6 +114,7 @@ class DialogueVisualsManager {
 
     skipDisplaying() {
         this.#textRatio = 1;
+        dialogueText.innerHTML = this.#dialogueText;
     }
 
     runTextSpeed(delta) {
