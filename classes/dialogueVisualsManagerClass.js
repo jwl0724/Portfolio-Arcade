@@ -1,17 +1,23 @@
 import { ShapeDrawer } from "./shapeDrawerClass";
+import { DialogueManager } from "./dialogueManagerClass";
+import { Dialogue } from "../text/dialogue";
 
 export { DialogueVisualsManager }
 
+// HTML elements
 const dialogueBox = document.getElementById("dialogue-box");
 const dialogueText = document.getElementById("dialogue-text");
 const clerkName = document.getElementById("clerk-name");
 const nextPrompt = document.getElementById("next-prompt");
+const dialogueOptions = document.getElementById("dialogue-options");
 
 // CSS animation names
 const showDialogue = "dialogue-show";
 const closeDialogue = "dialogue-close";
 const showClerkName = "clerk-show";
 const closeClerkName = "clerk-close";
+const showOptions = "options-show";
+const hideOptions = "options-hide";
 
 class DialogueVisualsManager {
     
@@ -42,6 +48,20 @@ class DialogueVisualsManager {
         this.#dialogueManager = manager;
         this.#animationTimeInSeconds = parseFloat(getComputedStyle(dialogueBox).animationDuration);
         dialogueText.innerHTML = "";
+
+        // Add event listeners to option buttons once dialogue manager is ready
+        for (const option of dialogueOptions.children) {
+            option.addEventListener("click", () => {
+                this.#notifyPress(option.id);
+            });
+
+            // Populate button with text depending on the id (iterates through all options)
+            if (option.id === "projects")  option.innerHTML = Dialogue.OPTIONS.PROJECTS;
+            if (option.id === "interests") option.innerHTML = Dialogue.OPTIONS.ABOUT_INTERESTS;
+            if (option.id === "skills") option.innerHTML = Dialogue.OPTIONS.ABOUT_SKILLS;
+            if (option.id === "education") option.innerHTML = Dialogue.OPTIONS.ABOUT_EDUCATION;
+            if (option.id === "close") option.innerHTML = Dialogue.OPTIONS.CLOSE;
+        }
     }
 
     isFinishedDisplaying() {
@@ -161,10 +181,31 @@ class DialogueVisualsManager {
     }
 
     openDialogueOptions() {
-        console.log("opened, filler TODO here");
+        this.#inAnimation = true;
+        dialogueOptions.style.display = "flex";
+        dialogueOptions.style.animationName = showOptions;
+        setTimeout(() => this.#inAnimation = false, this.#animationTimeInSeconds * 1000);
     }
 
     closeDialogueOptions() {
-        console.log("closed, filler TODO here");
+        this.#inAnimation = true;
+        dialogueOptions.style.animationName = hideOptions;
+        setTimeout(() => dialogueOptions.style.display = "none", 
+            (this.#animationTimeInSeconds - 0.1) * 1000);
+        setTimeout(() => this.#inAnimation = false, this.#animationTimeInSeconds * 1000);
+    }
+
+    #notifyPress(option) {
+        if (this.#inAnimation) return; // Stop button from being pressed when its still coming in
+        if (option === "projects") 
+            this.#dialogueManager.switchTree(DialogueManager.treeOption.PROJECTS);
+        else if (option === "interests")
+            this.#dialogueManager.switchTree(DialogueManager.treeOption.INTERESTS);
+        else if (option === "skills")
+            this.#dialogueManager.switchTree(DialogueManager.treeOption.SKILLS);
+        else if (option === "education")
+            this.#dialogueManager.switchTree(DialogueManager.treeOption.EDUCATION);
+        else if (option === "close")
+            this.#dialogueManager.switchTree(DialogueManager.treeOption.CLOSE);
     }
 }

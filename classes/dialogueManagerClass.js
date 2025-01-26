@@ -23,7 +23,9 @@ class DialogueManager {
         INTERESTS: 1,
         EDUCATION: 2,
         SKILLS: 3,
-        REPEAT: 4
+        PROJECTS: 4,
+        CLOSE: 5,
+        REPEAT: 6
     }); 
 
     // Dialogue tree options
@@ -44,6 +46,9 @@ class DialogueManager {
         Dialogue.ABOUT_DIALOGUE.SKILLS,
         Dialogue.ABOUT_DIALOGUE.SKILLS_2,
         Dialogue.ABOUT_DIALOGUE.SKILLS_3
+    );
+    static #projectsTree = new Array(
+        Dialogue.PROJECTS_DIALOGUE.INSTRUCTIONS_DESKTOP // Temp only for desktop, mobile support way later down the line
     );
     static #repeatTree = new Array(
         Dialogue.CLERK_INTRO.REPEAT_PROMPT
@@ -96,6 +101,7 @@ class DialogueManager {
     }
 
     switchTree(option) {
+        this.#dialogueIndex = 0;
         // Assumes never anything outside of the enum options
         switch(option) {
             case DialogueManager.treeOption.INTRO:
@@ -114,11 +120,21 @@ class DialogueManager {
                 this.#dialogueVisuals.closeDialogueOptions();
                 this.#currentTree = DialogueManager.#skillsTree;
                 break;
+            case DialogueManager.treeOption.PROJECTS:
+                this.#dialogueVisuals.closeDialogueOptions();
+                this.#currentTree = DialogueManager.#projectsTree;
+                break;
+            case DialogueManager.treeOption.CLOSE:
+                this.#dialogueVisuals.closeDialogueOptions();
+                this.#currentTree = DialogueManager.#repeatTree;
+                this.#arcade.exitDialogue()
+                break;
             case DialogueManager.treeOption.REPEAT:
                 this.#dialogueVisuals.openDialogueOptions();
                 this.#currentTree = DialogueManager.#repeatTree;
                 break;
         }
+        this.nextDialogue();
     }
 
     nextDialogue() {
@@ -128,10 +144,7 @@ class DialogueManager {
         if (this.#currentTree === DialogueManager.#repeatTree) return;
     
         // If reached at the end of the tree, switch to the repeated prompt tree
-        if (this.#dialogueIndex >= this.#currentTree.length) {
-            this.#dialogueIndex = 0;
-            this.switchTree(DialogueManager.treeOption.REPEAT);
-        }
+        if (this.#dialogueIndex >= this.#currentTree.length) this.switchTree(DialogueManager.treeOption.REPEAT);
         this.#dialogueVisuals.setDialogueText(this.#currentTree[this.#dialogueIndex++]);        
     }
 }
