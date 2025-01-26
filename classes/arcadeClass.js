@@ -82,10 +82,17 @@ class Arcade {
         this.#processManager.addProcess((delta) => this.#clerk.clerkProcess(delta));
     }
 
-    notifyInteractPressed() {
+    notifyInteractPressed(mouseEvent = null) {
+        // Special cases for mouse events
+        if (mouseEvent) {
+            // TODO: When mouse support is fully implemented, logic goes here, for now leave it to dialogue only
+            if (this.#dialogueManager.isInDialogue()) this.#dialogueManager.nextDialogue();
+            return;
+        }
+
         // Handle press when in dialogue
         if (this.#dialogueManager.isInDialogue()) this.#dialogueManager.nextDialogue();
-        
+
         // Handle interact within range of clerk
         else if (this.#clerk.validInteract(this.#player)) this.enterDialogue();
     }

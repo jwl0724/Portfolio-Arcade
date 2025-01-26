@@ -65,7 +65,11 @@ class InputManager {
 
     // TODO: Implement WAYYY later when want to support mobile
     #setupMouseInputReading() {
-
+        // For interacting with the mouse
+        document.addEventListener("click", (mouseEvent) => {
+            if (mouseEvent.target.tagName === "BUTTON") return; // Ignore clicks on button
+            this.#arcadeClass.notifyInteractPressed(mouseEvent);
+        });
     }
 
     #addPressedKeyClearEvents(...events) {
