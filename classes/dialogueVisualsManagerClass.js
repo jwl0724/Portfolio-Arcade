@@ -67,7 +67,9 @@ class DialogueVisualsManager {
     }
 
     isFinishedDisplaying() {
-        return this.#textRatio >= 1 || !this.#dialogueText; // On first launch, dialogue text is not set, so its "finished displaying"
+        return this.#textRatio >= 1 
+        || !this.#dialogueText // On first launch, dialogue text is not set, so its "finished displaying"
+        || this.#textRatio === 0; // The start of dialogue, not done displaying
     }
 
     openDialogueBox() {
@@ -86,10 +88,10 @@ class DialogueVisualsManager {
     }
 
     closeDialogueBox() {
-        if (this.#inAnimation) return;
         // Set variables
         this.#dialogueOpened = false;
         this.#inAnimation = true;
+        this.#textRatio = 0;
 
         // Play close animation for dialogue box
         dialogueBox.style.animationName = closeDialogue;
@@ -135,7 +137,7 @@ class DialogueVisualsManager {
 
     runOptions() {
         if (!this.#optionsQueued) return;
-        if (!this.isFinishedDisplaying()) return;
+        if (this.#textRatio !== 1) return;
         if (this.#optionsOpened) return;
         this.openDialogueOptions();
     }

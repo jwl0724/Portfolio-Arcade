@@ -89,6 +89,8 @@ class DialogueManager {
     }
 
     startDialogue() {
+        // Open options menu if already interacted before with clerk
+        if (this.#currentTree === DialogueManager.#repeatTree) this.#dialogueVisuals.queueOpenOptions();
         this.#inDialogue = true;
         this.nextDialogue();
         this.#dialogueVisuals.openDialogueBox();
@@ -96,7 +98,6 @@ class DialogueManager {
     
     exitDialogue() {
         this.#dialogueIndex = 0;
-        this.switchTree(DialogueManager.treeOption.REPEAT);
         this.#inDialogue = false;
         this.#dialogueVisuals.closeDialogueBox();
     }
@@ -127,15 +128,17 @@ class DialogueManager {
                 break;
             case DialogueManager.treeOption.CLOSE:
                 this.#dialogueVisuals.closeDialogueOptions();
-                this.#currentTree = DialogueManager.#repeatTree;
-                this.#arcade.exitDialogue()
+                this.#currentTree = DialogueManager.#repeatTree; // Set tree to repeat for next interaction
+                this.#dialogueVisuals.setDialogueText(this.#currentTree[0]); // Set text for next interaction
+                this.#arcade.exitDialogue();
                 break;
             case DialogueManager.treeOption.REPEAT:
                 this.#dialogueVisuals.queueOpenOptions();
                 this.#currentTree = DialogueManager.#repeatTree;
                 break;
         }
-        this.nextDialogue();
+        // Automatically trigger the next line of dialogue unless chosen was close dialogue
+        if (option !== DialogueManager.treeOption.CLOSE) this.nextDialogue();
     }
 
     nextDialogue() {
