@@ -1,3 +1,4 @@
+import { rand } from "three/tsl";
 import { Dialogue } from "../text/dialogue";
 import { CharacterModel } from "./characterModelClass";
 import { DialogueVisualsManager } from "./dialogueVisualsManagerClass";
@@ -12,6 +13,7 @@ class DialogueManager {
     // Scenes
     #arcade;
     #playerScene;
+    #clerkDialogueScene;
     #interactArea;
 
     // Running variables
@@ -71,6 +73,10 @@ class DialogueManager {
     constructor(arcade) {
         this.#arcade = arcade;
         this.#dialogueVisuals = new DialogueVisualsManager(this);
+    }
+
+    setClerkModel(model) {
+        this.#clerkDialogueScene = model;
     }
 
     isInDialogue() {
@@ -151,6 +157,7 @@ class DialogueManager {
         if (option !== DialogueManager.treeOption.CLOSE) this.nextDialogue();
     }
 
+    // Gets called whenever interact is pressed, up to dialogue manager to check what to do
     nextDialogue() {
         if (!this.#dialogueVisuals.isFinishedDisplaying()) {
             // Will automatically fill the current set text, early return so to not set text again
@@ -160,8 +167,15 @@ class DialogueManager {
 
         // Don't do anything if already on the repeat tree (tree where user input is waited for)
         if (this.#currentTree === DialogueManager.#repeatTree) return;
+
+        // Play animation for new text
+        if (this.#dialogueIndex < this.#currentTree.length || this.#currentTree !== DialogueManager.#repeatTree) {
+            // Play animation only whe not at the end of text
+            const randomIndex = Math.floor(Math.random() * DialogueManager.#dialogueAnimations.length);
+            this.#clerkDialogueScene.playAnimation(DialogueManager.#dialogueAnimations[randomIndex]);
+        }
         
-        // Special case where intro tree is reached to the end
+        // Special case for intro tree since it only runs once
         if (this.#currentTree === DialogueManager.#introTree) {
             if (this.#dialogueIndex >= this.#currentTree.length) return;
             if (this.#dialogueIndex === this.#currentTree.length - 1) this.#dialogueVisuals.queueOpenOptions();
