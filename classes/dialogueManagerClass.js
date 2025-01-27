@@ -1,4 +1,5 @@
 import { Dialogue } from "../text/dialogue";
+import { CharacterModel } from "./characterModelClass";
 import { DialogueVisualsManager } from "./dialogueVisualsManagerClass";
 
 export { DialogueManager };
@@ -57,6 +58,15 @@ class DialogueManager {
     // Dialogue variables tracker
     #currentTree = DialogueManager.#introTree; // Set to intro on first launch
     #dialogueIndex = 0;
+
+    // Clerk animations to sync dialogue to
+    static #dialogueAnimations = new Array(
+        CharacterModel.ANIMATION_NAMES.INTERACT_RIGHT,
+        CharacterModel.ANIMATION_NAMES.INTERACT_LEFT,
+        CharacterModel.ANIMATION_NAMES.EMOTE_YES,
+        CharacterModel.ANIMATION_NAMES.EMOTE_NO,
+        CharacterModel.ANIMATION_NAMES.PICKUP,
+    );
     
     constructor(arcade) {
         this.#arcade = arcade;
