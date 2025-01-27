@@ -10,20 +10,14 @@ class Clerk {
     #ready = false;
     #sceneModel;
     #isInteracting;
-    #inputManager;
     #interactBox;
     #position;
     #dialogueModel;
     #dialogueAnimationQueue;
 
-    constructor(position, inputManager) {
+    constructor(position) {
         this.#position = position;
-        this.#inputManager = inputManager;
         this.#dialogueAnimationQueue;
-    }
-
-    clerkProcess(delta) {
-        // TODO: Add lerp stuff here for dialogue model for smooth transitioning
     }
 
     getPosition() {
@@ -32,6 +26,10 @@ class Clerk {
 
     getInteractBox() {
         return this.#interactBox;
+    }
+
+    getDialogueModel() {
+        return this.#dialogueModel;
     }
 
     async createClerk(scene, mixers) {
@@ -80,14 +78,5 @@ class Clerk {
             this.#position.y + 6,
             this.#position.z
         );
-    }
-
-    playAnimation(animationName, queue = true) {
-        if (queue) this.#queueDialogueModelAnimation.push(animationName);
-        else this.#dialogueModel.playAnimation(animationName);
-    }
-
-    #queueDialogueModelAnimation(animationName) {
-        this.#dialogueAnimationQueue.push(animationName);
     }
 }
