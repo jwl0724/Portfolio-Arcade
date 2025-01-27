@@ -76,10 +76,10 @@ class Arcade {
     }
 
     async instantiateClerk() {
-        this.#clerk = await ArcadeBuilder.buildClerk(this.#arcadeScene, this.#animationMixers, this.#inputManager);
+        this.#clerk = await ArcadeBuilder.buildClerk(this.#arcadeScene, this.#animationMixers);
         this.#dialogueManager.createChatPrompt(this.#clerk.getPosition());
         this.#dialogueManager.setInteractBox(this.#clerk.getInteractBox(), this.#player);
-        this.#processManager.addProcess((delta) => this.#clerk.clerkProcess(delta));
+        this.#dialogueManager.setClerkModel(this.#clerk.getDialogueModel());
     }
 
     notifyInteractPressed(mouseEvent = null) {
