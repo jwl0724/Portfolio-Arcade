@@ -15,7 +15,7 @@ class CharacterModel {
         CROUCH: "crouch",
         DIE: "die",
         SIT: "sit",
-        PICKUP: "pickup",
+        PICKUP: "pick-up",
         EMOTE_YES: "emote-yes",
         EMOTE_NO: "emote-no",
         HOLD_LEFT: "holding-left",
@@ -72,7 +72,8 @@ class CharacterModel {
 
     playAnimation(animationName, loop = THREE.LoopOnce) {
         const nextAnimation = this.#animations.get(animationName);
-        nextAnimation.loop = loop;
+        nextAnimation.reset();
+        nextAnimation.setLoop(loop);
         nextAnimation.play();
     }
 
