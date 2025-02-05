@@ -9,7 +9,6 @@ class Player {
     // Components
     #inputManager;
     #modelClass;
-    #interactBox;
     
     // Constants
     #sprintFactor = 1.4;
