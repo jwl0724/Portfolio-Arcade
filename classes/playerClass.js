@@ -65,6 +65,7 @@ class Player {
         // Load player model
         this.#modelClass = new CharacterModel(ModelPaths.PLAYER);
         await this.#modelClass.loadModel(arcadeScene, mixerCollection);
+        this.#modelClass.createHitbox(arcadeScene);
         this.#modelClass.setPosition(this.#position.x, this.#position.y, this.#position.z);
     }
 
