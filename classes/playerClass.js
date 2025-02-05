@@ -1,22 +1,25 @@
 import * as THREE from 'three';
 import { CharacterModel } from './characterModelClass';
 import { ModelPaths } from '../modelPaths';
-import { InputManager } from './inputManagerClass';
-import { getDirection } from 'three/tsl';
+import { debug } from './arcadeClass';
 
 export { Player };
 
 class Player {
-    // Data members
+    // Components
+    #inputManager;
+    #modelClass;
+    
+    // Constants
+    #sprintFactor = 1.4;
+    #moveSpeed = 1.75;
+    
+    // Running variables
+    #colliders; // Array that stores collisions in one frame
     #isMoving = false;
     #isSprinting = false;
-    #inputManager;
-    #moveSpeed = 1.75;
-    #sprintFactor = 1.4;
     #position = new THREE.Vector3(0, 0, 0);
     #directionVector = new THREE.Vector3(0, 0, 0);
-    #colliders;
-    #modelClass;
     
     constructor(positionVector, inputManager) {
         this.#colliders = new Array();
@@ -62,6 +65,7 @@ class Player {
         // Load player model
         this.#modelClass = new CharacterModel(ModelPaths.PLAYER);
         await this.#modelClass.loadModel(arcadeScene, mixerCollection);
+        this.#modelClass.createHitbox(arcadeScene);
         this.#modelClass.setPosition(this.#position.x, this.#position.y, this.#position.z);
     }
 

@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import { debug } from "./arcadeClass";
 
 export { ModelTemplate };
 
@@ -57,9 +58,14 @@ class ModelTemplate {
         }
         // Bounding box and placed scene should be the same index
         this.#placedScenes.push(clone);
-        const hitbox = new THREE.Box3().setFromObject(clone).expandByScalar(0.22);
+        const hitbox = new THREE.Box3().setFromObject(clone);
         this.#boundingBoxes.push(hitbox);
         arcadeScene.add(clone);
+
+        if (debug) {
+            const boxHelper = new THREE.Box3Helper(hitbox, 0x00ee00);
+            arcadeScene.add(boxHelper);
+        }
     }
 
     // TODO: DONT USE THIS, need to find some identifier to get a specific item from placed into scene

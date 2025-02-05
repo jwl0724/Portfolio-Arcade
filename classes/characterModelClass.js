@@ -1,5 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import { debug } from "./arcadeClass";
 
 export { CharacterModel };
 
@@ -27,10 +28,17 @@ class CharacterModel {
 
     // Data members
     #modelFilePath;
-    #animationMixer;
+    #hasCollision;
+
+    // Animation Data
+    #animations; // Animation keyframes to play
+    #animationMixer; // Mixer to be pushed to main logic loop
+    #movementAnimations; // Walking, running, idle
+    
+    // Components
     #characterScene;
-    #animations;
-    #movementAnimations;
+    #collisionBox;
+    #debugBox;
     
     constructor(modelFilePath) {
         this.#modelFilePath = modelFilePath;
@@ -62,8 +70,25 @@ class CharacterModel {
         arcadeScene.add(this.#characterScene);
     }
 
+    // Call if character needs to have collision
+    createHitbox(arcadeScene) {
+        // Needs to wait for the scene graph to update after adding model to scene
+        requestAnimationFrame(() => {
+            this.#collisionBox = new THREE.Box3().setFromObject(this.#characterScene);            
+            if (debug) {                
+                this.#debugBox = new THREE.Box3Helper(this.#collisionBox, 0xeeff00);                          
+                arcadeScene.add(this.#debugBox);
+            }
+            this.#hasCollision = true;
+        });
+    }
+
     getModel() {
         return this.#characterScene;
+    }
+
+    getHitbox() {
+        return this.#collisionBox;
     }
 
     setPosition(x, y, z) {
@@ -134,6 +159,18 @@ class CharacterModel {
         
         // Set position
         this.#characterScene.position.set(positionVector.x, positionVector.y, positionVector.z);
+
+        // Update collision box if it has it
+        if (this.#hasCollision) {
+            this.#collisionBox.setFromObject(this.#characterScene);
+            
+            // Update box visual if in debug mode
+            if (debug) {                
+                const collisionCenter = new THREE.Vector3();
+                this.#collisionBox.getCenter(collisionCenter);
+                this.#debugBox.position.copy(collisionCenter);
+            }
+        }
     }
 
     // Used to update between idle and walking

@@ -6,7 +6,10 @@ import { CollisionManager } from "./collisionManagerClass";
 import { DialogueManager } from "./dialogueManagerClass";
 import { InputManager } from "./inputManagerClass";
 
-export { Arcade };
+export { Arcade, debug };
+
+// Set this line to false to disable debug mode
+const debug = true;
 
 // Only one should exists, what the script will interface with
 class Arcade {

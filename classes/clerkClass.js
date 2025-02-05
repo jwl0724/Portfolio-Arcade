@@ -2,6 +2,7 @@ import * as THREE from "three";
 import { ModelPaths } from "../modelPaths";
 import { CharacterModel } from "./characterModelClass";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
+import { debug } from "./arcadeClass";
 
 export { Clerk };
 
@@ -47,8 +48,11 @@ class Clerk {
             new THREE.Vector3(this.#position.x - 1, this.#position.y - 1, this.#position.z - 1.25), 
             new THREE.Vector3(this.#position.x + 1, this.#position.y + 1, this.#position.z + 1.25)
         );
-        const helper = new THREE.Box3Helper(this.#interactBox, 0xffff00);
-        scene.add(helper);
+        
+        if (debug) {
+            const helper = new THREE.Box3Helper(this.#interactBox, 0xffff00);
+            scene.add(helper);
+        }
 
         // Mark class as ready
         this.#ready = true;
