@@ -5,7 +5,6 @@ export { CollisionManager };
 class CollisionManager {
 
     #environmentHitboxes;
-    #clerkClass;
     #playerClass;
 
     constructor() {
@@ -26,11 +25,6 @@ class CollisionManager {
 
     addPlayerClass(playerClass) {
         this.#playerClass = playerClass;
-    }
-
-    // TODO: DO NOT USE, CLERK WILL BE IMPLEMENTED WAY LATER
-    addClerkClass(clerkClass) {
-        this.#clerkClass = clerkClass;
     }
 
     addEnvironmentHitbox(hitbox) {
