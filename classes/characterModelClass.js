@@ -29,6 +29,8 @@ class CharacterModel {
     // Data members
     #modelFilePath;
     #hasCollision;
+    #hitboxSize = new THREE.Vector3();
+    #hitboxCenter = new THREE.Vector3();
 
     // Animation Data
     #animations; // Animation keyframes to play
@@ -74,7 +76,8 @@ class CharacterModel {
     createHitbox(arcadeScene) {
         // Needs to wait for the scene graph to update after adding model to scene
         requestAnimationFrame(() => {
-            this.#collisionBox = new THREE.Box3().setFromObject(this.#characterScene);            
+            this.#collisionBox = new THREE.Box3().setFromObject(this.#characterScene);
+            this.#collisionBox.getSize(this.#hitboxSize);       
             if (debug) {                
                 this.#debugBox = new THREE.Box3Helper(this.#collisionBox, 0xeeff00);                          
                 arcadeScene.add(this.#debugBox);
@@ -162,7 +165,10 @@ class CharacterModel {
 
         // Update collision box if it has it
         if (this.#hasCollision) {
+            // Stop hitbox from expanding when turning character
             this.#collisionBox.setFromObject(this.#characterScene);
+            this.#collisionBox.getCenter(this.#hitboxCenter);
+            this.#collisionBox.setFromCenterAndSize(this.#hitboxCenter, this.#hitboxSize);
             
             // Update box visual if in debug mode
             if (debug) {                
