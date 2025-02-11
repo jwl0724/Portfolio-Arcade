@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { CharacterModel } from './characterModelClass';
 import { ModelPaths } from '../modelPaths';
 import { debug } from './arcadeClass';
+import { CollisionManager } from './collisionManagerClass';
 
 export { Player };
 
@@ -13,7 +14,7 @@ class Player {
     // Constants
     #sprintFactor = 1.4;
     #moveSpeed = 1.75;
-    
+
     // Running variables
     #colliders; // Array that stores collisions in one frame
     #isMoving = false;
@@ -53,8 +54,17 @@ class Player {
         return this.#modelClass.getModel();
     }
 
+    getHitbox() {
+        return this.#modelClass.getHitbox();
+    }
+
     getNextFramePosition(delta) {
-        return this.#position.clone().add(this.#directionVector.multiplyScalar(this.getSpeed() * delta));
+        return this.#position.clone().add(this.#directionVector.clone().multiplyScalar(this.getSpeed() * delta));
+    }
+
+    setPosition(positionVector) {
+        this.#position = positionVector;
+        this.#modelClass.updateModel(positionVector, false);
     }
 
     notifyCollision(collider) {
@@ -93,21 +103,35 @@ class Player {
     }
 
     #calculateSlideMovement(nextPoint) {
-        let passX = true, passZ = true;
+        let passX = false, passZ = false;
         const testPointX = new THREE.Vector3(
-            this.#position.x, 
-            this.#position.y + nextPoint.y, 
-            this.#position.z + nextPoint.z
-        );
-        const testPointZ = new THREE.Vector3(
             this.#position.x + nextPoint.x, 
             this.#position.y + nextPoint.y, 
             this.#position.z
         );
+        const testPointZ = new THREE.Vector3(
+            this.#position.x,
+            this.#position.y + nextPoint.y,
+            this.#position.z + nextPoint.z
+        );
+        
+        this.#modelClass.updateModel(testPointX);
         this.#colliders.forEach(collider => {
-            if (collider.containsPoint(testPointX)) passX = false;
-            else if (collider.containsPoint(testPointZ)) passZ = false;
+            const intersectingBox = collider.clone().intersect(this.#modelClass.getHitbox());
+            // console.log("x = " + Math.abs(intersectingBox.min.x - intersectingBox.max.x))
+            if (Math.abs(intersectingBox.min.x - intersectingBox.max.x) < CollisionManager.collisionThreshold)
+                passX = true;
+            // if (collider.intersectsBox(this.#modelClass.getHitbox())) passX = false;
         });
+        this.#modelClass.updateModel(testPointZ);
+        this.#colliders.forEach(collider => {
+            const intersectingBox = collider.clone().intersect(this.#modelClass.getHitbox());
+            // console.log("z = " + Math.abs(intersectingBox.min.z - intersectingBox.max.z))
+            if (Math.abs(intersectingBox.min.z - intersectingBox.max.z) < CollisionManager.collisionThreshold)
+                passZ = true;
+            // if (collider.intersectsBox(this.#modelClass.getHitbox())) passZ = false;
+        });
+
         if (passX) {
             this.#position = testPointX;
             this.#modelClass.updateModel(this.#position);
@@ -116,5 +140,28 @@ class Player {
             this.#position = testPointZ;
             this.#modelClass.updateModel(this.#position);
         }
+        // let passX = true, passZ = true;
+        // const testPointX = new THREE.Vector3(
+        //     this.#position.x, 
+        //     this.#position.y + nextPoint.y, 
+        //     this.#position.z + nextPoint.z
+        // );
+        // const testPointZ = new THREE.Vector3(
+        //     this.#position.x + nextPoint.x, 
+        //     this.#position.y + nextPoint.y, 
+        //     this.#position.z
+        // );
+        // this.#colliders.forEach(collider => {
+        //     if (collider.containsPoint(testPointX)) passX = false;
+        //     else if (collider.containsPoint(testPointZ)) passZ = false;
+        // });
+        // if (passX) {
+        //     this.#position = testPointX;
+        //     this.#modelClass.updateModel(this.#position);
+
+        // } else if (passZ) {
+        //     this.#position = testPointZ;
+        //     this.#modelClass.updateModel(this.#position);
+        // }
     }
 }
