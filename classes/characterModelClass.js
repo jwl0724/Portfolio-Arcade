@@ -149,19 +149,21 @@ class CharacterModel {
         this.#animations.get(startAnimation).setEffectiveWeight(1);
     }
 
-    updateModel(positionVector) {
+    updateModel(positionVector, rotateModel = true) {
         if (this.#characterScene.position.equals(positionVector)) return;
         
-        // Calculate new angle
-        const difference = positionVector.clone().sub(this.#characterScene.position);
-        const newAngle = Math.atan2(difference.x, difference.z);
-        
-        // Calculate interpolated angle
-        const transitionAngle = this.#lerpAngle(this.#characterScene.rotation.y, newAngle, 0.1);
-        this.#characterScene.rotation.y = transitionAngle;
-        
-        // Set position
-        this.#characterScene.position.set(positionVector.x, positionVector.y, positionVector.z);
+        if (rotateModel) {
+            // Calculate new angle
+            const difference = positionVector.clone().sub(this.#characterScene.position);
+            const newAngle = Math.atan2(difference.x, difference.z);
+            
+            // Calculate interpolated angle
+            const transitionAngle = this.#lerpAngle(this.#characterScene.rotation.y, newAngle, 0.1);
+            this.#characterScene.rotation.y = transitionAngle;
+            
+            // Set position
+            this.#characterScene.position.set(positionVector.x, positionVector.y, positionVector.z);
+        }
 
         // Update collision box if it has it
         if (this.#hasCollision) {
