@@ -10,7 +10,7 @@ class Player {
     // Components
     #inputManager;
     #modelClass;
-    
+
     // Constants
     #sprintFactor = 1.4;
     #moveSpeed = 1.75;
@@ -21,7 +21,7 @@ class Player {
     #isSprinting = false;
     #position = new THREE.Vector3(0, 0, 0);
     #directionVector = new THREE.Vector3(0, 0, 0);
-    
+
     constructor(positionVector, inputManager) {
         this.#colliders = new Array();
         this.#inputManager = inputManager;
@@ -93,7 +93,7 @@ class Player {
         const nextPoint = this.#directionVector.clone().multiplyScalar(this.getSpeed() * delta);
         // Slide across on valid angle
         if (this.#colliders.length > 0) {
-            this.#calculateSlideMovement(nextPoint);
+            this.#moveWithSlide(nextPoint);
             this.#colliders.length = 0;
             return;
         }
@@ -102,66 +102,26 @@ class Player {
         this.#modelClass.updateModel(this.#position);
     }
 
-    #calculateSlideMovement(nextPoint) {
-        let passX = false, passZ = false;
-        const testPointX = new THREE.Vector3(
-            this.#position.x + nextPoint.x, 
-            this.#position.y + nextPoint.y, 
-            this.#position.z
-        );
-        const testPointZ = new THREE.Vector3(
-            this.#position.x,
-            this.#position.y + nextPoint.y,
-            this.#position.z + nextPoint.z
-        );
-        
-        this.#modelClass.updateModel(testPointX);
+    #moveWithSlide(nextPoint) {
+        this.#position = this.#position.add(nextPoint);
+        this.#modelClass.updateModel(this.#position);
+
+        // Move player outside of hitbox to prevent partial clipping
         this.#colliders.forEach(collider => {
+            // Calculate intersecting box properties
             const intersectingBox = collider.clone().intersect(this.#modelClass.getHitbox());
-            // console.log("x = " + Math.abs(intersectingBox.min.x - intersectingBox.max.x))
-            if (Math.abs(intersectingBox.min.x - intersectingBox.max.x) < CollisionManager.collisionThreshold)
-                passX = true;
-            // if (collider.intersectsBox(this.#modelClass.getHitbox())) passX = false;
+            const insetX = intersectingBox.max.x - intersectingBox.min.x;
+            const insetZ = intersectingBox.max.z - intersectingBox.min.z;
+
+            // Do nothing if both insets are infinite (when box incorrect sometimes)
+            if (Math.abs(insetX) === Infinity && Math.abs(insetZ) === Infinity) return;
+            if (Math.abs(insetX) < Math.abs(insetZ)) {
+                this.#position.x = intersectingBox.max.x < this.#position.x ? this.#position.x + insetX : this.#position.x - insetX;
+                this.setPosition(this.#position);
+            } else {
+                this.#position.z = intersectingBox.max.z < this.#position.z ? this.#position.z + insetZ : this.#position.z - insetZ;
+                this.setPosition(this.#position);
+            }
         });
-        this.#modelClass.updateModel(testPointZ);
-        this.#colliders.forEach(collider => {
-            const intersectingBox = collider.clone().intersect(this.#modelClass.getHitbox());
-            // console.log("z = " + Math.abs(intersectingBox.min.z - intersectingBox.max.z))
-            if (Math.abs(intersectingBox.min.z - intersectingBox.max.z) < CollisionManager.collisionThreshold)
-                passZ = true;
-            // if (collider.intersectsBox(this.#modelClass.getHitbox())) passZ = false;
-        });
-
-        if (passX) {
-            this.#position = testPointX;
-            this.#modelClass.updateModel(this.#position);
-
-        } else if (passZ) {
-            this.#position = testPointZ;
-            this.#modelClass.updateModel(this.#position);
-        }
-        // let passX = true, passZ = true;
-        // const testPointX = new THREE.Vector3(
-        //     this.#position.x, 
-        //     this.#position.y + nextPoint.y, 
-        //     this.#position.z + nextPoint.z
-        // );
-        // const testPointZ = new THREE.Vector3(
-        //     this.#position.x + nextPoint.x, 
-        //     this.#position.y + nextPoint.y, 
-        //     this.#position.z
-        // );
-        // this.#colliders.forEach(collider => {
-        //     if (collider.containsPoint(testPointX)) passX = false;
-        //     else if (collider.containsPoint(testPointZ)) passZ = false;
-        // });
-        // if (passX) {
-        //     this.#position = testPointX;
-        //     this.#modelClass.updateModel(this.#position);
-
-        // } else if (passZ) {
-        //     this.#position = testPointZ;
-        //     this.#modelClass.updateModel(this.#position);
-        // }
     }
 }
