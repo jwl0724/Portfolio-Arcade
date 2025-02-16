@@ -4,8 +4,10 @@ export { CollisionManager };
 
 class CollisionManager {
 
+    // Static constants
+    static collisionThreshold = 0.05;
+
     #environmentHitboxes;
-    #clerkClass;
     #playerClass;
 
     constructor() {
@@ -13,24 +15,21 @@ class CollisionManager {
     }
 
     collisionProcess(delta) {
-        let collision = false;
-        const playerNextPosition = this.#playerClass.getNextFramePosition(delta);
-        for(let i = 0; i < this.#environmentHitboxes.length; i++) {
-            if (this.#environmentHitboxes[i].containsPoint(playerNextPosition)) {
-                this.#playerClass.notifyCollision(this.#environmentHitboxes[i]);
-                collision = true;
-            }
-        }
-        if (!collision) this.#playerClass.notifyCollision(null);
+        if (!this.#playerClass.getHitbox()) return; // Player hitbox loads one frame after, needs check to prevent premature running
+
+        // Test if collision in next frame (prevents jitterring when colliding)
+        const currentPosition = this.#playerClass.getPosition();
+        this.#playerClass.setPosition(this.#playerClass.getNextFramePosition(delta));
+        const playerHitbox = this.#playerClass.getHitbox();
+        this.#environmentHitboxes.forEach(hitbox => {
+            if (hitbox.intersectsBox(playerHitbox)) this.#playerClass.notifyCollision(hitbox);
+        });
+        // Put player back to original position
+        this.#playerClass.setPosition(currentPosition);
     }
 
     addPlayerClass(playerClass) {
         this.#playerClass = playerClass;
-    }
-
-    // TODO: DO NOT USE, CLERK WILL BE IMPLEMENTED WAY LATER
-    addClerkClass(clerkClass) {
-        this.#clerkClass = clerkClass;
     }
 
     addEnvironmentHitbox(hitbox) {

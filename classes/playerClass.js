@@ -2,6 +2,7 @@ import * as THREE from 'three';
 import { CharacterModel } from './characterModelClass';
 import { ModelPaths } from '../modelPaths';
 import { debug } from './arcadeClass';
+import { CollisionManager } from './collisionManagerClass';
 
 export { Player };
 
@@ -9,18 +10,18 @@ class Player {
     // Components
     #inputManager;
     #modelClass;
-    
+
     // Constants
     #sprintFactor = 1.4;
     #moveSpeed = 1.75;
-    
+
     // Running variables
     #colliders; // Array that stores collisions in one frame
     #isMoving = false;
     #isSprinting = false;
     #position = new THREE.Vector3(0, 0, 0);
     #directionVector = new THREE.Vector3(0, 0, 0);
-    
+
     constructor(positionVector, inputManager) {
         this.#colliders = new Array();
         this.#inputManager = inputManager;
@@ -53,8 +54,17 @@ class Player {
         return this.#modelClass.getModel();
     }
 
+    getHitbox() {
+        return this.#modelClass.getHitbox();
+    }
+
     getNextFramePosition(delta) {
-        return this.#position.clone().add(this.#directionVector.multiplyScalar(this.getSpeed() * delta));
+        return this.#position.clone().add(this.#directionVector.clone().multiplyScalar(this.getSpeed() * delta));
+    }
+
+    setPosition(positionVector) {
+        this.#position = positionVector;
+        this.#modelClass.updateModel(positionVector, false);
     }
 
     notifyCollision(collider) {
@@ -83,7 +93,7 @@ class Player {
         const nextPoint = this.#directionVector.clone().multiplyScalar(this.getSpeed() * delta);
         // Slide across on valid angle
         if (this.#colliders.length > 0) {
-            this.#calculateSlideMovement(nextPoint);
+            this.#moveWithSlide(nextPoint);
             this.#colliders.length = 0;
             return;
         }
@@ -92,29 +102,26 @@ class Player {
         this.#modelClass.updateModel(this.#position);
     }
 
-    #calculateSlideMovement(nextPoint) {
-        let passX = true, passZ = true;
-        const testPointX = new THREE.Vector3(
-            this.#position.x, 
-            this.#position.y + nextPoint.y, 
-            this.#position.z + nextPoint.z
-        );
-        const testPointZ = new THREE.Vector3(
-            this.#position.x + nextPoint.x, 
-            this.#position.y + nextPoint.y, 
-            this.#position.z
-        );
-        this.#colliders.forEach(collider => {
-            if (collider.containsPoint(testPointX)) passX = false;
-            else if (collider.containsPoint(testPointZ)) passZ = false;
-        });
-        if (passX) {
-            this.#position = testPointX;
-            this.#modelClass.updateModel(this.#position);
+    #moveWithSlide(nextPoint) {
+        this.#position = this.#position.add(nextPoint);
+        this.#modelClass.updateModel(this.#position);
 
-        } else if (passZ) {
-            this.#position = testPointZ;
-            this.#modelClass.updateModel(this.#position);
-        }
+        // Move player outside of hitbox to prevent partial clipping
+        this.#colliders.forEach(collider => {
+            // Calculate intersecting box properties
+            const intersectingBox = collider.clone().intersect(this.#modelClass.getHitbox());
+            const insetX = intersectingBox.max.x - intersectingBox.min.x;
+            const insetZ = intersectingBox.max.z - intersectingBox.min.z;
+
+            // Do nothing if both insets are infinite (when box incorrect sometimes)
+            if (Math.abs(insetX) === Infinity && Math.abs(insetZ) === Infinity) return;
+            if (Math.abs(insetX) < Math.abs(insetZ)) {
+                this.#position.x = intersectingBox.max.x < this.#position.x ? this.#position.x + insetX : this.#position.x - insetX;
+                this.setPosition(this.#position);
+            } else {
+                this.#position.z = intersectingBox.max.z < this.#position.z ? this.#position.z + insetZ : this.#position.z - insetZ;
+                this.setPosition(this.#position);
+            }
+        });
     }
 }

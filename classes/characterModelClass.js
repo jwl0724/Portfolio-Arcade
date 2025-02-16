@@ -29,17 +29,19 @@ class CharacterModel {
     // Data members
     #modelFilePath;
     #hasCollision;
+    #hitboxSize = new THREE.Vector3();
+    #hitboxCenter = new THREE.Vector3();
 
     // Animation Data
     #animations; // Animation keyframes to play
     #animationMixer; // Mixer to be pushed to main logic loop
     #movementAnimations; // Walking, running, idle
-    
+
     // Components
     #characterScene;
     #collisionBox;
     #debugBox;
-    
+
     constructor(modelFilePath) {
         this.#modelFilePath = modelFilePath;
         this.#animations = new Map();
@@ -52,7 +54,7 @@ class CharacterModel {
         const loader = new GLTFLoader();
         const gltf = await loader.loadAsync(this.#modelFilePath);
         this.#characterScene = gltf.scene;
-        
+
         // Add player animation mixer to mixer collection
         this.#animationMixer = new THREE.AnimationMixer(this.#characterScene);
         mixerCollection.push(this.#animationMixer);
@@ -65,7 +67,7 @@ class CharacterModel {
 
         // Setup movement animations
         this.#setupMovementAnimations(CharacterModel.ANIMATION_NAMES.IDLE);
-        
+
         // Add to scene
         arcadeScene.add(this.#characterScene);
     }
@@ -74,9 +76,10 @@ class CharacterModel {
     createHitbox(arcadeScene) {
         // Needs to wait for the scene graph to update after adding model to scene
         requestAnimationFrame(() => {
-            this.#collisionBox = new THREE.Box3().setFromObject(this.#characterScene);            
-            if (debug) {                
-                this.#debugBox = new THREE.Box3Helper(this.#collisionBox, 0xeeff00);                          
+            this.#collisionBox = new THREE.Box3().setFromObject(this.#characterScene);
+            this.#collisionBox.getSize(this.#hitboxSize);
+            if (debug) {
+                this.#debugBox = new THREE.Box3Helper(this.#collisionBox, 0xeeff00);
                 arcadeScene.add(this.#debugBox);
             }
             this.#hasCollision = true;
@@ -146,26 +149,30 @@ class CharacterModel {
         this.#animations.get(startAnimation).setEffectiveWeight(1);
     }
 
-    updateModel(positionVector) {
+    updateModel(positionVector, rotateModel = true) {
         if (this.#characterScene.position.equals(positionVector)) return;
-        
-        // Calculate new angle
-        const difference = positionVector.clone().sub(this.#characterScene.position);
-        const newAngle = Math.atan2(difference.x, difference.z);
-        
-        // Calculate interpolated angle
-        const transitionAngle = this.#lerpAngle(this.#characterScene.rotation.y, newAngle, 0.1);
-        this.#characterScene.rotation.y = transitionAngle;
-        
+
+        if (rotateModel) {
+            // Calculate new angle
+            const difference = positionVector.clone().sub(this.#characterScene.position);
+            const newAngle = Math.atan2(difference.x, difference.z);
+
+            // Calculate interpolated angle
+            const transitionAngle = this.#lerpAngle(this.#characterScene.rotation.y, newAngle, 0.1);
+            this.#characterScene.rotation.y = transitionAngle;
+        }
         // Set position
         this.#characterScene.position.set(positionVector.x, positionVector.y, positionVector.z);
 
         // Update collision box if it has it
         if (this.#hasCollision) {
+            // Stop hitbox from expanding when turning character
             this.#collisionBox.setFromObject(this.#characterScene);
-            
+            this.#collisionBox.getCenter(this.#hitboxCenter);
+            this.#collisionBox.setFromCenterAndSize(this.#hitboxCenter, this.#hitboxSize);
+
             // Update box visual if in debug mode
-            if (debug) {                
+            if (debug) {
                 const collisionCenter = new THREE.Vector3();
                 this.#collisionBox.getCenter(collisionCenter);
                 this.#debugBox.position.copy(collisionCenter);
