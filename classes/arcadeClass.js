@@ -36,13 +36,13 @@ class Arcade {
         this.#cameraManager = new CameraManager(75, window.innerWidth / window.innerHeight, 0.1, 300);
         this.#inputManager = new InputManager(this);
         this.#animationMixers = new Array();
-        
+
         // Setup scene properties
         this.#arcadeScene.add(new THREE.AmbientLight(0xffffe6, 2)); // Slight yellow light
         this.#renderer = new THREE.WebGLRenderer({ antialias: true });
         this.#renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.#renderer.domElement);
-        
+
         // Set the processes
         this.#collisionManager = new CollisionManager();
         this.#processManager = new ProcessManager(this.#renderer, () => this.#renderer.render(this.#arcadeScene, this.#cameraManager.getCamera()));
@@ -62,6 +62,7 @@ class Arcade {
 
     async instantiateArcade() {
         await ArcadeBuilder.buildArcade(this.#arcadeScene, this.#collisionManager, this.#animationMixers);
+        await ArcadeBuilder.placeProjects(this.#arcadeScene, this.#collisionManager);
     }
 
     async instantiatePlayer() {

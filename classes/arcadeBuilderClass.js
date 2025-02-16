@@ -87,7 +87,6 @@ class ArcadeBuilder {
         const wheelTemplate = new ModelTemplate(ModelPaths.PRIZE_WHEEL);
         const ticketTemplate = new ModelTemplate(ModelPaths.TICKET_MACHINE);
         const clawTemplate = new ModelTemplate(ModelPaths.CLAW_MACHINE);
-        const arcadeTemplate = new ModelTemplate(ModelPaths.ARCADE_MACHINE);
 
         await hockeyTemplate.loadTemplate();
         await basketballTemplate.loadTemplate();
@@ -100,9 +99,6 @@ class ArcadeBuilder {
         await wheelTemplate.loadTemplate();
         await ticketTemplate.loadTemplate();
         await clawTemplate.loadTemplate();
-        await arcadeTemplate.loadTemplate();
-
-        // Add track bounding boxes
 
         // Place items with no animations
         hockeyTemplate.place(scene, new THREE.Vector3(3, 0, -3.25));
@@ -124,12 +120,6 @@ class ArcadeBuilder {
         ticketTemplate.place(scene, new THREE.Vector3(5.55, 0, -4.35), 90, animationMixers);
         clawTemplate.place(scene, new THREE.Vector3(1, 0, -3.25), 90, animationMixers);
 
-        // TODO: See what projects to showcase, just populate randomly for now
-        for(let i = 0; i < 6; i++) {
-            arcadeTemplate.place(scene, new THREE.Vector3(i * 0.7 + 2.2, 0, -1), i * 2 - 5);
-            arcadeTemplate.place(scene, new THREE.Vector3(i * 0.7 + 2.2, 0, -1.7), i * 2 - 185);
-        }
-
         // Add hitboxes to collision manager
         wallTemplate.getBoundingBoxes().forEach(hitbox => collisionManager.addEnvironmentHitbox(hitbox));
         cornerTemplate.getBoundingBoxes().forEach(hitbox => collisionManager.addEnvironmentHitbox(hitbox));
@@ -147,11 +137,20 @@ class ArcadeBuilder {
         wheelTemplate.getBoundingBoxes().forEach(hitbox => collisionManager.addEnvironmentHitbox(hitbox));
         ticketTemplate.getBoundingBoxes().forEach(hitbox => collisionManager.addEnvironmentHitbox(hitbox));
         clawTemplate.getBoundingBoxes().forEach(hitbox => collisionManager.addEnvironmentHitbox(hitbox));
-        arcadeTemplate.getBoundingBoxes().forEach(hitbox => collisionManager.addEnvironmentHitbox(hitbox));
 
         // Add boundary wall at bottom of arcade
         const bottomBounds = new THREE.Box3(new THREE.Vector3(0, 0, 0.4), new THREE.Vector3(9, 5, 2));
         collisionManager.addEnvironmentHitbox(bottomBounds);
+    }
+
+    static async placeProjects(scene, collisionManager) {
+        // TODO: Place more projects later, for now just put one arcade machine and use it as test
+        const arcadeTemplate = new ModelTemplate(ModelPaths.ARCADE_MACHINE);
+        await arcadeTemplate.loadTemplate();
+
+        // TODO: Have some sort of data structure to store project infos, for now just place it onto scene
+        arcadeTemplate.place(scene, new THREE.Vector3(4, 0, -1.25));
+        arcadeTemplate.getBoundingBoxes().forEach(hitbox => collisionManager.addEnvironmentHitbox(hitbox));
     }
 
     static async buildPlayer(scene, animationMixers, inputManager) {
