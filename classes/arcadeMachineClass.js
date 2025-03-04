@@ -10,6 +10,8 @@ class ArcadeMachine {
 
     // Static variables
     static #allMachines = new Array();
+    static #isInteracting = false;
+    static #arcadeClass;
 
     // Properties
     #scene; // Don't need class wrapper since there's no animations
@@ -23,15 +25,28 @@ class ArcadeMachine {
 
     // Running variables
     #ready = false;
-    #isInteracting = false;
 
     // Helper methods to check if player interacted
     static findInteractedMachine(player) {
-        ArcadeMachine.#allMachines.forEach(machine => {
-            if (machine.inRange(player)) return machine;
-        });
-        // Return null if player not in range of any machine
+        for(let i = 0; i < ArcadeMachine.#allMachines.length; i++) {
+            if (ArcadeMachine.#allMachines[i].inRange(player))
+                return ArcadeMachine.#allMachines[i];
+        }
         return null;
+    }
+
+    static notifyWindowClosed() {
+        if (!ProjectWindow.isOpen() || ProjectWindow.inAnimation()) return;
+        ArcadeMachine.#isInteracting = false;
+        this.#arcadeClass.pauseInput(false);
+    }
+
+    static setArcadeReference(ref) {
+        this.#arcadeClass = ref;
+    }
+
+    static isInteracting() {
+        return ArcadeMachine.#isInteracting;
     }
 
     constructor(projectInfo, position, rotation) {
@@ -40,7 +55,12 @@ class ArcadeMachine {
         this.#projectWindow = new ProjectWindow(projectInfo);
     }
 
-    async spawn(arcadeScene) {
+
+    isReady() {
+        return this.#ready;
+    }
+
+    async spawn(arcadeScene, collisionManager) {
         const loader = new GLTFLoader();
         const gltf = await loader.loadAsync(ModelPaths.ARCADE_MACHINE);
         this.#scene = gltf.scene;
@@ -53,33 +73,31 @@ class ArcadeMachine {
         arcadeScene.add(this.#scene);
 
         // Create interact zone
+        // TODO: May need to re-factor to use a point in front of player, instead of middle point of where player is
         this.#interactBox = new THREE.Box3(
-            new THREE.Vector3(this.#position.x - 0.25, this.#position.y - 1, this.#position.z - 0.25),
-            new THREE.Vector3(this.#position.x + 0.25, this.#position.y + 1, this.#position.z + 0.25)
+            new THREE.Vector3(this.#position.x - 0.45, this.#position.y - 1, this.#position.z - 0.3),
+            new THREE.Vector3(this.#position.x + 0.45, this.#position.y + 1, this.#position.z + 0.6)
         );
 
         if (debug) {
             arcadeScene.add(new THREE.Box3Helper(this.#hitbox, 0xffffff));
             arcadeScene.add(new THREE.Box3Helper(this.#interactBox, 0xffc0cb));
         }
-
+        // Add to object trackers
+        collisionManager.addEnvironmentHitbox(this.#hitbox);
         ArcadeMachine.#allMachines.push(this);
         this.#ready = true;
     }
 
     inRange(player) {
-        if (!this.#ready || this.#isInteracting) return false;
+        if (!this.#ready || ArcadeMachine.#isInteracting) return false;
         return this.#interactBox.containsPoint(player.getModel().position);
     }
 
-    openProject() {
-        this.#isInteracting = true;
-        this.#projectWindow.populateWindow();
-        this.#projectWindow.openWindow();
-    }
-
-    closeProject() {
-        this.#isInteracting = false;
-        this.#projectWindow.closeWindow();
+    openProject(arcadeClass) {
+        if (ProjectWindow.isOpen() || ProjectWindow.inAnimation()) return;
+        arcadeClass.pauseInput(true);
+        ArcadeMachine.#isInteracting = true;
+        this.#projectWindow.openProject();
     }
 }
