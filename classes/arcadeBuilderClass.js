@@ -152,9 +152,12 @@ class ArcadeBuilder {
             new THREE.Vector3(3, 0, -1.25), 0);
         const duckHuntAtHome = new ArcadeMachine(Projects.DUCK_HUNT_AT_HOME,
             new THREE.Vector3(4, 0, -1.25), 0);
+        const PAWsitive = new ArcadeMachine(Projects.PAWSITIVE,
+            new THREE.Vector3(5, 0, -1.25), 0);
 
         terrainSimProject.spawn(scene, collisionManager);
         duckHuntAtHome.spawn(scene, collisionManager);
+        PAWsitive.spawn(scene, collisionManager);
     }
 
     static async buildPlayer(scene, animationMixers, inputManager) {

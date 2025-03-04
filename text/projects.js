@@ -26,7 +26,16 @@ const DUCK_HUNT_AT_HOME = Object.freeze({
     ]
 });
 
+const PAWSITIVE = Object.freeze({
+    TITLE: "PAWsitive",
+    ABOUT: `PAWsitive was a hackathon submission for BCIT's QDS 2024 Hackathon, where the project was the <b>first place winner</b>. The project is a proof of concept towards a mobile app that rewarded players with in-game currency whenever player's did any healthy activities, this includes exercise and meditation. After obtaining the currency, players can use it to pull for cute outfits and pets that they can decorate their avatar with.
+
+    The initial concept came from the idea that "gacha games" tend to have addictive elements to them that keeps their players hooked. We thought instead of using those addictive elements to exploit players, we should instead use them to build healthy habits in our players.
+    `
+});
+
 const Projects = Object.freeze({
     TERRAIN_GENERATOR_SIMULATOR: TERRAIN_GENERATOR_SIMULATOR,
-    DUCK_HUNT_AT_HOME: DUCK_HUNT_AT_HOME
+    DUCK_HUNT_AT_HOME: DUCK_HUNT_AT_HOME,
+    PAWSITIVE: PAWSITIVE
 });
