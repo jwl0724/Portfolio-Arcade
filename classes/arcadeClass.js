@@ -6,6 +6,7 @@ import { CollisionManager } from "./collisionManagerClass";
 import { DialogueManager } from "./dialogueManagerClass";
 import { InputManager } from "./inputManagerClass";
 import { ProjectWindow } from "./projectWindowClass";
+import { ArcadeMachine } from "./arcadeMachineClass";
 
 export { Arcade, debug };
 
@@ -62,6 +63,7 @@ class Arcade {
     }
 
     async instantiateArcade() {
+        ArcadeMachine.setArcadeReference(this); // Needed for middle man to notify project closing
         await ArcadeBuilder.buildArcade(this.#arcadeScene, this.#collisionManager, this.#animationMixers);
         await ArcadeBuilder.placeProjects(this.#arcadeScene, this.#collisionManager);
     }
@@ -94,14 +96,18 @@ class Arcade {
             if (this.#dialogueManager.isInDialogue()) this.#dialogueManager.nextDialogue();
             return;
         }
-
-        // Handle press when in dialogue
+        // Dialogue Handlers
+        // Press interact during dialogue
         if (this.#dialogueManager.isInDialogue()) this.#dialogueManager.nextDialogue();
-
         // Handle interact within range of clerk
         else if (this.#clerk.validInteract(this.#player)) this.enterDialogue();
 
-        // TODO: Implement interactions with arcade machines
+        // Arcade Machine Handlers
+        // Handle press when in project window is open
+        const interactedMachine = ArcadeMachine.findInteractedMachine(this.#player);
+        if (ArcadeMachine.isInteracting()) return;
+        // Check if player is next to machine
+        else if (interactedMachine) this.openProject(interactedMachine);
     }
 
     enterDialogue() {
@@ -118,11 +124,12 @@ class Arcade {
         this.#inputManager.pauseInput(false);
     }
 
-    openProject() {
-        // TODO: Implement arcade machine interaction similar to above dialogue
+    pauseInput(paused) {
+        this.#inputManager.pauseInput(paused);
     }
 
-    closeProject() {
-        // TODO: Implement arcade machine interaction similar to above dialogue
+    // Close project is handled by the arcade machine itself and it's project window
+    openProject(machine) {
+        machine.openProject(this);
     }
 }
