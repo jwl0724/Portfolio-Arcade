@@ -1,3 +1,5 @@
+import { ArcadeMachine } from "./arcadeMachineClass";
+
 export { ProjectWindow };
 
 class ProjectWindow {
@@ -13,20 +15,45 @@ class ProjectWindow {
     static #imageTemplate = `<img src="{imagePath}" alt="Project Preview" class="preview-image">`;
 
     // Components
-    #isOpened = false;
-    #inAnimation = false;
-    #projectInfo;
+    static #isOpened = false;
+    static #inAnimation = false;
     #imageIndex;
+    #projectInfo;
 
     // Constants
-    #animationTimeInSeconds = parseFloat(getComputedStyle(ProjectWindow.#projectSection).animationDuration);
+    static #animationTimeInSeconds = parseFloat(getComputedStyle(ProjectWindow.#projectSection).animationDuration);
+
+    // Add event handlers for html elements
+    static {
+        document.getElementById("project-close").onclick = () => this.#closeProject();
+    }
+
+    static isOpen() {
+        return this.#isOpened;
+    }
+
+    static inAnimation() {
+        return this.#inAnimation;
+    }
 
     constructor(info) {
         this.#projectInfo = info;
         this.#imageIndex = 0;
     }
 
-    populateWindow() {
+    // Not static because every arcade machine has it's own information
+    openProject() {
+        this.#populateWindow();
+        ProjectWindow.#openWindow();
+    }
+
+    // Static because closing the project window has no specific information involved
+    static #closeProject() {
+        ArcadeMachine.notifyWindowClosed();
+        this.#closeWindow();
+    }
+
+    #populateWindow() {
         ProjectWindow.#projectTitleLabel.innerHTML = this.#projectInfo.TITLE;
         ProjectWindow.#projectDescriptionLabel.innerHTML = this.#projectInfo.ABOUT;
         ProjectWindow.#projectCreditsLabel.innerHTML = this.#projectInfo.CREDITS?.join("<br>");
@@ -36,7 +63,7 @@ class ProjectWindow {
         });
     }
 
-    openWindow() {
+    static #openWindow() {
         if (this.#isOpened || this.#inAnimation) return;
 
         ProjectWindow.#projectSection.style.display = "flex";
@@ -48,8 +75,8 @@ class ProjectWindow {
         }, this.#animationTimeInSeconds * 1000);
     }
 
-    closeWindow() {
-        if (this.#isOpened || this.#inAnimation) return;
+    static #closeWindow() {
+        if (!this.#isOpened || this.#inAnimation) return;
 
         ProjectWindow.#projectSection.style.display = "none";
 
@@ -60,12 +87,12 @@ class ProjectWindow {
         }, this.#animationTimeInSeconds * 1000);
     }
 
-    nextImage() {
+    #nextImage() {
         if (this.#imageIndex === this.#projectInfo.IMAGES?.length) this.#imageIndex = 0;
         else this.#imageIndex++;
     }
 
-    prevImage() {
+    #prevImage() {
         if (this.#imageIndex === 0) this.#imageIndex = this.#projectInfo.IMAGES?.length - 1;
         else this.#imageIndex--;
     }
