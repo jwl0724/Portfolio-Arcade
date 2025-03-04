@@ -1,8 +1,6 @@
 import * as THREE from 'three';
 import { CharacterModel } from './characterModelClass';
 import { ModelPaths } from '../modelPaths';
-import { debug } from './arcadeClass';
-import { CollisionManager } from './collisionManagerClass';
 
 export { Player };
 
@@ -77,6 +75,11 @@ class Player {
         await this.#modelClass.loadModel(arcadeScene, mixerCollection);
         this.#modelClass.createHitbox(arcadeScene);
         this.#modelClass.setPosition(this.#position.x, this.#position.y, this.#position.z);
+    }
+
+    playInteract() {
+        const animation = Math.floor(Math.random() * 2) ? CharacterModel.ANIMATION_NAMES.INTERACT_LEFT : CharacterModel.ANIMATION_NAMES.INTERACT_RIGHT;
+        this.#modelClass.playAnimation(animation);
     }
 
     #updateDirectionVector() {

@@ -130,6 +130,6 @@ class Arcade {
 
     // Close project is handled by the arcade machine itself and it's project window
     openProject(machine) {
-        machine.openProject(this);
+        machine.openProject(this, this.#player);
     }
 }

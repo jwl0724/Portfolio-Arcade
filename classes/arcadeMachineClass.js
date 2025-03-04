@@ -94,8 +94,9 @@ class ArcadeMachine {
         return this.#interactBox.containsPoint(player.getModel().position);
     }
 
-    openProject(arcadeClass) {
+    openProject(arcadeClass, playerClass) {
         if (ProjectWindow.isOpen() || ProjectWindow.inAnimation()) return;
+        playerClass.playInteract();
         arcadeClass.pauseInput(true);
         ArcadeMachine.#isInteracting = true;
         this.#projectWindow.openProject();
