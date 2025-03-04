@@ -3,6 +3,8 @@ import { ModelPaths } from "../modelPaths";
 import { ModelTemplate } from "./modelTemplateClass";
 import { Player } from "./playerClass";
 import { Clerk } from "./clerkClass";
+import { ArcadeMachine } from "./arcadeMachineClass";
+import { Projects } from "../text/projects";
 
 export { ArcadeBuilder };
 
@@ -143,14 +145,16 @@ class ArcadeBuilder {
         collisionManager.addEnvironmentHitbox(bottomBounds);
     }
 
+    // Any updates to projects should be isolated to only here
     static async placeProjects(scene, collisionManager) {
         // TODO: Place more projects later, for now just put one arcade machine and use it as test
-        const arcadeTemplate = new ModelTemplate(ModelPaths.ARCADE_MACHINE);
-        await arcadeTemplate.loadTemplate();
+        const terrainSimProject = new ArcadeMachine(Projects.TERRAIN_GENERATOR_SIMULATOR,
+            new THREE.Vector3(3, 0, -1.25), 0);
+        const duckHuntAtHome = new ArcadeMachine(Projects.DUCK_HUNT_AT_HOME,
+            new THREE.Vector3(4, 0, -1.25), 0);
 
-        // TODO: Have some sort of data structure to store project infos, for now just place it onto scene
-        arcadeTemplate.place(scene, new THREE.Vector3(4, 0, -1.25));
-        arcadeTemplate.getBoundingBoxes().forEach(hitbox => collisionManager.addEnvironmentHitbox(hitbox));
+        terrainSimProject.spawn(scene, collisionManager);
+        duckHuntAtHome.spawn(scene, collisionManager);
     }
 
     static async buildPlayer(scene, animationMixers, inputManager) {
