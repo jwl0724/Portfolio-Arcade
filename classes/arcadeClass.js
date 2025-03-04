@@ -5,6 +5,7 @@ import { ArcadeBuilder } from "./arcadeBuilderClass";
 import { CollisionManager } from "./collisionManagerClass";
 import { DialogueManager } from "./dialogueManagerClass";
 import { InputManager } from "./inputManagerClass";
+import { ProjectWindow } from "./projectWindowClass";
 
 export { Arcade, debug };
 
@@ -99,6 +100,8 @@ class Arcade {
 
         // Handle interact within range of clerk
         else if (this.#clerk.validInteract(this.#player)) this.enterDialogue();
+
+        // TODO: Implement interactions with arcade machines
     }
 
     enterDialogue() {
@@ -113,5 +116,13 @@ class Arcade {
         this.#dialogueManager.exitDialogue();
         this.#cameraManager.exitDialogueCamera(this.#player.getModel());
         this.#inputManager.pauseInput(false);
+    }
+
+    openProject() {
+        // TODO: Implement arcade machine interaction similar to above dialogue
+    }
+
+    closeProject() {
+        // TODO: Implement arcade machine interaction similar to above dialogue
     }
 }
