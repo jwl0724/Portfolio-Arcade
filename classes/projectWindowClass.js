@@ -7,12 +7,19 @@ class ProjectWindow {
     static #projectDescriptionLabel = document.getElementById("project-description");
     static #projectCreditsLabel = document.getElementById("project-credits");
     static #previewImages = document.getElementById("preview-images");
+    static #projectSection = document.getElementById("project");
 
     // HTML Templates
     static #imageTemplate = `<img src="{imagePath}" alt="Project Preview" class="preview-image">`;
 
+    // Components
+    #isOpened = false;
+    #inAnimation = false;
     #projectInfo;
     #imageIndex;
+
+    // Constants
+    #animationTimeInSeconds = parseFloat(getComputedStyle(ProjectWindow.#projectSection).animationDuration);
 
     constructor(info) {
         this.#projectInfo = info;
@@ -23,17 +30,34 @@ class ProjectWindow {
         ProjectWindow.#projectTitleLabel.innerHTML = this.#projectInfo.TITLE;
         ProjectWindow.#projectDescriptionLabel.innerHTML = this.#projectInfo.ABOUT;
         ProjectWindow.#projectCreditsLabel.innerHTML = this.#projectInfo.CREDITS?.join("<br>");
-        info.IMAGES?.forEach(path => {
+        ProjectWindow.#previewImages.innerHTML = "";
+        this.#projectInfo.IMAGES?.forEach(path => {
             ProjectWindow.#previewImages.innerHTML += ProjectWindow.#imageTemplate.replace("{imagePath}", path);
         });
     }
 
     openWindow() {
-        // TODO: Implement open window
+        if (this.#isOpened || this.#inAnimation) return;
+
+        ProjectWindow.#projectSection.style.display = "flex";
+
+        this.#inAnimation = true;
+        setTimeout(() => {
+            this.#inAnimation = false;
+            this.#isOpened = true;
+        }, this.#animationTimeInSeconds * 1000);
     }
 
     closeWindow() {
-        // TODO: Implement close window
+        if (this.#isOpened || this.#inAnimation) return;
+
+        ProjectWindow.#projectSection.style.display = "none";
+
+        this.#inAnimation = true;
+        setTimeout(() => {
+            this.#inAnimation = false;
+            this.#isOpened = false;
+        }, this.#animationTimeInSeconds * 1000);
     }
 
     nextImage() {
