@@ -1,0 +1,89 @@
+/* Container for project */
+.project-box {
+    /* positioning/size */
+    position: fixed;
+    top: 5%;
+    left: 5%;
+    margin: 0.5em;
+    padding: 2em 0.5em 2em 0.5em;
+    width: 85%;
+    height: 80%;
+
+    /* centering dialogue text */
+    display: none;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+
+    /* visual properties */
+    font-family: "Pixelify Sans", sans-serif;
+    color: whitesmoke;
+    background-color: rgb(2, 3, 31);
+    border-style: solid;
+    border-color: whitesmoke;
+    border-width: 20px;
+    border-radius: 25px;
+
+    /* animation properties */
+    animation-duration: 0.5s;
+}
+
+/* Container elements */
+#project-name {
+    font-size: 60px;
+    letter-spacing: 10px;
+}
+
+#preview-carousel {
+
+}
+
+#preview-images {
+
+}
+
+.carousel-button {
+    font-size: 72px;
+}
+
+#project-description {
+
+}
+
+#project-credits {
+
+}
+
+#project-close {
+    /* Size */
+    width: 98%;
+    height: 10%;
+    margin: 0px;
+
+    /* Visuals */
+    background: none;
+    border: none;
+    border-radius: 25px;
+}
+
+#project-close:hover {
+    background-color: rgb(10, 10, 77);
+}
+
+#project-close-label {
+    /* Spacing */
+    margin: 0px;
+    padding: 0px;
+
+    /* Visuals */
+    transform: rotate(90deg);
+    font-family: "Pixelify Sans", sans-serif;
+    font-size: 60px;
+    color: rgb(0, 81, 255);
+
+    /* Animation */
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-duration: 0.33s;
+    animation-name: project-close;
+}
