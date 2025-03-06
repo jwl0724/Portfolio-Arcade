@@ -50,9 +50,49 @@ const SWING = Object.freeze({
     ]
 });
 
+const TOUHOU_AT_HOME = Object.freeze({
+    TITLE: "Touhou at Home",
+    ABOUT: `    Touhou at Home was a project I created to learn the basics of Godot. The game is a simple bullet hell game inspired by the Touhou series, where the player must dodge an endless barrage of bullets to survive.
+
+        The game was created within a week, where I learned the basics of Godot's scene systems, signals, and basic 2D physics. Creating this project was also the first time where I truly felt the importance of good code architecture, as the project quickly became incredibly difficult to extend as the project grew in complexity. Upon reflection, there were many different ways I could have improved the architecture such as using signals or decompose objects some more. Overall, the project was an incredibly learning experience that helped be me more conscioutious of my code architecture.
+    `,
+    IMAGES: [
+        "../images/previews/touhouAtHome/demo.png"
+    ]
+});
+
+const ZOOM_TO_HOME = Object.freeze({
+    TITLE: "Zoom to Home",
+    ABOUT: `    Zoom to Home is the project I am currently working on. The game is 3D first-person platformer, where the player needs to run through a series of obstacles as fast as possible to reach the goal ring and make it home. Currently I have completed the core physics and movement mechanics, as well as the tutorial. The next steps are to create more levels, design a menu, and saving system to record the player's fastest times per level.
+
+        The game was a summer project I worked on during the break from BCIT's CST program. The last project I created, Duck Hunt at Home, I found that the grappling hook mechanic was fun to play with, so I decided to expand on that idea and create a game around it. The game was a great opportunity to implement the fixes to the mistakes I made in Duck Hunt at Home, such as better code architecturing.
+    `,
+    IMAGES: [
+        "../images/previews/zoomToHome/tutorial.png",
+        "../images/previews/zoomToHome/goal.png",
+        "../images/previews/zoomToHome/result.png"
+    ]
+});
+
+const SPIN_THE_BARREL = Object.freeze({
+    TITLE: "Spin the Barrel",
+    ABOUT: `    Spin The Barrel was a term project for one of my courses at BCIT. The game was inspired by "Liar's Bar" where a four players sit at one table and take turns spinning a nerf gun barrel and shooting themselves.
+
+        The game was an opportunity to learn about Godot's multiplayer capabilities, where I learned the basics to creating a multiplayer game. Unfortunately, due to both the fast deadline and our first time working with Godot's multiplayer, the game has significant technical debt that would require a lot of work to refactor. The game likely will not be released, but it was a good learning experience for future multiplayer projects.
+    `,
+    IMAGES: [
+        "../images/previews/spinTheBarrel/ingame.png",
+        "../images/previews/spinTheBarrel/characterSelect.png",
+        "../images/previews/spinTheBarrel/title.png",
+    ]
+});
+
 const Projects = Object.freeze({
     TERRAIN_GENERATOR_SIMULATOR: TERRAIN_GENERATOR_SIMULATOR,
     DUCK_HUNT_AT_HOME: DUCK_HUNT_AT_HOME,
     PAWSITIVE: PAWSITIVE,
-    SWING: SWING
+    SWING: SWING,
+    TOUHOU_AT_HOME: TOUHOU_AT_HOME,
+    ZOOM_TO_HOME: ZOOM_TO_HOME,
+    SPIN_THE_BARREL: SPIN_THE_BARREL
 });
