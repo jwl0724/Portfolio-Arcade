@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" type="image/x-icon" href="/images/favicon.png">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
     <script type="module" src="/script.js" defer></script>
     <link rel="stylesheet" href="css/animation.css">
     <link rel="stylesheet" href="css/dialogue.css">
@@ -13,17 +16,19 @@
 </head>
 <body>
     <!-- Game UI Components -->
-    <div id="project" class="dialogue-box">
+    <div id="project" class="project-box">
         <h1 id="project-name">Project Title Here</h1>
         <div id="preview-carousel">
             <!-- Place Images In This Div -->
             <div id="preview-images"></div>
-            <button id="prev-preview" class="carousel-button">🢐</button>
-            <button id="next-preview" class="carousel-button">🢒</button>
+            <button id="prev-preview" class="carousel-button">‹</button>
+            <button id="next-preview" class="carousel-button">›</button>
         </div>
         <p id="project-description">This is a game I made lel</p>
         <p id="project-credits">Some credits here</p>
-        <button id="project-close">Close</button>
+        <button id="project-close">
+            <p id="project-close-label">»</p>
+        </button>
     </div>
 
     <div id="dialogue-options">
