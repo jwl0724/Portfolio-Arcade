@@ -147,17 +147,29 @@ class ArcadeBuilder {
 
     // Any updates to projects should be isolated to only here
     static async placeProjects(scene, collisionManager) {
-        // TODO: Place more projects later, for now just put one arcade machine and use it as test
         const terrainSimProject = new ArcadeMachine(Projects.TERRAIN_GENERATOR_SIMULATOR,
-            new THREE.Vector3(3, 0, -1.25), 0);
+            new THREE.Vector3(2, 0, -0.5), 0);
         const duckHuntAtHome = new ArcadeMachine(Projects.DUCK_HUNT_AT_HOME,
-            new THREE.Vector3(4, 0, -1.25), 0);
+            new THREE.Vector3(3.1, 0, -0.5), 0);
         const PAWsitive = new ArcadeMachine(Projects.PAWSITIVE,
-            new THREE.Vector3(5, 0, -1.25), 0);
+            new THREE.Vector3(4.2, 0, -0.5), 0);
+        const swing = new ArcadeMachine(Projects.SWING,
+            new THREE.Vector3(5.3, 0, -0.5), 0);
+        const touhouAtHome = new ArcadeMachine(Projects.TOUHOU_AT_HOME,
+            new THREE.Vector3(6.4, 0, -0.5), 0);
+        const zoomToHome = new ArcadeMachine(Projects.ZOOM_TO_HOME,
+            new THREE.Vector3(2.5, 0, -2), 0);
+        const spinTheBarrel = new ArcadeMachine(Projects.SPIN_THE_BARREL,
+            new THREE.Vector3(6.4, 0, -2), 0);
 
+        // Put arcade machine onto scene
         terrainSimProject.spawn(scene, collisionManager);
         duckHuntAtHome.spawn(scene, collisionManager);
         PAWsitive.spawn(scene, collisionManager);
+        swing.spawn(scene, collisionManager);
+        touhouAtHome.spawn(scene, collisionManager);
+        zoomToHome.spawn(scene, collisionManager);
+        spinTheBarrel.spawn(scene, collisionManager);
     }
 
     static async buildPlayer(scene, animationMixers, inputManager) {
