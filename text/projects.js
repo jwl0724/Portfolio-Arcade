@@ -38,8 +38,21 @@ const PAWSITIVE = Object.freeze({
     ]
 });
 
+const SWING = Object.freeze({
+    TITLE: "Swing",
+    ABOUT: `    Swing was the first game project I've ever made when I was starting my programming journey. The game is a simple endless runner inspired by flappy bird. I created this project for the final assignment of the CS50x course on edX, where I dedicated a week to create this project.
+
+        Swing was made with the PyGames library, as Python was the first language I was using at the time. The game helped me learn basic concepts such as game loops, collision detection, and basic physics. Nowadays I am capable of producing games like this in less than a day and I am reminded how far I have come since then.
+    `,
+    IMAGES: [
+        "../images/previews/swing/ingame.gif",
+        "../images/previews/swing/title.PNG"
+    ]
+});
+
 const Projects = Object.freeze({
     TERRAIN_GENERATOR_SIMULATOR: TERRAIN_GENERATOR_SIMULATOR,
     DUCK_HUNT_AT_HOME: DUCK_HUNT_AT_HOME,
-    PAWSITIVE: PAWSITIVE
+    PAWSITIVE: PAWSITIVE,
+    SWING: SWING
 });
