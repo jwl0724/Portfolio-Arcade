@@ -7,12 +7,11 @@ class ProjectWindow {
     // Static properties, on the HTML page
     static #projectTitleLabel = document.getElementById("project-name");
     static #projectDescriptionLabel = document.getElementById("project-description");
-    static #projectCreditsLabel = document.getElementById("project-credits");
-    static #previewImages = document.getElementById("preview-images");
+    static #previewImage = document.getElementById("preview-images");
     static #projectSection = document.getElementById("project");
-
-    // HTML Templates
-    static #imageTemplate = `<img src="{imagePath}" alt="Project Preview" class="preview-image">`;
+    static #previewSection = document.getElementById("preview-carousel")
+    static #nextImageButton = document.getElementById("next-preview");
+    static #prevImageButton = document.getElementById("prev-preview");
 
     // Components
     static #isOpened = false;
@@ -56,11 +55,29 @@ class ProjectWindow {
     #populateWindow() {
         ProjectWindow.#projectTitleLabel.innerHTML = this.#projectInfo.TITLE;
         ProjectWindow.#projectDescriptionLabel.innerHTML = this.#projectInfo.ABOUT;
-        ProjectWindow.#projectCreditsLabel.innerHTML = this.#projectInfo.CREDITS?.join("<br>");
-        ProjectWindow.#previewImages.innerHTML = "";
-        this.#projectInfo.IMAGES?.forEach(path => {
-            ProjectWindow.#previewImages.innerHTML += ProjectWindow.#imageTemplate.replace("{imagePath}", path);
-        });
+
+        // If the project doesn't have pictures associated with it
+        if (!this.#projectInfo.IMAGES || this.#projectInfo.IMAGES?.length < 1) {
+            ProjectWindow.#previewSection.display = "none";
+            return;
+        }
+        // If the project does have pictures associated with it
+        ProjectWindow.#previewSection.style.display = "block";
+        ProjectWindow.#previewImage.src = this.#projectInfo.IMAGES[this.#imageIndex];
+
+        // If more than one picture
+        if (this.#projectInfo.IMAGES.length > 1) {
+            const next = ProjectWindow.#nextImageButton, prev = ProjectWindow.#prevImageButton;
+                next.style.display = "block";
+                next.onclick = () => this.#nextImage();
+                prev.style.display = "block";
+                prev.onclick = () => this.#prevImage();
+
+        } else {
+            // If only one picture hide the carousel buttons
+            ProjectWindow.#nextImageButton.style.display = "none";
+            ProjectWindow.#prevImageButton.style.display = "none";
+        }
     }
 
     static #openWindow() {
@@ -88,12 +105,14 @@ class ProjectWindow {
     }
 
     #nextImage() {
-        if (this.#imageIndex === this.#projectInfo.IMAGES?.length) this.#imageIndex = 0;
+        if (this.#imageIndex === this.#projectInfo.IMAGES?.length - 1) this.#imageIndex = 0;
         else this.#imageIndex++;
+        ProjectWindow.#previewImage.src = this.#projectInfo.IMAGES[this.#imageIndex];
     }
 
     #prevImage() {
         if (this.#imageIndex === 0) this.#imageIndex = this.#projectInfo.IMAGES?.length - 1;
         else this.#imageIndex--;
+        ProjectWindow.#previewImage.src = this.#projectInfo.IMAGES[this.#imageIndex];
     }
 }
