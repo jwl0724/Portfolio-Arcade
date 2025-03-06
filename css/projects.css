@@ -35,23 +35,52 @@
 }
 
 #preview-carousel {
-
+    position: relative;
+    width: 50%;
+    height: 50%;
 }
 
 #preview-images {
-
+    width: 100%;
+    height: 100%;
+    border-style: solid;
+    border-radius: 10px;
+    border-width: 2px;
+    object-fit: contain;
 }
 
 .carousel-button {
+    /* Positioning */
+    position: absolute;
+
+    /* Visuals */
     font-size: 72px;
+    font-family: "Pixelify Sans", sans-serif;
+    color: rgb(221, 221, 221);
+    background: none;
+    border: none;
+
+    /* Animation */
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-duration: 0.33s;
+}
+
+.left {
+    top: 40%;
+    left: 2%;
+}
+
+.right {
+    top: 40%;
+    right: 2%;
 }
 
 #project-description {
-
-}
-
-#project-credits {
-
+    margin-left: 1em;
+    margin-right: 1em;
+    text-align: justify;
+    font-size: 18px;
 }
 
 #project-close {
