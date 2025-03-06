@@ -32,12 +32,15 @@
 #project-name {
     font-size: 60px;
     letter-spacing: 10px;
+    margin: 0;
+    margin-bottom: 0.25em;
 }
 
 #preview-carousel {
     position: relative;
     width: 50%;
     height: 50%;
+    margin-bottom: 0.25em;
 }
 
 #preview-images {
@@ -81,6 +84,7 @@
     margin-right: 1em;
     text-align: justify;
     font-size: 18px;
+    white-space: pre-wrap;
 }
 
 #project-close {
