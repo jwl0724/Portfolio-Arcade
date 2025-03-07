@@ -103,7 +103,7 @@ class ProjectWindow {
             ProjectWindow.#projectSection.style.display = "none";
             this.#inAnimation = false;
             this.#isOpened = false;
-        }, this.#animationTimeInSeconds * 1000);
+        }, (this.#animationTimeInSeconds - 0.1) * 1000);
     }
 
     #nextImage() {
