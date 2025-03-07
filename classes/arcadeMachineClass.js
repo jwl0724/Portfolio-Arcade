@@ -35,7 +35,7 @@ class ArcadeMachine {
     // Running variables
     #hoverBaselineY;
     #ready = false;
-    #theta = 0;
+    #theta;
 
 
     // Helper methods to check if player interacted
@@ -69,6 +69,7 @@ class ArcadeMachine {
         this.#position = position;
         this.#rotation = rotation;
         this.#projectWindow = new ProjectWindow(projectInfo);
+        this.#theta = Math.random() * Math.PI * 2;
     }
 
 
