@@ -84,6 +84,7 @@ class ProjectWindow {
         if (this.#isOpened || this.#inAnimation) return;
 
         ProjectWindow.#projectSection.style.display = "flex";
+        ProjectWindow.#projectSection.style.animationName = "project-show";
 
         this.#inAnimation = true;
         setTimeout(() => {
@@ -95,10 +96,11 @@ class ProjectWindow {
     static #closeWindow() {
         if (!this.#isOpened || this.#inAnimation) return;
 
-        ProjectWindow.#projectSection.style.display = "none";
+        ProjectWindow.#projectSection.style.animationName = "project-hide";
 
         this.#inAnimation = true;
         setTimeout(() => {
+            ProjectWindow.#projectSection.style.display = "none";
             this.#inAnimation = false;
             this.#isOpened = false;
         }, this.#animationTimeInSeconds * 1000);

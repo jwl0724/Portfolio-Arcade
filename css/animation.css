@@ -8,6 +8,16 @@
     to {top: 125%}
 }
 
+@keyframes project-show {
+    from { transform: scale(0) }
+    to { transform: scale(1) }
+}
+
+@keyframes project-hide {
+    from { transform: scale(1) }
+    to { transform: scale(0) }
+}
+
 @keyframes clerk-show {
     from {top: 125%}
     to {top:58%}
