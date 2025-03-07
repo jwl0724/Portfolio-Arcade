@@ -3,6 +3,8 @@ import { ModelPaths } from "../modelPaths";
 import { ModelTemplate } from "./modelTemplateClass";
 import { Player } from "./playerClass";
 import { Clerk } from "./clerkClass";
+import { ArcadeMachine } from "./arcadeMachineClass";
+import { Projects } from "../text/projects";
 
 export { ArcadeBuilder };
 
@@ -87,7 +89,6 @@ class ArcadeBuilder {
         const wheelTemplate = new ModelTemplate(ModelPaths.PRIZE_WHEEL);
         const ticketTemplate = new ModelTemplate(ModelPaths.TICKET_MACHINE);
         const clawTemplate = new ModelTemplate(ModelPaths.CLAW_MACHINE);
-        const arcadeTemplate = new ModelTemplate(ModelPaths.ARCADE_MACHINE);
 
         await hockeyTemplate.loadTemplate();
         await basketballTemplate.loadTemplate();
@@ -100,9 +101,6 @@ class ArcadeBuilder {
         await wheelTemplate.loadTemplate();
         await ticketTemplate.loadTemplate();
         await clawTemplate.loadTemplate();
-        await arcadeTemplate.loadTemplate();
-
-        // Add track bounding boxes
 
         // Place items with no animations
         hockeyTemplate.place(scene, new THREE.Vector3(3, 0, -3.25));
@@ -124,12 +122,6 @@ class ArcadeBuilder {
         ticketTemplate.place(scene, new THREE.Vector3(5.55, 0, -4.35), 90, animationMixers);
         clawTemplate.place(scene, new THREE.Vector3(1, 0, -3.25), 90, animationMixers);
 
-        // TODO: See what projects to showcase, just populate randomly for now
-        for(let i = 0; i < 6; i++) {
-            arcadeTemplate.place(scene, new THREE.Vector3(i * 0.7 + 2.2, 0, -1), i * 2 - 5);
-            arcadeTemplate.place(scene, new THREE.Vector3(i * 0.7 + 2.2, 0, -1.7), i * 2 - 185);
-        }
-
         // Add hitboxes to collision manager
         wallTemplate.getBoundingBoxes().forEach(hitbox => collisionManager.addEnvironmentHitbox(hitbox));
         cornerTemplate.getBoundingBoxes().forEach(hitbox => collisionManager.addEnvironmentHitbox(hitbox));
@@ -147,11 +139,37 @@ class ArcadeBuilder {
         wheelTemplate.getBoundingBoxes().forEach(hitbox => collisionManager.addEnvironmentHitbox(hitbox));
         ticketTemplate.getBoundingBoxes().forEach(hitbox => collisionManager.addEnvironmentHitbox(hitbox));
         clawTemplate.getBoundingBoxes().forEach(hitbox => collisionManager.addEnvironmentHitbox(hitbox));
-        arcadeTemplate.getBoundingBoxes().forEach(hitbox => collisionManager.addEnvironmentHitbox(hitbox));
 
         // Add boundary wall at bottom of arcade
         const bottomBounds = new THREE.Box3(new THREE.Vector3(0, 0, 0.4), new THREE.Vector3(9, 5, 2));
         collisionManager.addEnvironmentHitbox(bottomBounds);
+    }
+
+    // Any updates to projects should be isolated to only here
+    static async placeProjects(scene, collisionManager) {
+        const terrainSimProject = new ArcadeMachine(Projects.TERRAIN_GENERATOR_SIMULATOR,
+            new THREE.Vector3(2, 0, -0.5), 5);
+        const duckHuntAtHome = new ArcadeMachine(Projects.DUCK_HUNT_AT_HOME,
+            new THREE.Vector3(2.8, 0, -0.5), -4);
+        const PAWsitive = new ArcadeMachine(Projects.PAWSITIVE,
+            new THREE.Vector3(4.2, 0, -0.5), 10);
+        const swing = new ArcadeMachine(Projects.SWING,
+            new THREE.Vector3(5, 0, -0.5), -8);
+        const touhouAtHome = new ArcadeMachine(Projects.TOUHOU_AT_HOME,
+            new THREE.Vector3(6.4, 0, -0.5), -9);
+        const zoomToHome = new ArcadeMachine(Projects.ZOOM_TO_HOME,
+            new THREE.Vector3(1.8, 0, -2), 5);
+        const spinTheBarrel = new ArcadeMachine(Projects.SPIN_THE_BARREL,
+            new THREE.Vector3(2.6, 0, -2), -5);
+
+        // Put arcade machine onto scene
+        terrainSimProject.spawn(scene, collisionManager);
+        duckHuntAtHome.spawn(scene, collisionManager);
+        PAWsitive.spawn(scene, collisionManager);
+        swing.spawn(scene, collisionManager);
+        touhouAtHome.spawn(scene, collisionManager);
+        zoomToHome.spawn(scene, collisionManager);
+        spinTheBarrel.spawn(scene, collisionManager);
     }
 
     static async buildPlayer(scene, animationMixers, inputManager) {

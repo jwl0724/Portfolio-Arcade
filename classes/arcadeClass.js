@@ -5,6 +5,8 @@ import { ArcadeBuilder } from "./arcadeBuilderClass";
 import { CollisionManager } from "./collisionManagerClass";
 import { DialogueManager } from "./dialogueManagerClass";
 import { InputManager } from "./inputManagerClass";
+import { ProjectWindow } from "./projectWindowClass";
+import { ArcadeMachine } from "./arcadeMachineClass";
 
 export { Arcade, debug };
 
@@ -36,13 +38,13 @@ class Arcade {
         this.#cameraManager = new CameraManager(75, window.innerWidth / window.innerHeight, 0.1, 300);
         this.#inputManager = new InputManager(this);
         this.#animationMixers = new Array();
-        
+
         // Setup scene properties
         this.#arcadeScene.add(new THREE.AmbientLight(0xffffe6, 2)); // Slight yellow light
         this.#renderer = new THREE.WebGLRenderer({ antialias: true });
         this.#renderer.setSize(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.#renderer.domElement);
-        
+
         // Set the processes
         this.#collisionManager = new CollisionManager();
         this.#processManager = new ProcessManager(this.#renderer, () => this.#renderer.render(this.#arcadeScene, this.#cameraManager.getCamera()));
@@ -61,7 +63,9 @@ class Arcade {
     }
 
     async instantiateArcade() {
+        ArcadeMachine.setArcadeReference(this); // Needed for middle man to notify project closing
         await ArcadeBuilder.buildArcade(this.#arcadeScene, this.#collisionManager, this.#animationMixers);
+        await ArcadeBuilder.placeProjects(this.#arcadeScene, this.#collisionManager);
     }
 
     async instantiatePlayer() {
@@ -76,6 +80,7 @@ class Arcade {
         // Start collision system once player is instantiated
         this.#collisionManager.addPlayerClass(this.#player);
         this.#processManager.addProcess((delta) => this.#collisionManager.collisionProcess(delta));
+        this.#processManager.addProcess((delta) => ArcadeMachine.ArcadeMachinesPromptProcess(delta, this.#player));
     }
 
     async instantiateClerk() {
@@ -92,12 +97,18 @@ class Arcade {
             if (this.#dialogueManager.isInDialogue()) this.#dialogueManager.nextDialogue();
             return;
         }
-
-        // Handle press when in dialogue
+        // Dialogue Handlers
+        // Press interact during dialogue
         if (this.#dialogueManager.isInDialogue()) this.#dialogueManager.nextDialogue();
-
         // Handle interact within range of clerk
         else if (this.#clerk.validInteract(this.#player)) this.enterDialogue();
+
+        // Arcade Machine Handlers
+        // Handle press when in project window is open
+        const interactedMachine = ArcadeMachine.findInteractedMachine(this.#player);
+        if (ArcadeMachine.isInteracting()) return;
+        // Check if player is next to machine
+        else if (interactedMachine) this.openProject(interactedMachine);
     }
 
     enterDialogue() {
@@ -112,5 +123,14 @@ class Arcade {
         this.#dialogueManager.exitDialogue();
         this.#cameraManager.exitDialogueCamera(this.#player.getModel());
         this.#inputManager.pauseInput(false);
+    }
+
+    pauseInput(paused) {
+        this.#inputManager.pauseInput(paused);
+    }
+
+    // Close project is handled by the arcade machine itself and it's project window
+    openProject(machine) {
+        machine.openProject(this, this.#player);
     }
 }
