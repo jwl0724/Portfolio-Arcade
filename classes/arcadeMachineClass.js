@@ -3,6 +3,7 @@ import { ModelPaths } from "../modelPaths";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import { ProjectWindow } from "./projectWindowClass";
 import { debug } from "./arcadeClass";
+import { ShapeDrawer } from "./shapeDrawerClass";
 
 export { ArcadeMachine };
 
@@ -23,8 +24,16 @@ class ArcadeMachine {
     #hitbox;
     #interactBox;
 
+    // Components
+    #dotPrompt;
+    #exclaimPrompt;
+
     // Running variables
+    #hoverOffset = 0.025;
     #ready = false;
+    #theta = 0;
+    #hoverBaselineY;
+
 
     // Helper methods to check if player interacted
     static findInteractedMachine(player) {
@@ -33,6 +42,10 @@ class ArcadeMachine {
                 return ArcadeMachine.#allMachines[i];
         }
         return null;
+    }
+
+    static ArcadeMachinesPromptProcess(delta, player) {
+        ArcadeMachine.#allMachines.forEach(machine => machine.process(delta, player));
     }
 
     static notifyWindowClosed() {
@@ -87,6 +100,24 @@ class ArcadeMachine {
         collisionManager.addEnvironmentHitbox(this.#hitbox);
         ArcadeMachine.#allMachines.push(this);
         this.#ready = true;
+
+        // Add prompts visuals to scene
+        this.#hoverBaselineY = this.#position.y + 0.85;
+        this.#dotPrompt = ShapeDrawer.createDotPromptMesh();
+        this.#dotPrompt.position.set(
+            this.#position.x - ShapeDrawer.projectPromptWidth / 2,
+            this.#hoverBaselineY,
+            this.#position.z - ShapeDrawer.projectPromptWidth / 10
+        );
+        arcadeScene.add(this.#dotPrompt);
+
+        this.#exclaimPrompt = ShapeDrawer.createExclaimPromptMesh();
+        this.#exclaimPrompt.position.set(
+            this.#position.x - ShapeDrawer.projectInteractWidth / 2,
+            this.#hoverBaselineY,
+            this.#position.z - ShapeDrawer.projectInteractWidth / 10
+        );
+        arcadeScene.add(this.#exclaimPrompt);
     }
 
     inRange(player) {
@@ -100,5 +131,35 @@ class ArcadeMachine {
         arcadeClass.pauseInput(true);
         ArcadeMachine.#isInteracting = true;
         this.#projectWindow.openProject();
+    }
+
+    process(delta, player) {
+        this.#checkInRange(player);
+        this.#hoverEffect(delta);
+    }
+
+    #hoverEffect(delta) {
+        this.#dotPrompt.position.y = this.#hoverOffset * Math.sin(this.#theta * 4) + this.#hoverBaselineY;
+        this.#exclaimPrompt.position.y = this.#hoverOffset * Math.sin(this.#theta * 4) + this.#hoverBaselineY;
+
+        // Reset theta if full cycle
+        if (this.#theta > Math.PI * 2) this.#theta = 0;
+        else this.#theta += delta;
+    }
+
+    #checkInRange(player) {
+        // Check if player is in interact range
+        if (ProjectWindow.isOpen()) {
+            this.#exclaimPrompt.visible = false;
+            this.#dotPrompt.visible = false;
+
+        } else if (this.inRange(player)) {
+            this.#exclaimPrompt.visible = true;
+            this.#dotPrompt.visible = false;
+
+        } else {
+            this.#exclaimPrompt.visible = false;
+            this.#dotPrompt.visible = true;
+        }
     }
 }
