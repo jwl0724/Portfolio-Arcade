@@ -106,6 +106,7 @@ class ArcadeMachine {
 
         // Add prompts visuals to scene
         this.#hoverBaselineY = this.#position.y + 0.85;
+        this.#hoverBaselineY = this.#position.y + Math.random() * 0.05 + 0.8;
         this.#dotPrompt = ShapeDrawer.createDotPromptMesh();
         this.#dotPrompt.position.set(
             this.#position.x - ShapeDrawer.projectPromptWidth / 2,
@@ -150,11 +151,7 @@ class ArcadeMachine {
 
     #checkInRange(player) {
         // Check if player is in interact range
-        if (ProjectWindow.isOpen()) {
-            this.#exclaimPrompt.visible = false;
-            this.#dotPrompt.visible = false;
-
-        } else if (this.inRange(player)) {
+        if (this.#interactBox.containsPoint(player.getModel().position)) {
             this.#exclaimPrompt.visible = true;
             this.#dotPrompt.visible = false;
 
