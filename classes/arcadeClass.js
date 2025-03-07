@@ -80,6 +80,7 @@ class Arcade {
         // Start collision system once player is instantiated
         this.#collisionManager.addPlayerClass(this.#player);
         this.#processManager.addProcess((delta) => this.#collisionManager.collisionProcess(delta));
+        this.#processManager.addProcess((delta) => ArcadeMachine.ArcadeMachinesPromptProcess(delta, this.#player));
     }
 
     async instantiateClerk() {
