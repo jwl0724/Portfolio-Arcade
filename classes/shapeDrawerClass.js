@@ -131,19 +131,16 @@ class ShapeDrawer {
         return new THREE.Mesh(geometry, material);
     }
 
-    // TODO: Implement drawing a exlaimation mark instead of copy pasted code
     static createExclaimPromptMesh() {
-        // Chat box size parameters
         const radius = 0.05;
-
-        const exclaimDot = new THREE.SphereGeometry(radius, 16, 8);
-        const exclaimLine = new THREE.BoxGeometry(this.projectInteractWidth, this.projectInteractHeight, this.projectInteractWidth);
+        const exclaimDot = new THREE.SphereGeometry(radius, 8, 4);
         const exclaimMaterial = new THREE.MeshBasicMaterial({ color: 0xffd300 });
+        const exclaimLine = new THREE.BoxGeometry(this.projectInteractWidth, this.projectInteractHeight, this.projectInteractWidth);
 
         const exclaimDotMesh = new THREE.Mesh(exclaimDot, exclaimMaterial);
         const exclaimLineMesh = new THREE.Mesh(exclaimLine, exclaimMaterial);
-        exclaimLineMesh.position.set(0, radius * 5, 0);
 
+        exclaimLineMesh.position.set(0, radius * 5, 0);
         exclaimDotMesh.add(exclaimLineMesh); // Add line to child and return as one grouped mesh
         return exclaimDotMesh;
     }
