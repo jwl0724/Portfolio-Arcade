@@ -10,7 +10,7 @@ class ShapeDrawer {
 
     static projectPromptWidth = 0.1;
     static projectPromptHeight = 0.1;
-    static projectInteractWidth = 0.3;
+    static projectInteractWidth = 0.06;
     static projectInteractHeight = 0.3;
 
     static createChatPromptMesh(textureMap = null) {
@@ -106,7 +106,7 @@ class ShapeDrawer {
         // Chat box size parameters
         const radius = 0.05;
 
-        // Draw chatbox plane
+        // Draw dot
         const shape = new THREE.Shape();
 
         // Top left rounded corner
@@ -134,30 +134,17 @@ class ShapeDrawer {
     // TODO: Implement drawing a exlaimation mark instead of copy pasted code
     static createExclaimPromptMesh() {
         // Chat box size parameters
-        const radius = 0.075;
+        const radius = 0.05;
 
-        // Draw chatbox plane
-        const shape = new THREE.Shape();
+        const exclaimDot = new THREE.SphereGeometry(radius, 16, 8);
+        const exclaimLine = new THREE.BoxGeometry(this.projectInteractWidth, this.projectInteractHeight, this.projectInteractWidth);
+        const exclaimMaterial = new THREE.MeshBasicMaterial({ color: 0xffd300 });
 
-        // Top left rounded corner
-        shape.lineTo(0, this.interactPromptHeight - radius);
-        shape.quadraticCurveTo(0, this.interactPromptHeight, radius, this.interactPromptHeight);
+        const exclaimDotMesh = new THREE.Mesh(exclaimDot, exclaimMaterial);
+        const exclaimLineMesh = new THREE.Mesh(exclaimLine, exclaimMaterial);
+        exclaimLineMesh.position.set(0, radius * 5, 0);
 
-        // Top right rounded corner
-        shape.lineTo(this.interactPromptWidth - radius, this.interactPromptHeight);
-        shape.quadraticCurveTo(this.interactPromptWidth, this.interactPromptHeight, this.interactPromptWidth, this.interactPromptHeight - radius);
-
-        // Bottom right rounded corner
-        shape.lineTo(this.interactPromptWidth, radius);
-        shape.quadraticCurveTo(this.interactPromptWidth, 0, this.interactPromptWidth - radius, 0);
-
-        // Bottom left rounded corner
-        shape.lineTo(radius, 0);
-        shape.quadraticCurveTo(0, 0, 0, radius);
-
-        // Create the plane mesh
-        const geometry = new THREE.ShapeGeometry( shape );
-        const material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.FrontSide });
-        return new THREE.Mesh(geometry, material);
+        exclaimDotMesh.add(exclaimLineMesh); // Add line to child and return as one grouped mesh
+        return exclaimDotMesh;
     }
 }
