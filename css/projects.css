@@ -67,16 +67,35 @@
     animation-iteration-count: infinite;
     animation-direction: alternate;
     animation-duration: 0.33s;
+    transition: transform 0.2s ease-in-out;
 }
 
 .left {
     top: 40%;
     left: 2%;
+    animation-name: preview-left;
 }
 
 .right {
     top: 40%;
     right: 2%;
+    animation-name: preview-right;
+}
+
+.left:hover {
+    color: rgb(255, 255, 255);
+    animation-name: preview-left-hover;
+}
+
+.right:hover {
+    color: rgb(255, 255, 255);
+    animation-name: preview-right-hover;
+}
+
+.carousel-button:active {
+    color: rgb(144, 166, 212);
+    transform: scale(0.75);
+    animation-name: none;
 }
 
 #project-description {
@@ -107,8 +126,10 @@
     /* Spacing */
     margin: 0px;
     padding: 0px;
+    height: 0%;
 
     /* Visuals */
+    position: relative;
     transform: rotate(90deg);
     font-family: "Pixelify Sans", sans-serif;
     font-size: 60px;

@@ -32,3 +32,28 @@
     from {left: 5%}
     to {left: -50%}
 }
+
+@keyframes project-close {
+    from {top: 10%}
+    to {top: -10%}
+}
+
+@keyframes preview-left {
+    from { left: 2% }
+    to { left: 1% }
+}
+
+@keyframes preview-right {
+    from { right: 2% }
+    to { right: 1% }
+}
+
+@keyframes preview-left-hover {
+    from { left: 2% }
+    to { left: 0% }
+}
+
+@keyframes preview-right-hover {
+    from { right: 2% }
+    to { right: 0% }
+}
