@@ -53,6 +53,9 @@
 }
 
 .carousel-button {
+    /* Functionality */
+    user-select: none;
+
     /* Positioning */
     position: absolute;
 
@@ -123,6 +126,9 @@
 }
 
 #project-close-label {
+    /* Functionality */
+    user-select: none;
+
     /* Spacing */
     margin: 0px;
     padding: 0px;
