@@ -28,11 +28,14 @@ class ArcadeMachine {
     #dotPrompt;
     #exclaimPrompt;
 
-    // Running variables
+    // Constants
     #hoverOffset = 0.025;
+    #spinSpeed = 0.5;
+
+    // Running variables
+    #hoverBaselineY;
     #ready = false;
     #theta = 0;
-    #hoverBaselineY;
 
 
     // Helper methods to check if player interacted
@@ -86,7 +89,6 @@ class ArcadeMachine {
         arcadeScene.add(this.#scene);
 
         // Create interact zone
-        // TODO: May need to re-factor to use a point in front of player, instead of middle point of where player is
         this.#interactBox = new THREE.Box3(
             new THREE.Vector3(this.#position.x - 0.45, this.#position.y - 1, this.#position.z - 0.3),
             new THREE.Vector3(this.#position.x + 0.45, this.#position.y + 1, this.#position.z + 0.6)
@@ -112,11 +114,8 @@ class ArcadeMachine {
         arcadeScene.add(this.#dotPrompt);
 
         this.#exclaimPrompt = ShapeDrawer.createExclaimPromptMesh();
-        this.#exclaimPrompt.position.set(
-            this.#position.x - ShapeDrawer.projectInteractWidth / 2,
-            this.#hoverBaselineY,
-            this.#position.z - ShapeDrawer.projectInteractWidth / 10
-        );
+        // Exclamation mark is a 3D model, so no need to offset
+        this.#exclaimPrompt.position.set(this.#position.x, this.#hoverBaselineY, this.#position.z);
         arcadeScene.add(this.#exclaimPrompt);
     }
 
@@ -135,12 +134,13 @@ class ArcadeMachine {
 
     process(delta, player) {
         this.#checkInRange(player);
-        this.#hoverEffect(delta);
+        this.#hoverAndSpingEffect(delta);
     }
 
-    #hoverEffect(delta) {
+    #hoverAndSpingEffect(delta) {
         this.#dotPrompt.position.y = this.#hoverOffset * Math.sin(this.#theta * 4) + this.#hoverBaselineY;
         this.#exclaimPrompt.position.y = this.#hoverOffset * Math.sin(this.#theta * 4) + this.#hoverBaselineY;
+        this.#exclaimPrompt.rotation.y = this.#theta * this.#spinSpeed;
 
         // Reset theta if full cycle
         if (this.#theta > Math.PI * 2) this.#theta = 0;
