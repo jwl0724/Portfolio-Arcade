@@ -8,6 +8,11 @@ class ShapeDrawer {
     static interactPromptWidth = this.chatPromptWidth / 3;
     static interactPromptHeight = this.chatPromptHeight / 2;
 
+    static projectPromptWidth = 0.1;
+    static projectPromptHeight = 0.1;
+    static projectInteractWidth = 0.3;
+    static projectInteractHeight = 0.3;
+
     static createChatPromptMesh(textureMap = null) {
         // Chat box size parameters
         const radius = 0.1;
@@ -31,7 +36,7 @@ class ShapeDrawer {
         shape.lineTo(this.chatPromptWidth / 2 + radius / 1.5, 0);
         shape.lineTo(this.chatPromptWidth / 2, -this.chatPromptHeight / 3);
         shape.lineTo(this.chatPromptWidth / 2 - radius / 1.5, 0);
-        
+
         // Bottom left rounded corner
         shape.lineTo(radius, 0);
         shape.quadraticCurveTo(0, 0, 0, radius);
@@ -62,7 +67,7 @@ class ShapeDrawer {
         // Bottom right rounded corner
         shape.lineTo(this.interactPromptWidth, radius);
         shape.quadraticCurveTo(this.interactPromptWidth, 0, this.interactPromptWidth - radius, 0);
-        
+
         // Bottom left rounded corner
         shape.lineTo(radius, 0);
         shape.quadraticCurveTo(0, 0, 0, radius);
@@ -71,7 +76,7 @@ class ShapeDrawer {
         const geometry = new THREE.ShapeGeometry( shape );
         const material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.FrontSide });
         return new THREE.Mesh(geometry, material);
-    } 
+    }
 
     static createEllipsisTexture() {
         // Create texture
@@ -95,5 +100,64 @@ class ShapeDrawer {
         textContext.fillText("...", canvas.width / 2, canvas.height / 2);
 
         return textTexture;
+    }
+
+    static createDotPromptMesh() {
+        // Chat box size parameters
+        const radius = 0.05;
+
+        // Draw chatbox plane
+        const shape = new THREE.Shape();
+
+        // Top left rounded corner
+        shape.lineTo(0, this.projectPromptHeight - radius);
+        shape.quadraticCurveTo(0, this.projectPromptHeight, radius, this.projectPromptHeight);
+
+        // Top right rounded corner
+        shape.lineTo(this.projectPromptWidth - radius, this.projectPromptHeight);
+        shape.quadraticCurveTo(this.projectPromptWidth, this.projectPromptHeight, this.projectPromptWidth, this.projectPromptHeight - radius);
+
+        // Bottom right rounded corner
+        shape.lineTo(this.projectPromptWidth, radius);
+        shape.quadraticCurveTo(this.projectPromptWidth, 0, this.projectPromptWidth - radius, 0);
+
+        // Bottom left rounded corner
+        shape.lineTo(radius, 0);
+        shape.quadraticCurveTo(0, 0, 0, radius);
+
+        // Create the plane mesh
+        const geometry = new THREE.ShapeGeometry( shape );
+        const material = new THREE.MeshBasicMaterial({ color: 0xffd300, side: THREE.FrontSide });
+        return new THREE.Mesh(geometry, material);
+    }
+
+    // TODO: Implement drawing a exlaimation mark instead of copy pasted code
+    static createExclaimPromptMesh() {
+        // Chat box size parameters
+        const radius = 0.075;
+
+        // Draw chatbox plane
+        const shape = new THREE.Shape();
+
+        // Top left rounded corner
+        shape.lineTo(0, this.interactPromptHeight - radius);
+        shape.quadraticCurveTo(0, this.interactPromptHeight, radius, this.interactPromptHeight);
+
+        // Top right rounded corner
+        shape.lineTo(this.interactPromptWidth - radius, this.interactPromptHeight);
+        shape.quadraticCurveTo(this.interactPromptWidth, this.interactPromptHeight, this.interactPromptWidth, this.interactPromptHeight - radius);
+
+        // Bottom right rounded corner
+        shape.lineTo(this.interactPromptWidth, radius);
+        shape.quadraticCurveTo(this.interactPromptWidth, 0, this.interactPromptWidth - radius, 0);
+
+        // Bottom left rounded corner
+        shape.lineTo(radius, 0);
+        shape.quadraticCurveTo(0, 0, 0, radius);
+
+        // Create the plane mesh
+        const geometry = new THREE.ShapeGeometry( shape );
+        const material = new THREE.MeshBasicMaterial({ color: 0xffffff, side: THREE.FrontSide });
+        return new THREE.Mesh(geometry, material);
     }
 }
