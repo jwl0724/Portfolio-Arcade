@@ -1,9 +1,9 @@
 import * as THREE from "three";
-import { ModelPaths } from "../modelPaths";
+import { ModelPaths } from "../../modelPaths";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
-import { ProjectWindow } from "./projectWindowClass";
-import { debug } from "./arcadeClass";
-import { ShapeDrawer } from "./shapeDrawerClass";
+import { ProjectWindow } from "../visuals/projectWindowClass";
+import { debug } from "../arcadeClass";
+import { ShapeDrawer } from "../utils/shapeDrawerClass";
 
 export { ArcadeMachine };
 
