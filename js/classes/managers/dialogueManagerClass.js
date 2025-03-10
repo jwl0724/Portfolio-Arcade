@@ -1,7 +1,6 @@
-import { rand } from "three/tsl";
-import { Dialogue } from "../text/dialogue";
-import { CharacterModel } from "./characterModelClass";
-import { DialogueVisualsManager } from "./dialogueVisualsManagerClass";
+import { Dialogue } from "../../../text/dialogue";
+import { CharacterModel } from "../model_wrappers/characterModelClass";
+import { DialogueVisualsManager } from "../visuals/dialogueVisualsManagerClass";
 
 export { DialogueManager };
 
@@ -9,7 +8,7 @@ class DialogueManager {
 
     // Components
     #dialogueVisuals;
-    
+
     // Scenes
     #arcade;
     #playerScene;
@@ -29,7 +28,7 @@ class DialogueManager {
         PROJECTS: 4,
         CLOSE: 5,
         REPEAT: 6
-    }); 
+    });
 
     // Dialogue tree options
     static #introTree = new Array(
@@ -69,7 +68,7 @@ class DialogueManager {
         CharacterModel.ANIMATION_NAMES.EMOTE_NO,
         CharacterModel.ANIMATION_NAMES.PICKUP,
     );
-    
+
     constructor(arcade) {
         this.#arcade = arcade;
         this.#dialogueVisuals = new DialogueVisualsManager(this);
@@ -111,7 +110,7 @@ class DialogueManager {
         this.nextDialogue();
         this.#dialogueVisuals.openDialogueBox();
     }
-    
+
     exitDialogue() {
         this.#dialogueIndex = 0;
         this.#inDialogue = false;
@@ -174,7 +173,7 @@ class DialogueManager {
             const randomIndex = Math.floor(Math.random() * DialogueManager.#dialogueAnimations.length);
             this.#clerkDialogueScene.playAnimation(DialogueManager.#dialogueAnimations[randomIndex]);
         }
-        
+
         // Special case for intro tree since it only runs once
         if (this.#currentTree === DialogueManager.#introTree) {
             if (this.#dialogueIndex >= this.#currentTree.length) return;

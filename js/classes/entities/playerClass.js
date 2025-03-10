@@ -1,6 +1,6 @@
 import * as THREE from 'three';
-import { CharacterModel } from './characterModelClass';
-import { ModelPaths } from '../modelPaths';
+import { CharacterModel } from '../model_wrappers/characterModelClass';
+import { ModelPaths } from '../../modelPaths';
 
 export { Player };
 
