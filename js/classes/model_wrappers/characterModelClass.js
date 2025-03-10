@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
-import { debug } from "./arcadeClass";
+import { debug } from "../arcadeClass";
 
 export { CharacterModel };
 

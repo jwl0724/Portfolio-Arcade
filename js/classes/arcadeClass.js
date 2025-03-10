@@ -1,12 +1,11 @@
 import * as THREE from "three";
-import { ProcessManager } from "./processManagerClass";
-import { CameraManager } from "./cameraManagerClass";
+import { ProcessManager } from "./managers/processManagerClass";
+import { CameraManager } from "./managers/cameraManagerClass";
 import { ArcadeBuilder } from "./arcadeBuilderClass";
-import { CollisionManager } from "./collisionManagerClass";
-import { DialogueManager } from "./dialogueManagerClass";
-import { InputManager } from "./inputManagerClass";
-import { ProjectWindow } from "./projectWindowClass";
-import { ArcadeMachine } from "./arcadeMachineClass";
+import { CollisionManager } from "./managers/collisionManagerClass";
+import { DialogueManager } from "./managers/dialogueManagerClass";
+import { InputManager } from "./managers/inputManagerClass";
+import { ArcadeMachine } from "./entities/arcadeMachineClass";
 
 export { Arcade, debug };
 

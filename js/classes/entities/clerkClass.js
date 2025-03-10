@@ -1,13 +1,12 @@
 import * as THREE from "three";
-import { ModelPaths } from "../modelPaths";
-import { CharacterModel } from "./characterModelClass";
-import { GLTFLoader } from "three/examples/jsm/Addons.js";
-import { debug } from "./arcadeClass";
+import { ModelPaths } from "../../modelPaths";
+import { CharacterModel } from "../model_wrappers/characterModelClass";
+import { debug } from "../arcadeClass";
 
 export { Clerk };
 
 class Clerk {
-    
+
     #ready = false;
     #sceneModel;
     #isInteracting;
@@ -45,10 +44,10 @@ class Clerk {
 
         // Create interact box for clerk
         this.#interactBox = new THREE.Box3(
-            new THREE.Vector3(this.#position.x - 1, this.#position.y - 1, this.#position.z - 1.25), 
+            new THREE.Vector3(this.#position.x - 1, this.#position.y - 1, this.#position.z - 1.25),
             new THREE.Vector3(this.#position.x + 1, this.#position.y + 1, this.#position.z + 1.25)
         );
-        
+
         if (debug) {
             const helper = new THREE.Box3Helper(this.#interactBox, 0xffff00);
             scene.add(helper);
@@ -68,7 +67,7 @@ class Clerk {
     startInteraction(camera) {
         this.#isInteracting = true;
         this.#dialogueModel.setPosition(
-            camera.position.x + 0.4, 
+            camera.position.x + 0.4,
             camera.position.y - 0.4,
             camera.position.z - 0.75
         );

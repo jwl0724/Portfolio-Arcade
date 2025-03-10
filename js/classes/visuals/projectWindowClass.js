@@ -1,4 +1,4 @@
-import { ArcadeMachine } from "./arcadeMachineClass";
+import { ArcadeMachine } from "../entities/arcadeMachineClass";
 
 export { ProjectWindow };
 

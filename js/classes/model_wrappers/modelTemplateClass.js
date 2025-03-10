@@ -1,6 +1,6 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
-import { debug } from "./arcadeClass";
+import { debug } from "../arcadeClass";
 
 export { ModelTemplate };
 
@@ -38,7 +38,7 @@ class ModelTemplate {
     place(arcadeScene, locationVector, rotationInDegrees = 0, mixerCollection = null) {
         let clone = this.#scenePrototype.clone();
         clone.position.set(locationVector.x, locationVector.y, locationVector.z);
-        
+
         // Convert to rad because it is more familiar to work with
         const angleInRad = rotationInDegrees * Math.PI / 180;
         clone.rotateY(angleInRad);
@@ -47,7 +47,7 @@ class ModelTemplate {
             // Add the mixer collection to process
             const mixer = new THREE.AnimationMixer(clone);
             mixerCollection.push(mixer);
-            
+
             // Start the looping animations (assumes constant loop animations)
             const clip = THREE.AnimationClip.findByName(this.#animationClips, "animation");
             const action = mixer.clipAction(clip);

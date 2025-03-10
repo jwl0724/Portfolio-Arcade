@@ -1,10 +1,10 @@
 import * as THREE from "three";
 import { ModelPaths } from "../modelPaths";
-import { ModelTemplate } from "./modelTemplateClass";
-import { Player } from "./playerClass";
-import { Clerk } from "./clerkClass";
-import { ArcadeMachine } from "./arcadeMachineClass";
-import { Projects } from "../text/projects";
+import { ModelTemplate } from "./model_wrappers/modelTemplateClass";
+import { Player } from "./entities/playerClass";
+import { Clerk } from "./entities/clerkClass";
+import { ArcadeMachine } from "./entities/arcadeMachineClass";
+import { Projects } from "../../text/projects";
 
 export { ArcadeBuilder };
 
