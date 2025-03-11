@@ -1,4 +1,5 @@
 import * as THREE from 'three';
+import { ClickManager } from './clickManagerClass';
 
 export { InputManager };
 
@@ -6,16 +7,31 @@ class InputManager {
 
     #arcadeClass;
     #pressedKeys = new Set();
+    #mouseWorldPos = null;
     #isPaused = false;
-    
+    #clickManager;
+
     constructor(arcadeClass) {
         this.#arcadeClass = arcadeClass;
+        this.#clickManager = new ClickManager(arcadeClass.getScene(), arcadeClass.getCamera());
+
         this.#setupKeyboardReading();
         this.#setupMouseInputReading();
     }
 
-    getInputVector() {
+    getInputVector(playerPosition) {
         if (this.#isPaused) return new THREE.Vector3(0, 0, 0) // return no direction for no movement
+
+        // Cancel movement order if a keyboard button was pressed
+        if (this.#pressedKeys.has("w") || this.#pressedKeys.has("a") || this.#pressedKeys.has("s") || this.#pressedKeys.has("d"))
+            this.#mouseWorldPos = null;
+
+        if (this.#mouseWorldPos) {
+            const direction = this.#mouseWorldPos.sub(playerPosition);
+            const inputVector = direction.normalize();
+            return inputVector;
+        }
+
         let horizontal = 0, vertical = 0;
         if (this.#pressedKeys.has("w")) vertical -= 1;
         if (this.#pressedKeys.has("a")) horizontal -= 1;
@@ -42,7 +58,7 @@ class InputManager {
             if (key === "d") this.#pressedKeys.add("d");
             if (key === "shift") this.#pressedKeys.add("shift"); // sprint key
         });
-        
+
         // For when key is released (i.e. not held anymore)
         document.addEventListener("keyup", (event) => {
             const key = event.key.toLowerCase();
@@ -67,8 +83,8 @@ class InputManager {
     #setupMouseInputReading() {
         // For interacting with the mouse
         document.addEventListener("click", (mouseEvent) => {
-            if (mouseEvent.target.tagName === "BUTTON") return; // Ignore clicks on button
-            this.#arcadeClass.notifyInteractPressed(mouseEvent);
+            if (mouseEvent.target.tagName === "BUTTON" || this.#isPaused) return; // Ignore clicks on button or when input is paused
+            this.#mouseWorldPos = this.#clickManager.getClickPosition(mouseEvent);
         });
     }
 

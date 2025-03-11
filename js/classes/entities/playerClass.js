@@ -87,7 +87,7 @@ class Player {
         if (this.#directionVector.x === 0 && this.#directionVector.z === 0) this.#isMoving = false;
         else this.#isMoving = true;
 
-        const inputVector = this.#inputManager.getInputVector();
+        const inputVector = this.#inputManager.getInputVector(this.#position);
         this.#isSprinting = this.#inputManager.getSprintKeyPressed();
         this.#directionVector = inputVector.normalize();
     }
