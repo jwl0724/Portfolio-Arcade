@@ -1,15 +1,20 @@
 import * as THREE from 'three';
 import { ClickManager } from './clickManagerClass';
+import { VectorUtils } from '../utils/vectorUtilsClass';
 
 export { InputManager };
 
 class InputManager {
 
+    // Associated classes
     #arcadeClass;
+    #clickManager;
+
+    // Running variables
     #pressedKeys = new Set();
     #mouseWorldPos = null;
+    #pointerHeld = false;
     #isPaused = false;
-    #clickManager;
 
     constructor(arcadeClass) {
         this.#arcadeClass = arcadeClass;
@@ -27,6 +32,11 @@ class InputManager {
             this.#mouseWorldPos = null;
 
         if (this.#mouseWorldPos) {
+            // If player is already at the position that was clicked on, return 0 input vector
+            if (VectorUtils.approxEqualsVector3(this.#mouseWorldPos, playerPosition, 0.1)) {
+                this.#mouseWorldPos = null;
+                return new THREE.Vector3(0, 0, 0);
+            }
             const direction = this.#mouseWorldPos.clone().sub(playerPosition);
             const inputVector = direction.normalize();
             return inputVector;
@@ -79,13 +89,25 @@ class InputManager {
         this.#addPressedKeyClearEvents("blur", "contextmenu");
     }
 
-    // TODO: Implement WAYYY later when want to support mobile
+    // TODO: Need to have some UI element that allows changing of camera offsetting to be higher position
     #setupMouseInputReading() {
         // For interacting with the mouse
-        document.addEventListener("click", (mouseEvent) => {
+        document.addEventListener("pointerdown", (mouseEvent) => {
+            if (mouseEvent.button !== 0) return;
+
+            this.#pointerHeld = true;
             if (mouseEvent.target.tagName === "BUTTON" || this.#isPaused) return; // Ignore clicks on button or when input is paused
             this.#mouseWorldPos = this.#clickManager.getClickPosition(mouseEvent);
         });
+
+        document.addEventListener("pointerup", (mouseEvent) => {
+            if (mouseEvent.button === 0) this.#pointerHeld = false;
+        });
+
+        document.addEventListener("pointermove", (mouseEvent) => {
+            if (this.#pointerHeld === false || this.#isPaused) return;
+            this.#mouseWorldPos = this.#clickManager.getClickPosition(mouseEvent);
+        })
     }
 
     #addPressedKeyClearEvents(...events) {
