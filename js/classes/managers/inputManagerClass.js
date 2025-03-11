@@ -27,7 +27,7 @@ class InputManager {
             this.#mouseWorldPos = null;
 
         if (this.#mouseWorldPos) {
-            const direction = this.#mouseWorldPos.sub(playerPosition);
+            const direction = this.#mouseWorldPos.clone().sub(playerPosition);
             const inputVector = direction.normalize();
             return inputVector;
         }
