@@ -56,6 +56,7 @@ class InputManager {
 
     pauseInput(pause) {
         this.#isPaused = pause;
+        this.#mouseWorldPos = null;
     }
 
     #setupKeyboardReading() {
@@ -95,9 +96,17 @@ class InputManager {
         document.addEventListener("pointerdown", (mouseEvent) => {
             if (mouseEvent.button !== 0) return;
 
+            // Handle menu interactions (paused when in menus)
+            if (this.#isPaused) {
+                this.#arcadeClass.notifyInteractPressed();
+                return;
+            }
+
+            // Handle overworld clicks
             this.#pointerHeld = true;
-            if (mouseEvent.target.tagName === "BUTTON" || this.#isPaused) return; // Ignore clicks on button or when input is paused
-            this.#mouseWorldPos = this.#clickManager.getClickPosition(mouseEvent);
+            this.#clickManager.setMouseRaycast(mouseEvent);
+            this.#mouseWorldPos = this.#clickManager.getClickPosition();
+            if (this.#clickManager.interactableClicked()) this.#arcadeClass.notifyInteractPressed()
         });
 
         document.addEventListener("pointerup", (mouseEvent) => {
@@ -106,6 +115,7 @@ class InputManager {
 
         document.addEventListener("pointermove", (mouseEvent) => {
             if (this.#pointerHeld === false || this.#isPaused) return;
+            this.#clickManager.setMouseRaycast(mouseEvent);
             this.#mouseWorldPos = this.#clickManager.getClickPosition(mouseEvent);
         })
     }
