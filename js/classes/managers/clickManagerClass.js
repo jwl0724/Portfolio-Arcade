@@ -25,9 +25,8 @@ class ClickManager {
         const intersects = this.#raycast.intersectObjects(this.#arcadeScene.children)
         let firstIntersectPoint;
         for (let i = 0; i < intersects.length; i++) {
-            if(intersects[i].object.type === "Box3Helper") continue;
-            firstIntersectPoint = intersects[i].point;
-            break;
+            firstIntersectPoint = intersects[i].point; // In case click was out of bounds, still want to register some place
+            if (intersects[i].object.type === "Mesh") break; // Click was in-bound, take the first thing it raycasted to
         }
         if (!firstIntersectPoint) return null;
         else return new THREE.Vector3(firstIntersectPoint.x, 0, firstIntersectPoint.z); // Removes elevation
