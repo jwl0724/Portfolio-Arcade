@@ -91,7 +91,7 @@ class ArcadeMachine {
 
         // Create interact zone
         this.#interactBox = new THREE.Box3(
-            new THREE.Vector3(this.#position.x - 0.45, this.#position.y - 1, this.#position.z - 0.3),
+            new THREE.Vector3(this.#position.x - 0.45, this.#position.y, this.#position.z - 0.3),
             new THREE.Vector3(this.#position.x + 0.45, this.#position.y + 1, this.#position.z + 0.6)
         );
 
