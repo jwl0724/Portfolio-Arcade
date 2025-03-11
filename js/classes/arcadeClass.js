@@ -6,6 +6,7 @@ import { CollisionManager } from "./managers/collisionManagerClass";
 import { DialogueManager } from "./managers/dialogueManagerClass";
 import { InputManager } from "./managers/inputManagerClass";
 import { ArcadeMachine } from "./entities/arcadeMachineClass";
+import { ClickManager } from "./managers/clickManagerClass";
 
 export { Arcade, debug };
 
@@ -21,6 +22,7 @@ class Arcade {
     #cameraManager;
     #inputManager;
     #dialogueManager;
+    #clickManager;
 
     // Scenes
     #arcadeScene;
@@ -46,6 +48,7 @@ class Arcade {
 
         // Set the processes
         this.#collisionManager = new CollisionManager();
+        this.#clickManager = new ClickManager(this.#arcadeScene, this.#cameraManager.getCamera());
         this.#processManager = new ProcessManager(this.#renderer, () => this.#renderer.render(this.#arcadeScene, this.#cameraManager.getCamera()));
         this.#processManager.addProcess((delta) => this.#animationMixers.forEach(mixer => mixer.update(delta)));
         this.#processManager.addProcess((delta) => this.#cameraManager.cameraProcess(delta));
@@ -92,8 +95,10 @@ class Arcade {
     notifyInteractPressed(mouseEvent = null) {
         // Special cases for mouse events
         if (mouseEvent) {
-            // TODO: When mouse support is fully implemented, logic goes here, for now leave it to dialogue only
             if (this.#dialogueManager.isInDialogue()) this.#dialogueManager.nextDialogue();
+
+            const position = this.#clickManager.getClickPosition(mouseEvent)
+            // this.#player.setPosition(position);
             return;
         }
         // Dialogue Handlers
