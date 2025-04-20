@@ -87,6 +87,19 @@ const SPIN_THE_BARREL = Object.freeze({
     ]
 });
 
+const AI_GAMER = Object.freeze({
+    TITLE: "Can AI Play Games (Suika At Home)",
+    ABOUT: `    Can AI Play Games (Suika At Home) was another term project for one of my courses at BCIT. The premise was to teach an AI how to play a simple game using a neural network. The algorithm I used for this project was NEAT (NeuroEvolution Augmenting Topology), provided by GitHub user pastra98.
+
+        The game was an opportunity to learn about how neural networks worked and how to apply them to games. As for the choice of game, I wanted it to be something that was simple in mechanics, but not too simple such that I couldn't challenge myself with difficult problems. I ended up choosing Suika Game (translated to Watermelon Game) because of it's minimum player input, but complexity in object interactions.
+    `,
+    IMAGES: [
+        "../images/previews/AIGamer/mainMenu.png",
+        "../images/previews/AIGamer/gameplay.png",
+        "../images/previews/AIGamer/gameplay2.png"
+    ]
+});
+
 const Projects = Object.freeze({
     TERRAIN_GENERATOR_SIMULATOR: TERRAIN_GENERATOR_SIMULATOR,
     DUCK_HUNT_AT_HOME: DUCK_HUNT_AT_HOME,
@@ -94,5 +107,6 @@ const Projects = Object.freeze({
     SWING: SWING,
     TOUHOU_AT_HOME: TOUHOU_AT_HOME,
     ZOOM_TO_HOME: ZOOM_TO_HOME,
-    SPIN_THE_BARREL: SPIN_THE_BARREL
+    SPIN_THE_BARREL: SPIN_THE_BARREL,
+
 });
