@@ -161,6 +161,8 @@ class ArcadeBuilder {
             new THREE.Vector3(1.8, 0, -2), 5);
         const spinTheBarrel = new ArcadeMachine(Projects.SPIN_THE_BARREL,
             new THREE.Vector3(2.6, 0, -2), -5);
+        const aiGamer = new ArcadeMachine(Projects.AI_GAMER,
+            new THREE.Vector3(4.3, 0, -2), -5);
 
         // Put arcade machine onto scene
         terrainSimProject.spawn(scene, collisionManager);
@@ -170,6 +172,7 @@ class ArcadeBuilder {
         touhouAtHome.spawn(scene, collisionManager);
         zoomToHome.spawn(scene, collisionManager);
         spinTheBarrel.spawn(scene, collisionManager);
+        aiGamer.spawn(scene, collisionManager);
     }
 
     static async buildPlayer(scene, animationMixers, inputManager) {

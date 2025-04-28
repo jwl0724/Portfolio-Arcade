@@ -108,5 +108,5 @@ const Projects = Object.freeze({
     TOUHOU_AT_HOME: TOUHOU_AT_HOME,
     ZOOM_TO_HOME: ZOOM_TO_HOME,
     SPIN_THE_BARREL: SPIN_THE_BARREL,
-
+    AI_GAMER: AI_GAMER
 });
