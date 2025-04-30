@@ -20,7 +20,7 @@ class ClickManager {
         this.#pointPosition.y = -(mouseEvent.clientY / window.innerHeight) * 2 + 1;
         this.#raycast.setFromCamera(this.#pointPosition, this.#camera);
     }
-    // TODO: FIX THE THING CLICKING ON AN OBJECT IT WILL KEEP WALKING IN PLACE, FIX IT TO STOP DOING THAT
+    
     getClickPosition() {
         // Check second intersect since first will be the invisible wall of the arcade
         const intersects = this.#raycast.intersectObjects(this.#arcadeScene.children);

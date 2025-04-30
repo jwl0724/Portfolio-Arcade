@@ -50,6 +50,10 @@ class InputManager {
         return new THREE.Vector3(horizontal, 0, vertical);
     }
 
+    cancelMouseOrder() {
+        this.#mouseWorldPos = null;
+    }
+
     getSprintKeyPressed() {
         return this.#pressedKeys.has("shift");
     }

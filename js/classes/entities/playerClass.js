@@ -1,6 +1,7 @@
 import * as THREE from 'three';
 import { CharacterModel } from '../model_wrappers/characterModelClass';
 import { ModelPaths } from '../../modelPaths';
+import { VectorUtils } from '../utils/vectorUtilsClass';
 
 export { Player };
 
@@ -60,9 +61,9 @@ class Player {
         return this.#position.clone().add(this.#directionVector.clone().multiplyScalar(this.getSpeed() * delta));
     }
 
-    setPosition(positionVector) {
+    setPosition(positionVector, rotateModel = false) {
         this.#position = positionVector;
-        this.#modelClass.updateModel(positionVector, false);
+        this.#modelClass.updateModel(positionVector, rotateModel);
     }
 
     notifyCollision(collider) {
@@ -106,8 +107,8 @@ class Player {
     }
 
     #moveWithSlide(nextPoint) {
-        this.#position = this.#position.add(nextPoint);
-        this.#modelClass.updateModel(this.#position);
+        const oldPosition = new THREE.Vector3().copy(this.#position);
+        this.setPosition(this.#position.add(nextPoint), true);
 
         // Move player outside of hitbox to prevent partial clipping
         this.#colliders.forEach(collider => {
@@ -126,5 +127,6 @@ class Player {
                 this.setPosition(this.#position);
             }
         });
+        if (VectorUtils.approxEqualsVector3(oldPosition, this.#position, 0.01)) this.#inputManager.cancelMouseOrder();
     }
 }
