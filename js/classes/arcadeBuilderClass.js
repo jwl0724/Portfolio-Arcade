@@ -162,7 +162,7 @@ class ArcadeBuilder {
         const spinTheBarrel = new ArcadeMachine(Projects.SPIN_THE_BARREL,
             new THREE.Vector3(2.6, 0, -2), -5);
         const aiGamer = new ArcadeMachine(Projects.AI_GAMER,
-            new THREE.Vector3(4.3, 0, -2), -5);
+            new THREE.Vector3(4.3, 0, -1.75), -5);
 
         // Put arcade machine onto scene
         terrainSimProject.spawn(scene, collisionManager);
