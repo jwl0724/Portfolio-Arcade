@@ -42,6 +42,7 @@ class Arcade {
         this.#arcadeScene.add(new THREE.AmbientLight(0xffffe6, 2)); // Slight yellow light
         this.#renderer = new THREE.WebGLRenderer({ antialias: true });
         this.#renderer.setSize(window.innerWidth, window.innerHeight);
+        this.resizeRenderWindow(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.#renderer.domElement);
 
         // Set the processes
@@ -63,6 +64,8 @@ class Arcade {
     resizeRenderWindow(x, y) {
         this.#cameraManager.setAspectRatio(x / y);
         this.#renderer.setSize(x, y);
+        if (Math.min(x, y) < 768) this.#cameraManager.setOffsetFromTarget(3, 2);
+        else this.#cameraManager.setOffsetFromTarget(2, 3);
     }
 
     async instantiateArcade() {
