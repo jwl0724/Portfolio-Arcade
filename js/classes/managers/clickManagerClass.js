@@ -20,7 +20,7 @@ class ClickManager {
         this.#pointPosition.y = -(mouseEvent.clientY / window.innerHeight) * 2 + 1;
         this.#raycast.setFromCamera(this.#pointPosition, this.#camera);
     }
-    
+
     getClickPosition() {
         // Check second intersect since first will be the invisible wall of the arcade
         const intersects = this.#raycast.intersectObjects(this.#arcadeScene.children);
@@ -39,7 +39,11 @@ class ClickManager {
         for(let i = 0; i < intersects.length; i++) {
             if (intersects[i].object.type !== "Mesh") continue;
             // (%ignore) is the clerk for some reason, don't ask me why it turned out like this
-            if (intersects[i].object.name.includes("arcade") || intersects[i].object.name.includes("(%ignore)")) return true;
+            if (intersects[i].object.name.includes("arcade") ||
+                intersects[i].object.name.includes("(%ignore)") ||
+                intersects[i].object.name.includes("cash-register_1")
+            )
+            return true;
         }
         return false;
     }

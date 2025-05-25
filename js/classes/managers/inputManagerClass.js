@@ -94,7 +94,6 @@ class InputManager {
         this.#addPressedKeyClearEvents("blur", "contextmenu");
     }
 
-    // TODO: Need to have some UI element that allows changing of camera offsetting to be higher position
     #setupMouseInputReading() {
         // For interacting with the mouse
         document.addEventListener("pointerdown", (mouseEvent) => {
