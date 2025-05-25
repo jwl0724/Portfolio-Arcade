@@ -60,10 +60,10 @@
 
 @keyframes preview-left-hover {
     from { left: 2% }
-    to { left: 0% }
+    to { left: 1.5% }
 }
 
 @keyframes preview-right-hover {
     from { right: 2% }
-    to { right: 0% }
+    to { right: 1.5% }
 }
