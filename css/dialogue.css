@@ -5,7 +5,7 @@
 
     /* visual properties */
     font-size: 100px;
-    color:darkgray;
+    color:whitesmoke;
 
     /* animation */
     animation-iteration-count: infinite;
@@ -25,7 +25,7 @@
     color: whitesmoke;
     background-color: black;
     border-radius: 25px;
-    border-color: darkgray;
+    border-color: whitesmoke;
     border-style: solid;
     border-width: 5px;
     display: inherit;
@@ -43,6 +43,7 @@
     padding: 2em 0.5em 2em 0.5em;
     width: 85%;
     height: 20%;
+    user-select: none;
 
     /* centering dialogue text */
     display: none;
@@ -50,10 +51,10 @@
     justify-content: center;
 
     /* visual properties */
-    background-color: whitesmoke;
+    background-color: rgb(2, 3, 31);
     border-style: solid;
-    border-color: darkgray;
-    border-width: 5px;
+    border-color: whitesmoke;
+    border-width: 10px;
     border-radius: 25px;
 
     /* animation properties */
@@ -61,9 +62,9 @@
 }
 
 .dialogue {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Pixelify Sans", sans-serif;
     font-weight: bold;
-    color: #1f1e1e;
+    color: whitesmoke;
     font-size: 40px;
     text-align: center;
     vertical-align: middle;
@@ -90,20 +91,20 @@
 
     /* visual properties */
     font-size: 25px;
-    background-color: whitesmoke;
+    background-color: rgb(2, 3, 31);
     border-style: solid;
-    border-color: darkgray;
+    border-color: whitesmoke;
     border-width: 5px;
     border-radius: 25px;
 }
 
 .option:hover {
-    background-color: lightgray;
-    border-color: gray;
+    background-color: rgb(2, 3, 135);
+    border-color: white;
     border-width: 5px;
 }
 
 .option:active {
-    background-color: darkgray;
-    border-color: lightgray;
+    background-color: rgb(2, 50, 175);
+    border-color: white
 }
