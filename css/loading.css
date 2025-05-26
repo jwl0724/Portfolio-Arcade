@@ -1,0 +1,49 @@
+#load-screen {
+    /* Positioning */
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* Visuals */
+    background-color: rgb(2, 3, 31);
+    width: 100%;
+    height: 100%;
+}
+
+#load-icon {
+    display: block;
+    width: 20vw;
+    margin: auto;
+}
+
+#load-message {
+    /* Font settings */
+    font-family: "Pixelify Sans", sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+
+    /* Visuals */
+    color: whitesmoke;
+}
+
+#enter-button {
+    /* Positioning */
+    display: block;
+    margin: auto;
+    width: 20vw;
+
+    /* Font settings */
+    color: whitesmoke;
+    font-family: "Pixelify Sans", sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    letter-spacing: 0.125em;;
+
+    /* Visuals */
+    border-radius: 250px;
+    border-style: none;
+    padding: 0.5em 1em 0.5em 1em;
+    background-color: rgb(40, 69, 200)
+}
