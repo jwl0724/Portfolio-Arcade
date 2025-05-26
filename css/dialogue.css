@@ -38,15 +38,16 @@
     /* positioning/size */
     position: fixed;
     top: 65%;
-    left: 5%;
-    margin: 0.5em;
+    bottom: 95%;
+    left: 2%;
+    right: 2%;
     padding: 2em 0.5em 2em 0.5em;
-    width: 85%;
-    height: 20%;
+    height: 33%;
     user-select: none;
 
     /* centering dialogue text */
     display: none;
+    box-sizing: border-box;
     align-items: center;
     justify-content: center;
 
@@ -65,7 +66,7 @@
     font-family: "Pixelify Sans", sans-serif;
     font-weight: bold;
     color: whitesmoke;
-    font-size: 40px;
+    font-size: 4vh;
     text-align: center;
     vertical-align: middle;
 }
@@ -75,9 +76,9 @@
     position: fixed;
     display: none;
     flex-direction: column;
-    top: 10%;
-    left: 5%;
-    width: 35%;
+    top: 5%;
+    left: 3.5%;
+    max-width: 93%;
 
     /* animation properties */
     animation-duration: 0.5s;
@@ -107,4 +108,24 @@
 .option:active {
     background-color: rgb(2, 50, 175);
     border-color: white
+}
+
+@media only screen and (max-width: 620px) {
+    #dialogue-options {
+        right: 3.5%;
+    }
+
+    .option {
+        font-size: 23px;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .option {
+        font-size: 2.5vh;
+    }
+
+    #dialogue-text {
+        font-size: 6vw;
+    }
 }

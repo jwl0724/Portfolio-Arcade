@@ -114,7 +114,6 @@
     scrollbar-color: rgb(2, 25, 69) rgb(2, 3, 31);
     scrollbar-width: thin;
     scroll-behavior: smooth;
-    scrollbar-gutter: stable;
 }
 
 #project-close {

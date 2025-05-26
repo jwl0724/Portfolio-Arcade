@@ -29,18 +29,18 @@
 }
 
 @keyframes dialogue-next {
-    from {top: 74%}
+    from {top: 75.25%}
     to {top: 76%}
 }
 
 @keyframes options-show {
-    from {left: -50%}
-    to {left: 5%}
+    from {left: -100%}
+    to {left: 3.5%}
 }
 
 @keyframes options-hide {
-    from {left: 5%}
-    to {left: -50%}
+    from {left: 3.5%}
+    to {left: -100%}
 }
 
 @keyframes project-close {
