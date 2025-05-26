@@ -12,6 +12,18 @@
     height: 100%;
 }
 
+#site-title {
+    /* Font settings */
+    font-family: "Pixelify Sans", sans-serif;
+    font-weight: bold;
+    text-align: center;
+    font-size: 69px;
+    letter-spacing: 1vw;
+
+    /* Visuals */
+    color: whitesmoke;
+}
+
 #load-icon {
     display: block;
     width: 20vw;
@@ -30,7 +42,7 @@
 
 #enter-button {
     /* Positioning */
-    display: block;
+    display: none;
     margin: auto;
     width: 20vw;
 
