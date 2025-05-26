@@ -3,10 +3,11 @@ import * as THREE from "three";
 export { CameraManager };
 
 class CameraManager {
-    
+
     #camera;
     #offsetFromTarget;
     #target;
+    #isInDialogue = false;
     #defaultFov;
 
     constructor(fov, aspect, near, far) {
@@ -17,7 +18,7 @@ class CameraManager {
 
     cameraProcess(delta) {
         const targetPosition = this.#target?.position;
-        if (targetPosition) {
+        if (targetPosition && !this.#isInDialogue) {
             this.#calculateCameraPosition(targetPosition);
             this.#camera.lookAt(targetPosition);
         }
@@ -25,13 +26,15 @@ class CameraManager {
 
     enterDialogueCamera() {
         this.#target = null;
-        this.#camera.fov = 60;
+        this.#isInDialogue = true;
         this.#camera.rotation.x = 0;
+        this.#camera.position.set(7, 0.4, -4.85)
         this.#camera.updateProjectionMatrix();
     }
 
     exitDialogueCamera(target) {
         this.#camera.fov = this.#defaultFov;
+        this.#isInDialogue = false;
         this.setTarget(target);
         this.#camera.updateProjectionMatrix();
     }
@@ -60,5 +63,5 @@ class CameraManager {
 
     #calculateCameraPosition(targetPosition) {
         this.#camera.position.set(targetPosition.x, this.#offsetFromTarget.y, targetPosition.z + this.#offsetFromTarget.z);
-    }   
+    }
 }
