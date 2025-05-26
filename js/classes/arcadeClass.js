@@ -42,6 +42,7 @@ class Arcade {
         this.#arcadeScene.add(new THREE.AmbientLight(0xffffe6, 2)); // Slight yellow light
         this.#renderer = new THREE.WebGLRenderer({ antialias: true });
         this.#renderer.setSize(window.innerWidth, window.innerHeight);
+        this.resizeRenderWindow(window.innerWidth, window.innerHeight);
         document.body.appendChild(this.#renderer.domElement);
 
         // Set the processes
@@ -56,9 +57,15 @@ class Arcade {
         return this.#arcadeScene;
     }
 
+    getCamera() {
+        return this.#cameraManager.getCamera();
+    }
+
     resizeRenderWindow(x, y) {
         this.#cameraManager.setAspectRatio(x / y);
         this.#renderer.setSize(x, y);
+        if (Math.min(x, y) < 768) this.#cameraManager.setOffsetFromTarget(3, 2);
+        else this.#cameraManager.setOffsetFromTarget(2, 3);
     }
 
     async instantiateArcade() {
@@ -86,13 +93,12 @@ class Arcade {
         this.#clerk = await ArcadeBuilder.buildClerk(this.#arcadeScene, this.#animationMixers);
         this.#dialogueManager.createChatPrompt(this.#clerk.getPosition());
         this.#dialogueManager.setInteractBox(this.#clerk.getInteractBox(), this.#player);
-        this.#dialogueManager.setClerkModel(this.#clerk.getDialogueModel());
+        this.#dialogueManager.setClerkModel(this.#clerk.getModel());
     }
 
     notifyInteractPressed(mouseEvent = null) {
         // Special cases for mouse events
         if (mouseEvent) {
-            // TODO: When mouse support is fully implemented, logic goes here, for now leave it to dialogue only
             if (this.#dialogueManager.isInDialogue()) this.#dialogueManager.nextDialogue();
             return;
         }
@@ -111,7 +117,7 @@ class Arcade {
     }
 
     enterDialogue() {
-        this.#clerk.startInteraction(this.#cameraManager.getCamera());
+        this.#clerk.startInteraction();
         this.#cameraManager.enterDialogueCamera();
         this.#inputManager.pauseInput(true);
         this.#dialogueManager.startDialogue();

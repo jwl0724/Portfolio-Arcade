@@ -188,13 +188,8 @@ class CharacterModel {
     }
 
     #lerpAngle(oldAngle, newAngle, strength) {
-        const standardizedOldAngle = (oldAngle + Math.PI) % (Math.PI * 2) - Math.PI;
-        const standardizedNewAngle = (newAngle + Math.PI) % (Math.PI * 2) - Math.PI;
-        let difference = standardizedNewAngle - standardizedOldAngle;
-
-        // Wrap angle
-        if (difference >= Math.PI) difference -= Math.PI * 2;
-        else if (difference <= -Math.PI) difference += Math.PI * 2;
+        let difference = ((newAngle - oldAngle + Math.PI) % (Math.PI * 2)) - Math.PI;
+        if (difference < -Math.PI) difference += Math.PI * 2;
         return oldAngle + strength * difference;
     }
 }

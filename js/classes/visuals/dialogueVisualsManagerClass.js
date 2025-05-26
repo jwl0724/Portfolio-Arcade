@@ -10,6 +10,7 @@ const dialogueText = document.getElementById("dialogue-text");
 const clerkName = document.getElementById("clerk-name");
 const nextPrompt = document.getElementById("next-prompt");
 const dialogueOptions = document.getElementById("dialogue-options");
+const backgroundDim = document.getElementById("background-dim");
 
 // CSS animation names
 const showDialogue = "dialogue-show";
@@ -202,6 +203,7 @@ class DialogueVisualsManager {
         this.#optionsOpened = true;
         dialogueOptions.style.display = "flex";
         dialogueOptions.style.animationName = showOptions;
+        backgroundDim.style.visibility = "visible";
         setTimeout(() => this.#inAnimation = false, this.#animationTimeInSeconds * 1000);
     }
 
@@ -211,6 +213,7 @@ class DialogueVisualsManager {
         this.#optionsOpened = false;
         this.#optionsQueued = false;
         dialogueOptions.style.animationName = hideOptions;
+        backgroundDim.style.visibility = "hidden";
         setTimeout(() => dialogueOptions.style.display = "none",
             (this.#animationTimeInSeconds - 0.1) * 1000);
         setTimeout(() => this.#inAnimation = false, this.#animationTimeInSeconds * 1000);

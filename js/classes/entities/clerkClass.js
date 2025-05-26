@@ -12,12 +12,9 @@ class Clerk {
     #isInteracting;
     #interactBox;
     #position;
-    #dialogueModel;
-    #dialogueAnimationQueue;
 
     constructor(position) {
         this.#position = position;
-        this.#dialogueAnimationQueue;
     }
 
     getPosition() {
@@ -28,16 +25,14 @@ class Clerk {
         return this.#interactBox;
     }
 
-    getDialogueModel() {
-        return this.#dialogueModel;
+    getModel() {
+        return this.#sceneModel;
     }
 
     async createClerk(scene, mixers) {
         // Load clerk models into scene
         this.#sceneModel = new CharacterModel(ModelPaths.EMPLOYEE);
-        this.#dialogueModel = new CharacterModel(ModelPaths.EMPLOYEE);
         await this.#sceneModel.loadModel(scene, mixers);
-        await this.#dialogueModel.loadModel(scene, mixers);
 
         // Position models
         this.#sceneModel.setPosition(this.#position.x, this.#position.y, this.#position.z);
@@ -52,7 +47,6 @@ class Clerk {
             const helper = new THREE.Box3Helper(this.#interactBox, 0xffff00);
             scene.add(helper);
         }
-
         // Mark class as ready
         this.#ready = true;
     }
@@ -64,22 +58,11 @@ class Clerk {
         return true;
     }
 
-    startInteraction(camera) {
+    startInteraction() {
         this.#isInteracting = true;
-        this.#dialogueModel.setPosition(
-            camera.position.x + 0.4,
-            camera.position.y - 0.4,
-            camera.position.z - 0.75
-        );
-        this.#dialogueModel.getModel().rotation.y = -Math.PI / 3.5;
     }
 
     stopInteraction() {
         this.#isInteracting = false;
-        this.#dialogueModel.setPosition(
-            this.#position.x,
-            this.#position.y + 6,
-            this.#position.z
-        );
     }
 }

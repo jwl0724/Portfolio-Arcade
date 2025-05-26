@@ -5,7 +5,7 @@
 
     /* visual properties */
     font-size: 100px;
-    color:darkgray;
+    color:whitesmoke;
 
     /* animation */
     animation-iteration-count: infinite;
@@ -25,7 +25,7 @@
     color: whitesmoke;
     background-color: black;
     border-radius: 25px;
-    border-color: darkgray;
+    border-color: whitesmoke;
     border-style: solid;
     border-width: 5px;
     display: inherit;
@@ -38,22 +38,24 @@
     /* positioning/size */
     position: fixed;
     top: 65%;
-    left: 5%;
-    margin: 0.5em;
+    bottom: 95%;
+    left: 2%;
+    right: 2%;
     padding: 2em 0.5em 2em 0.5em;
-    width: 85%;
-    height: 20%;
+    height: 33%;
+    user-select: none;
 
     /* centering dialogue text */
     display: none;
+    box-sizing: border-box;
     align-items: center;
     justify-content: center;
 
     /* visual properties */
-    background-color: whitesmoke;
+    background-color: rgb(2, 3, 31);
     border-style: solid;
-    border-color: darkgray;
-    border-width: 5px;
+    border-color: whitesmoke;
+    border-width: 10px;
     border-radius: 25px;
 
     /* animation properties */
@@ -61,10 +63,10 @@
 }
 
 .dialogue {
-    font-family: 'Courier New', Courier, monospace;
+    font-family: "Pixelify Sans", sans-serif;
     font-weight: bold;
-    color: #1f1e1e;
-    font-size: 40px;
+    color: whitesmoke;
+    font-size: 4vh;
     text-align: center;
     vertical-align: middle;
 }
@@ -74,9 +76,9 @@
     position: fixed;
     display: none;
     flex-direction: column;
-    top: 10%;
-    left: 5%;
-    width: 35%;
+    top: 5%;
+    left: 3.5%;
+    max-width: 93%;
 
     /* animation properties */
     animation-duration: 0.5s;
@@ -90,20 +92,53 @@
 
     /* visual properties */
     font-size: 25px;
-    background-color: whitesmoke;
+    background-color: rgb(2, 3, 31);
     border-style: solid;
-    border-color: darkgray;
+    border-color: whitesmoke;
     border-width: 5px;
     border-radius: 25px;
 }
 
 .option:hover {
-    background-color: lightgray;
-    border-color: gray;
+    background-color: rgb(2, 3, 135);
+    border-color: white;
     border-width: 5px;
 }
 
 .option:active {
-    background-color: darkgray;
-    border-color: lightgray;
+    background-color: rgb(2, 50, 175);
+    border-color: white
+}
+
+#background-dim {
+    display: none;
+    visibility: hidden;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+}
+
+@media only screen and (max-width: 620px) {
+    #dialogue-options {
+        right: 3.5%;
+    }
+
+    .option {
+        font-size: 23px;
+    }
+
+    #background-dim {
+        display: block;
+    }
+}
+
+@media only screen and (max-width: 480px) {
+    .option {
+        font-size: 2.5vh;
+    }
+
+    #dialogue-text {
+        font-size: 6vw;
+    }
 }

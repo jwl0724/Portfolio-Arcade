@@ -168,8 +168,8 @@ class DialogueManager {
         if (this.#currentTree === DialogueManager.#repeatTree) return;
 
         // Play animation for new text
-        if (this.#dialogueIndex < this.#currentTree.length || this.#currentTree !== DialogueManager.#repeatTree) {
-            // Play animation only whe not at the end of text
+        if (this.#dialogueIndex < this.#currentTree.length && this.#currentTree !== DialogueManager.#repeatTree) {
+            // Play animation only when not at the end of text
             const randomIndex = Math.floor(Math.random() * DialogueManager.#dialogueAnimations.length);
             this.#clerkDialogueScene.playAnimation(DialogueManager.#dialogueAnimations[randomIndex]);
         }
