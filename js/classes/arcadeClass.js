@@ -93,7 +93,7 @@ class Arcade {
         this.#clerk = await ArcadeBuilder.buildClerk(this.#arcadeScene, this.#animationMixers);
         this.#dialogueManager.createChatPrompt(this.#clerk.getPosition());
         this.#dialogueManager.setInteractBox(this.#clerk.getInteractBox(), this.#player);
-        this.#dialogueManager.setClerkModel(this.#clerk.getDialogueModel());
+        this.#dialogueManager.setClerkModel(this.#clerk.getModel());
     }
 
     notifyInteractPressed(mouseEvent = null) {
@@ -117,7 +117,7 @@ class Arcade {
     }
 
     enterDialogue() {
-        this.#clerk.startInteraction(this.#cameraManager.getCamera());
+        this.#clerk.startInteraction();
         this.#cameraManager.enterDialogueCamera();
         this.#inputManager.pauseInput(true);
         this.#dialogueManager.startDialogue();
