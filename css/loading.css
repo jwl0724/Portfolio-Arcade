@@ -21,6 +21,7 @@
     letter-spacing: 1vw;
 
     /* Visuals */
+    display: none;
     color: whitesmoke;
 }
 
