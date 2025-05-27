@@ -9,6 +9,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
     <script type="module" src="js/script.js" defer></script>
     <link rel="stylesheet" href="css/loading.css">
+    <link rel="stylesheet" href="css/gui.css">
     <link rel="stylesheet" href="css/animation.css">
     <link rel="stylesheet" href="css/dialogue.css">
     <link rel="stylesheet" href="css/projects.css">
@@ -16,7 +17,7 @@
     <title>Jonathan Liu - Arcade</title>
 </head>
 <body>
-    <!-- Game UI Components -->
+    <!-- Loading Screen -->
      <div id="load-screen">
         <div>
             <p id="site-title">PROJECT ARCADE</p>
@@ -25,6 +26,22 @@
         </div>
         <p id="load-message">Now Loading...</p>
      </div>
+     <!-- GUI Buttons -->
+    <div id="gui-menu">
+        <button id="help-button" class="gui-button">?</button>
+        <button id="music-button" class="gui-button">
+            <img src="images/icons/music-icon.png" class="gui-icon">
+        </button>
+        <button id="sfx-button" class="gui-button">
+            <img src="images/icons/sfx-icon.png" class="gui-icon">
+        </button>
+    </div>
+    <!-- Help Window -->
+    <div id="help-box">
+        <p id="help-instructions"></p>
+        <button id="help-close">Close</button>
+    </div>
+     <!-- Project Window -->
     <div id="project" class="project-box">
         <h1 id="project-name">Project Title Here</h1>
         <div id="preview-carousel">
@@ -38,6 +55,7 @@
             <p id="project-close-label">»</p>
         </button>
     </div>
+    <!-- Dialogue Windows -->
     <div id="background-dim"></div>
     <div id="dialogue-options">
         <button id="projects" class="dialogue option">option 1</button>

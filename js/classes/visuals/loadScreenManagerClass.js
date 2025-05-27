@@ -12,6 +12,7 @@ class LoadScreenManager {
     #enterButton;
 
     #inputManager;
+    #onCloseFunctionQueue = new Array(); // Queue of functions that need to be ran after loading screen closes
 
     constructor(inputManager) {
         this.#siteTitle = document.getElementById("site-title");
@@ -34,9 +35,18 @@ class LoadScreenManager {
         }, LoadScreenManager.fadeTime * 1000);
     }
 
+    // Function passed in cannot have any parameters
+    addCloseAction(action) {
+        this.#onCloseFunctionQueue.push(action);
+    }
+
     #closeLoadScreen() {
         this.#loadScreen.style.animationName = "load-close";
-        setTimeout(() => this.#inputManager.pauseInput(false), LoadScreenManager.fadeTime * 1000);
+        setTimeout(() => {
+            this.#inputManager.pauseInput(false);
+            this.#onCloseFunctionQueue.forEach((action) => action());
+            this.#onCloseFunctionQueue.length = 0; // Empty list to save some resource
+        }, LoadScreenManager.fadeTime * 1000);
     }
 
     #fadeInElement(element) {

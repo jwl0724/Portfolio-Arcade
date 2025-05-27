@@ -7,6 +7,8 @@ import { DialogueManager } from "./managers/dialogueManagerClass";
 import { InputManager } from "./managers/inputManagerClass";
 import { ArcadeMachine } from "./entities/arcadeMachineClass";
 import { LoadScreenManager } from "./visuals/loadScreenManagerClass";
+import { GUIManager } from "./managers/guiManagerClass";
+import { ProjectWindow } from "./visuals/projectWindowClass";
 
 export { Arcade, debug };
 
@@ -23,6 +25,7 @@ class Arcade {
     #cameraManager;
     #inputManager;
     #dialogueManager;
+    #guiManager;
 
     // Scenes
     #arcadeScene;
@@ -42,6 +45,7 @@ class Arcade {
         this.#cameraManager = new CameraManager(75, window.innerWidth / window.innerHeight, 0.1, 300);
         this.#inputManager = new InputManager(this);
         this.#loadScreenManager = new LoadScreenManager(this.#inputManager);
+        this.#guiManager = new GUIManager(this.#inputManager);
         this.#animationMixers = new Array();
 
         // Setup scene properties
@@ -57,6 +61,13 @@ class Arcade {
         this.#processManager.addProcess((delta) => this.#animationMixers.forEach(mixer => mixer.update(delta)));
         this.#processManager.addProcess((delta) => this.#cameraManager.cameraProcess(delta));
         this.#processManager.addProcess((delta) => this.#dialogueManager.dialogueProcess(delta));
+
+        // Setup UI function calls
+        this.#loadScreenManager.addCloseAction(() => this.#guiManager.showUI());
+        ProjectWindow.addCloseAction(() => {
+            this.#guiManager.showUI();
+            this.#guiManager.disable(false);
+        });
     }
 
     getScene() {
@@ -130,6 +141,8 @@ class Arcade {
 
     enterDialogue() {
         this.#clerk.startInteraction();
+        this.#guiManager.disable(true);
+        this.#guiManager.hideUI();
         this.#cameraManager.enterDialogueCamera();
         this.#inputManager.pauseInput(true);
         this.#dialogueManager.startDialogue();
@@ -137,6 +150,8 @@ class Arcade {
 
     exitDialogue() {
         this.#clerk.stopInteraction();
+        this.#guiManager.disable(false);
+        this.#guiManager.showUI();
         this.#dialogueManager.exitDialogue();
         this.#cameraManager.exitDialogueCamera(this.#player.getModel());
         this.#inputManager.pauseInput(false);
@@ -148,6 +163,8 @@ class Arcade {
 
     // Close project is handled by the arcade machine itself and it's project window
     openProject(machine) {
+        this.#guiManager.hideUI();
+        this.#guiManager.disable(true);
         machine.openProject(this, this.#player);
     }
 

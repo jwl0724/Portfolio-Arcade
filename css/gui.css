@@ -1,0 +1,144 @@
+/* GUI CSS */
+#gui-menu {
+    /* Positioning */
+    position: fixed;
+    display: none;
+    justify-content: right;
+    gap: 3.5vw;
+    top: 5vh;
+    right: 3vw;
+
+    /* Animation properties */
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+#help-button {
+    font-family: "Pixelify Sans", sans-serif;
+    font-weight: bolder;
+    font-size: 60px;
+    color: white;
+}
+
+.gui-button {
+    border-radius: 50%;
+    width: 80px;
+    background-color: rgb(2, 3, 31);
+    transition: 0.3s ease, background-color 0.25s ease;
+}
+
+.gui-button:hover {
+    background-color: rgb(10, 30, 69);
+    transform: scale(1.1);
+}
+
+.gui-button:active {
+    transform: scale(0.9);
+}
+
+.gui-icon {
+    max-width: 40px;
+    filter: invert(1);
+}
+
+.gui-button-toggled {
+    background-color: rgb(20, 80, 120);
+}
+
+/* Help window CSS */
+#help-box {
+    /* Positioning/Size */
+    display: none;
+    flex-direction: column;
+    position: fixed;
+    top: 10%;
+    left: 5%;
+    right: 5%;
+    padding: 2vh 1vw 2vh 1vw;
+    max-height: 80%;
+
+    /* Font settings */
+    text-align: center;
+    font-size: 25px;
+    font-family: "Pixelify Sans", sans-serif;
+
+    /* Visuals */
+    user-select: none;
+    font-family: "Pixelify Sans", sans-serif;
+    color: whitesmoke;
+    background-color: rgb(2, 3, 31);
+    border-style: solid;
+    border-color: whitesmoke;
+    border-width: 1vw;
+    border-radius: 3vw;
+
+    /* Animation properties */
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+#help-close {
+    margin: auto;
+    margin-top: 0.5em;
+    margin-bottom: 0.5em;
+    max-width: 400px;
+
+    /* Font settings */
+    color: whitesmoke;
+    font-family: "Pixelify Sans", sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    letter-spacing: 0.125em;
+
+    /* Visuals */
+    border-radius: 250px;
+    border-style: none;
+    padding: 0.5em 1em 0.5em 1em;
+    background-color: rgb(40, 69, 200);
+
+    /* Hover transition */
+    transition: 0.3s ease, background-color 0.3s ease;
+}
+
+#help-close:hover {
+    color: lightgray;
+    background-color: rgb(20, 50, 150);
+    transform: scale(1.1);
+}
+
+#help-close:active {
+    color: gray;
+    background-color: (10, 30, 130);
+    transform: scale(0.9);
+}
+
+#help-instructions {
+    /* Scroll bar visuals */
+    overflow-y: scroll;
+    overflow-x: hidden;
+    scrollbar-color: rgb(2, 25, 69) rgb(2, 3, 31);
+    scrollbar-width: thin;
+    scroll-behavior: smooth;
+}
+
+.help-section {
+    font-size: 30px;
+}
+
+.help-text-icon {
+    filter: invert(1);
+    max-width: 25px;
+}
+
+.help-icon-enlarge {
+    max-width: 50px;
+}
+
+ @media only screen and (max-width: 768px) {
+    #gui-menu {
+        justify-content: space-evenly;
+        width: 100%;
+        left: 0%;
+        right: 0%;
+    }
+ }

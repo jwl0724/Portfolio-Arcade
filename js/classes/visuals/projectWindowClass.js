@@ -22,9 +22,18 @@ class ProjectWindow {
     // Constants
     static #animationTimeInSeconds = parseFloat(getComputedStyle(ProjectWindow.#projectSection).animationDuration);
 
+    static #closeFunctionQueue = new Array(); // Functions to run when closing the window
+
     // Add event handlers for html elements
     static {
-        document.getElementById("project-close").onclick = () => this.#closeProject();
+        // document.getElementById("project-close").onclick = () => this.#closeProject();
+        this.#closeFunctionQueue.push(() => ArcadeMachine.notifyWindowClosed());
+        this.#closeFunctionQueue.push(() => this.#closeWindow());
+        document.getElementById("project-close").onclick = () => this.#closeFunctionQueue.forEach(action => action());
+    }
+
+    static addCloseAction(action) {
+        this.#closeFunctionQueue.push(action);
     }
 
     static isOpen() {
@@ -44,12 +53,6 @@ class ProjectWindow {
     openProject() {
         this.#populateWindow();
         ProjectWindow.#openWindow();
-    }
-
-    // Static because closing the project window has no specific information involved
-    static #closeProject() {
-        ArcadeMachine.notifyWindowClosed();
-        this.#closeWindow();
     }
 
     #populateWindow() {
