@@ -35,7 +35,7 @@
 
 #load-icon {
     display: block;
-    width: 20vw;
+    width: 30em;
     margin: auto;
 
     /* Animation properties */
@@ -65,7 +65,7 @@
     /* Positioning */
     display: none;
     margin: auto;
-    width: 20vw;
+    max-width: 400px;
 
     /* Font settings */
     color: whitesmoke;
@@ -80,6 +80,21 @@
     padding: 0.5em 1em 0.5em 1em;
     background-color: rgb(40, 69, 200);
 
+    /* Hover transition */
+    transition: 0.3s ease, background-color 0.3s ease;
+
     /* Animation properties */
     animation-duration: 1s;
+}
+
+#enter-button:hover {
+    color: lightgray;
+    background-color: rgb(20, 50, 150);
+    transform: scale(1.1);
+}
+
+#enter-button:active {
+    color: gray;
+    background-color: (10, 30, 130);
+    transform: scale(0.9);
 }
