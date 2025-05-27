@@ -44,6 +44,7 @@ class LoadScreenManager {
         this.#loadScreen.style.animationName = "load-close";
         setTimeout(() => {
             this.#inputManager.pauseInput(false);
+            this.#loadScreen.style.display = "none";
             this.#onCloseFunctionQueue.forEach((action) => action());
             this.#onCloseFunctionQueue.length = 0; // Empty list to save some resource
         }, LoadScreenManager.fadeTime * 1000);
