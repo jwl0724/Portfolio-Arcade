@@ -97,7 +97,7 @@ class InputManager {
     #setupMouseInputReading() {
         // For interacting with the mouse
         document.addEventListener("pointerdown", (mouseEvent) => {
-            if (mouseEvent.button !== 0) return;
+            if (mouseEvent.button !== 0 || mouseEvent.target.tagName !== "CANVAS") return;
 
             // Handle menu interactions (paused when in menus)
             if (this.#isPaused) {
