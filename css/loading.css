@@ -1,0 +1,100 @@
+#load-screen {
+    /* Positioning */
+    display: flex;
+    position: fixed;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    /* Visuals */
+    background-color: rgb(2, 3, 31);
+    width: 100%;
+    height: 100%;
+
+    /* Animation properties */
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
+}
+
+#site-title {
+    /* Font settings */
+    font-family: "Pixelify Sans", sans-serif;
+    font-weight: bold;
+    text-align: center;
+    font-size: 69px;
+    letter-spacing: 1vw;
+
+    /* Visuals */
+    display: none;
+    color: whitesmoke;
+    user-select: none;
+
+    /* Animation properties */
+    animation-duration: 2s;
+}
+
+#load-icon {
+    display: block;
+    width: 30em;
+    margin: auto;
+
+    /* Animation properties */
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-fill-mode: forwards;
+    animation-name: load-float;
+}
+
+#load-message {
+    /* Font settings */
+    font-family: "Pixelify Sans", sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+
+    /* Visuals */
+    color: whitesmoke;
+
+    /* Animation properties */
+    animation-name: load-in-progress;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+}
+
+#enter-button {
+    /* Positioning */
+    display: none;
+    margin: auto;
+    max-width: 400px;
+
+    /* Font settings */
+    color: whitesmoke;
+    font-family: "Pixelify Sans", sans-serif;
+    font-weight: bold;
+    font-size: 30px;
+    letter-spacing: 0.125em;
+
+    /* Visuals */
+    border-radius: 250px;
+    border-style: none;
+    padding: 0.5em 1em 0.5em 1em;
+    background-color: rgb(40, 69, 200);
+
+    /* Hover transition */
+    transition: 0.3s ease, background-color 0.3s ease;
+
+    /* Animation properties */
+    animation-duration: 1s;
+}
+
+#enter-button:hover {
+    color: lightgray;
+    background-color: rgb(20, 50, 150);
+    transform: scale(1.1);
+}
+
+#enter-button:active {
+    color: gray;
+    background-color: (10, 30, 130);
+    transform: scale(0.9);
+}

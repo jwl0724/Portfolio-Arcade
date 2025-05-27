@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400..700&display=swap" rel="stylesheet">
     <script type="module" src="js/script.js" defer></script>
+    <link rel="stylesheet" href="css/loading.css">
     <link rel="stylesheet" href="css/animation.css">
     <link rel="stylesheet" href="css/dialogue.css">
     <link rel="stylesheet" href="css/projects.css">
@@ -16,6 +17,14 @@
 </head>
 <body>
     <!-- Game UI Components -->
+     <div id="load-screen">
+        <div>
+            <p id="site-title">PROJECT ARCADE</p>
+            <img id="load-icon" src="images/icons/loading-icon.gif">
+            <button id="enter-button">Enter Arcade</button>
+        </div>
+        <p id="load-message">Now Loading...</p>
+     </div>
     <div id="project" class="project-box">
         <h1 id="project-name">Project Title Here</h1>
         <div id="preview-carousel">

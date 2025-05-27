@@ -6,16 +6,18 @@ import { CollisionManager } from "./managers/collisionManagerClass";
 import { DialogueManager } from "./managers/dialogueManagerClass";
 import { InputManager } from "./managers/inputManagerClass";
 import { ArcadeMachine } from "./entities/arcadeMachineClass";
+import { LoadScreenManager } from "./visuals/loadScreenManagerClass";
 
 export { Arcade, debug };
 
 // Set this line to false to disable debug mode
-const debug = true;
+const debug = false;
 
 // Only one should exists, what the script will interface with
 class Arcade {
 
     // Managers
+    #loadScreenManager;
     #collisionManager;
     #processManager;
     #cameraManager;
@@ -27,6 +29,9 @@ class Arcade {
     #player;
     #clerk;
 
+    // Running variables
+    #readyCount = 0;
+
     #renderer;
     #animationMixers;
 
@@ -36,6 +41,7 @@ class Arcade {
         this.#dialogueManager = new DialogueManager(this);
         this.#cameraManager = new CameraManager(75, window.innerWidth / window.innerHeight, 0.1, 300);
         this.#inputManager = new InputManager(this);
+        this.#loadScreenManager = new LoadScreenManager(this.#inputManager);
         this.#animationMixers = new Array();
 
         // Setup scene properties
@@ -68,12 +74,15 @@ class Arcade {
         else this.#cameraManager.setOffsetFromTarget(2, 3);
     }
 
+    // Builds the environment
     async instantiateArcade() {
         ArcadeMachine.setArcadeReference(this); // Needed for middle man to notify project closing
         await ArcadeBuilder.buildArcade(this.#arcadeScene, this.#collisionManager, this.#animationMixers);
         await ArcadeBuilder.placeProjects(this.#arcadeScene, this.#collisionManager);
+        this.#notifyCompleteLoad();
     }
 
+    // Builds the player
     async instantiatePlayer() {
         this.#player = await ArcadeBuilder.buildPlayer(this.#arcadeScene, this.#animationMixers, this.#inputManager);
 
@@ -87,6 +96,8 @@ class Arcade {
         this.#collisionManager.addPlayerClass(this.#player);
         this.#processManager.addProcess((delta) => this.#collisionManager.collisionProcess(delta));
         this.#processManager.addProcess((delta) => ArcadeMachine.ArcadeMachinesPromptProcess(delta, this.#player));
+
+        this.#notifyCompleteLoad();
     }
 
     async instantiateClerk() {
@@ -94,6 +105,7 @@ class Arcade {
         this.#dialogueManager.createChatPrompt(this.#clerk.getPosition());
         this.#dialogueManager.setInteractBox(this.#clerk.getInteractBox(), this.#player);
         this.#dialogueManager.setClerkModel(this.#clerk.getModel());
+        this.#notifyCompleteLoad();
     }
 
     notifyInteractPressed(mouseEvent = null) {
@@ -137,5 +149,13 @@ class Arcade {
     // Close project is handled by the arcade machine itself and it's project window
     openProject(machine) {
         machine.openProject(this, this.#player);
+    }
+
+    #notifyCompleteLoad() {
+        if (this.#readyCount === 2) { // Player, NPCs, Environment all loaded
+            this.#loadScreenManager.showButton();
+            return;
+        }
+        this.#readyCount++;
     }
 }
