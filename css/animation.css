@@ -1,3 +1,4 @@
+/* Dialogue animations */
 @keyframes dialogue-show {
     from {top: 125%}
     to {top:65%}
@@ -6,16 +7,6 @@
 @keyframes dialogue-close {
     from {top: 65%}
     to {top: 125%}
-}
-
-@keyframes project-show {
-    from { transform: scale(0) }
-    to { transform: scale(1) }
-}
-
-@keyframes project-hide {
-    from { transform: scale(1) }
-    to { transform: scale(0) }
 }
 
 @keyframes clerk-show {
@@ -43,6 +34,17 @@
     to {left: -100%}
 }
 
+/* Project window animations */
+@keyframes project-show {
+    from { transform: scale(0) }
+    to { transform: scale(1) }
+}
+
+@keyframes project-hide {
+    from { transform: scale(1) }
+    to { transform: scale(0) }
+}
+
 @keyframes project-close {
     from {top: 10%}
     to {top: -10%}
@@ -66,4 +68,66 @@
 @keyframes preview-right-hover {
     from { right: 2% }
     to { right: 1.5% }
+}
+
+/* Loading screen animations */
+@keyframes load-float {
+    from { transform: translateY(2%) rotate(-1deg); }
+    to { transform: translateY(-2%) rotate(2deg); }
+}
+
+@keyframes load-fade-out {
+    from {
+        transform: translateX(0) translateY(0);
+        opacity: 1;
+    }
+    to {
+        transform: translateX(0) translateY(50%);
+        opacity: 0;
+    }
+}
+
+@keyframes load-fade-in {
+    from {
+        transform: translateX(0) translateY(50%);
+        opacity: 0;
+    }
+    to {
+        transform: translateX(0) translateY(0);
+        opacity: 1;
+    }
+}
+
+@keyframes load-in-progress {
+    0% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    25% {
+        transform: translateX(100%);
+        opacity: 0;
+    }
+    50% {
+        transform: translateX(-100%);
+        opacity: 0;
+    }
+    75% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+    100% {
+        transform: translateX(0);
+        opacity: 1;
+    }
+}
+
+@keyframes load-close {
+    from {
+        transform: scale(1);
+        opacity: 1;
+    }
+    to {
+        transform: scale(0.25);
+        opacity: 0;
+    }
 }

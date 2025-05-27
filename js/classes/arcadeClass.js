@@ -11,7 +11,7 @@ import { LoadScreenManager } from "./visuals/loadScreenManagerClass";
 export { Arcade, debug };
 
 // Set this line to false to disable debug mode
-const debug = true;
+const debug = false;
 
 // Only one should exists, what the script will interface with
 class Arcade {

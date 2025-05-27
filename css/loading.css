@@ -10,6 +10,10 @@
     background-color: rgb(2, 3, 31);
     width: 100%;
     height: 100%;
+
+    /* Animation properties */
+    animation-duration: 1s;
+    animation-fill-mode: forwards;
 }
 
 #site-title {
@@ -23,12 +27,23 @@
     /* Visuals */
     display: none;
     color: whitesmoke;
+    user-select: none;
+
+    /* Animation properties */
+    animation-duration: 2s;
 }
 
 #load-icon {
     display: block;
     width: 20vw;
     margin: auto;
+
+    /* Animation properties */
+    animation-duration: 0.5s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+    animation-fill-mode: forwards;
+    animation-name: load-float;
 }
 
 #load-message {
@@ -39,6 +54,11 @@
 
     /* Visuals */
     color: whitesmoke;
+
+    /* Animation properties */
+    animation-name: load-in-progress;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
 }
 
 #enter-button {
@@ -52,11 +72,14 @@
     font-family: "Pixelify Sans", sans-serif;
     font-weight: bold;
     font-size: 30px;
-    letter-spacing: 0.125em;;
+    letter-spacing: 0.125em;
 
     /* Visuals */
     border-radius: 250px;
     border-style: none;
     padding: 0.5em 1em 0.5em 1em;
-    background-color: rgb(40, 69, 200)
+    background-color: rgb(40, 69, 200);
+
+    /* Animation properties */
+    animation-duration: 1s;
 }

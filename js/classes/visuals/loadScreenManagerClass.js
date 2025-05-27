@@ -2,6 +2,8 @@ export { LoadScreenManager }
 
 class LoadScreenManager {
 
+    static fadeTime = 1; // How long it takes for an element to fade out
+
     // Html elements
     #siteTitle;
     #loadScreen;
@@ -24,14 +26,34 @@ class LoadScreenManager {
     }
 
     showButton() {
-        this.#siteTitle.style.display = "block";
-        this.#enterButton.style.display = "block";
-        this.#loadMessage.style.display = "none";
-        this.#loadIcon.style.display = "none";
+        this.#fadeOutElement(this.#loadMessage);
+        this.#fadeOutElement(this.#loadIcon);
+        setTimeout(() => {
+            this.#fadeInElement(this.#siteTitle);
+            this.#fadeInElement(this.#enterButton);
+        }, LoadScreenManager.fadeTime * 1000);
     }
 
     #closeLoadScreen() {
-        this.#loadScreen.style.display = "none";
-        this.#inputManager.pauseInput(false);
+        this.#loadScreen.style.animationName = "load-close";
+        setTimeout(() => this.#inputManager.pauseInput(false), LoadScreenManager.fadeTime * 1000);
+    }
+
+    #fadeInElement(element) {
+        element.style.display = "block";
+        element.style.animationDuration = LoadScreenManager.fadeTime;
+        element.style.animationIterationCount = 1;
+        element.style.animationDirection = "normal";
+        element.style.animationFill = "forwards";
+        element.style.animationName = "load-fade-in";
+    }
+
+    #fadeOutElement(element) {
+        element.style.animationDuration = LoadScreenManager.fadeTime;
+        element.style.animationIterationCount = 1;
+        element.style.animationDirection = "normal";
+        element.style.animationFill = "forwards";
+        element.style.animationName = "load-fade-out";
+        setTimeout(() => element.style.display = "none", LoadScreenManager.fadeTime * 1000);
     }
 }
