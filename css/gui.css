@@ -1,0 +1,52 @@
+#gui-menu {
+    /* Positioning */
+    position: fixed;
+    display: flex;
+    justify-content: right;
+    gap: 3.5vw;
+    top: 5vh;
+    right: 3vw;
+}
+
+#help-button {
+    font-family: "Pixelify Sans", sans-serif;
+    font-weight: bolder;
+    font-size: 60px;
+    color: white;
+}
+
+.gui-button {
+    border-radius: 50%;
+    width: 80px;
+    background-color: rgb(2, 3, 31);
+    transition: 0.3s ease, background-color 0.25s ease;
+}
+
+.gui-button:hover {
+    background-color: rgb(10, 30, 69);
+    transform: scale(1.1);
+}
+
+.gui-button:active {
+    transform: scale(0.9);
+}
+
+.gui-icon {
+    max-width: 40px;
+    filter: invert(1);
+}
+
+.gui-button-toggled {
+    background-color: rgb(20, 80, 120);
+}
+
+#help-box {
+    display: none; /* Start not opened */
+}
+
+ @media only screen and (max-width: 768px) {
+    #gui-menu {
+        justify-content: space-evenly;
+        width: 100%;
+    }
+ }
