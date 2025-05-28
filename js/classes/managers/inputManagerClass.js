@@ -91,19 +91,21 @@ class InputManager {
         })
 
         // Add external circumstances where key pressed need to be cleared
-        this.#addPressedKeyClearEvents("blur", "contextmenu");
+        this.#addPressedKeyClearEvents("blur", "contextmenu", "visibilitychange");
     }
 
     #setupMouseInputReading() {
         // For interacting with the mouse
         document.addEventListener("pointerdown", (mouseEvent) => {
-            if (mouseEvent.button !== 0 || mouseEvent.target.tagName !== "CANVAS") return;
+            if (mouseEvent.button !== 0) return;
 
             // Handle menu interactions (paused when in menus)
             if (this.#isPaused) {
                 this.#arcadeClass.notifyInteractPressed();
                 return;
             }
+
+            if (mouseEvent.target.tagName !== "CANVAS") return;
 
             // Handle overworld clicks
             this.#pointerHeld = true;
@@ -125,7 +127,11 @@ class InputManager {
 
     #addPressedKeyClearEvents(...events) {
         events.forEach(event => {
-            window.addEventListener(event, () => this.#pressedKeys.clear())
+            window.addEventListener(event, () => {
+                this.#pressedKeys.clear();
+                this.#pointerHeld = false;
+                this.#mouseWorldPos = null;
+            })
         });
     }
 }

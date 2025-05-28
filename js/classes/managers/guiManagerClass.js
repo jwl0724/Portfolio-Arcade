@@ -16,12 +16,14 @@ class GUIManager {
 
     // Managers
     #inputManager;
+    #audioManager
 
     // Running variables
     #disabled;
 
-    constructor(inputManager) {
+    constructor(inputManager, audioManager) {
         this.#inputManager = inputManager;
+        this.#audioManager = audioManager;
 
         // Get elements
         this.#gui = document.getElementById("gui-menu");
@@ -56,6 +58,16 @@ class GUIManager {
         closeButton.addEventListener("click", () => this.#closeHelpWindow());
         this.#helpButton.addEventListener("click", () => {
             if (!this.#disabled) this.#openHelpWindow();
+        });
+        this.#musicButton.addEventListener("click", () => {
+            this.#audioManager.toggleMusic();
+            if (!this.#audioManager.musicEnabled()) this.#musicButton.classList.add("gui-button-toggled");
+            else this.#musicButton.classList.remove("gui-button-toggled");
+        });
+        this.#sfxButton.addEventListener("click", () => {
+            this.#audioManager.toggleSFX();
+            if (!this.#audioManager.sfxEnabled()) this.#sfxButton.classList.add("gui-button-toggled");
+            else this.#sfxButton.classList.remove("gui-button-toggled");
         });
     }
 
