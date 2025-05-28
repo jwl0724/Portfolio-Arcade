@@ -97,13 +97,15 @@ class InputManager {
     #setupMouseInputReading() {
         // For interacting with the mouse
         document.addEventListener("pointerdown", (mouseEvent) => {
-            if (mouseEvent.button !== 0 || mouseEvent.target.tagName !== "CANVAS") return;
+            if (mouseEvent.button !== 0) return;
 
             // Handle menu interactions (paused when in menus)
             if (this.#isPaused) {
                 this.#arcadeClass.notifyInteractPressed();
                 return;
             }
+
+            if (mouseEvent.target.tagName !== "CANVAS") return;
 
             // Handle overworld clicks
             this.#pointerHeld = true;
