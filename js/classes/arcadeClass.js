@@ -8,6 +8,7 @@ import { InputManager } from "./managers/inputManagerClass";
 import { ArcadeMachine } from "./entities/arcadeMachineClass";
 import { LoadScreenManager } from "./visuals/loadScreenManagerClass";
 import { GUIManager } from "./managers/guiManagerClass";
+import { AudioManager } from "./managers/audioManagerClass";
 import { ProjectWindow } from "./visuals/projectWindowClass";
 
 export { Arcade, debug };
@@ -26,6 +27,7 @@ class Arcade {
     #inputManager;
     #dialogueManager;
     #guiManager;
+    #audioManager;
 
     // Scenes
     #arcadeScene;
@@ -44,8 +46,9 @@ class Arcade {
         this.#dialogueManager = new DialogueManager(this);
         this.#cameraManager = new CameraManager(75, window.innerWidth / window.innerHeight, 0.1, 300);
         this.#inputManager = new InputManager(this);
+        this.#audioManager = new AudioManager();
         this.#loadScreenManager = new LoadScreenManager(this.#inputManager);
-        this.#guiManager = new GUIManager(this.#inputManager);
+        this.#guiManager = new GUIManager(this.#inputManager, this.#audioManager);
         this.#animationMixers = new Array();
 
         // Setup scene properties
@@ -64,6 +67,7 @@ class Arcade {
 
         // Setup UI function calls
         this.#loadScreenManager.addCloseAction(() => this.#guiManager.showUI());
+        this.#loadScreenManager.addCloseAction(() => this.#audioManager.toggleMusic());
         ProjectWindow.addCloseAction(() => {
             this.#guiManager.showUI();
             this.#guiManager.disable(false);
@@ -165,6 +169,7 @@ class Arcade {
     openProject(machine) {
         this.#guiManager.hideUI();
         this.#guiManager.disable(true);
+        this.#audioManager.playSFX(this.#audioManager.chooseRandomSFX(AudioManager.sfx.arcade));
         machine.openProject(this, this.#player);
     }
 
