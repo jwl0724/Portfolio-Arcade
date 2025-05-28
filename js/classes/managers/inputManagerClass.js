@@ -91,7 +91,7 @@ class InputManager {
         })
 
         // Add external circumstances where key pressed need to be cleared
-        this.#addPressedKeyClearEvents("blur", "contextmenu");
+        this.#addPressedKeyClearEvents("blur", "contextmenu", "visibilitychange");
     }
 
     #setupMouseInputReading() {
@@ -125,7 +125,11 @@ class InputManager {
 
     #addPressedKeyClearEvents(...events) {
         events.forEach(event => {
-            window.addEventListener(event, () => this.#pressedKeys.clear())
+            window.addEventListener(event, () => {
+                this.#pressedKeys.clear();
+                this.#pointerHeld = false;
+                this.#mouseWorldPos = null;
+            })
         });
     }
 }
