@@ -26,12 +26,16 @@ class AudioManager {
         ]
     });
 
+    // Constants
+    static #dialogueNoteRate = 0.1;
+
     // Components
     #musicPlayer;
 
     // Running variables
     #musicEnabled = false;
     #sfxEnabled = true;
+    #dialogueNotesInterval = null;
 
     constructor() {
         this.#musicPlayer = document.getElementById("bgm");
@@ -41,6 +45,23 @@ class AudioManager {
     playSFX(sfx) {
         if (!this.#sfxEnabled) return;
         sfx.play();
+    }
+
+    startDialogueSound() {
+        if (!this.#sfxEnabled || this.#dialogueNotesInterval !== null) return;
+        this.#dialogueNotesInterval = setInterval(() => {
+            const dialogueNote = this.chooseRandomSFX(AudioManager.sfx.dialogue);
+            dialogueNote.currentTime = 0;
+            dialogueNote.playbackRate = 2;
+            dialogueNote.play();
+
+        }, AudioManager.#dialogueNoteRate * 1000);
+    }
+
+    stopDialogueSound() {
+        if (!this.#sfxEnabled || this.#dialogueNotesInterval === null) return;
+        clearInterval(this.#dialogueNotesInterval);
+        this.#dialogueNotesInterval = null;
     }
 
     chooseRandomSFX(sfxList) {

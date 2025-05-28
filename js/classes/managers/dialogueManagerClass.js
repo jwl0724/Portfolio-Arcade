@@ -8,6 +8,7 @@ class DialogueManager {
 
     // Components
     #dialogueVisuals;
+    #audioManager;
 
     // Scenes
     #arcade;
@@ -69,9 +70,10 @@ class DialogueManager {
         CharacterModel.ANIMATION_NAMES.PICKUP,
     );
 
-    constructor(arcade) {
+    constructor(arcade, audioManager) {
         this.#arcade = arcade;
         this.#dialogueVisuals = new DialogueVisualsManager(this);
+        this.#audioManager = audioManager;
     }
 
     setClerkModel(model) {
@@ -87,7 +89,7 @@ class DialogueManager {
         // Visuals Processes
         this.#dialogueVisuals.runOptions();
         this.#dialogueVisuals.hoverEffect(delta);
-        this.#dialogueVisuals.runTextSpeed(delta);
+        this.#dialogueVisuals.runTextSpeed(delta, this.#audioManager);
         this.#dialogueVisuals.displayPrompt(this.#playerScene, this.#interactArea);
     }
 
@@ -160,7 +162,7 @@ class DialogueManager {
     nextDialogue() {
         if (!this.#dialogueVisuals.isFinishedDisplaying()) {
             // Will automatically fill the current set text, early return so to not set text again
-            this.#dialogueVisuals.skipDisplaying();
+            this.#dialogueVisuals.skipDisplaying(this.#audioManager);
             return;
         }
 

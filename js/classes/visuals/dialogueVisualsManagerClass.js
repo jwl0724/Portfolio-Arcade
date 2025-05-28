@@ -113,22 +113,25 @@ class DialogueVisualsManager {
         this.#dialogueText = text;
     }
 
-    skipDisplaying() {
+    skipDisplaying(audioManager) {
         this.#textRatio = 1;
+        audioManager.stopDialogueSound();
         dialogueText.innerHTML = this.#dialogueText;
     }
 
-    runTextSpeed(delta) {
+    runTextSpeed(delta, audioManager) {
         if (this.#inAnimation || !this.#dialogueOpened) return;
         const textLength = Math.floor(this.#dialogueText.length * this.#textRatio);
         dialogueText.innerHTML = this.#dialogueText.substr(0, textLength);
 
         if (this.#textRatio >= 1) {
             this.#textRatio = 1;
+            audioManager.stopDialogueSound();
             nextPrompt.style.display = "inherit";
 
         } else {
             this.#textRatio += delta * this.#textSpeed;
+            audioManager.startDialogueSound();
             nextPrompt.style.display = "none";
         }
     }

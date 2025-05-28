@@ -43,10 +43,10 @@ class Arcade {
     constructor() {
         // Set data members
         this.#arcadeScene = new THREE.Scene();
-        this.#dialogueManager = new DialogueManager(this);
         this.#cameraManager = new CameraManager(75, window.innerWidth / window.innerHeight, 0.1, 300);
         this.#inputManager = new InputManager(this);
         this.#audioManager = new AudioManager();
+        this.#dialogueManager = new DialogueManager(this, this.#audioManager);
         this.#loadScreenManager = new LoadScreenManager(this.#inputManager);
         this.#guiManager = new GUIManager(this.#inputManager, this.#audioManager);
         this.#animationMixers = new Array();
