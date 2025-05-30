@@ -100,6 +100,49 @@
     transition: 0.3s ease, background-color 0.3s ease;
 }
 
+#hint-box {
+    /* View/Size */
+    display: none;
+    position: fixed;
+    padding-top: 0.25em;
+    padding-bottom: 0.25em;
+    padding-left: 1.5em;
+    padding-right: 1.5em;
+
+    /* Positioning */
+    top: 18vh;
+    right: 10.5vw;
+
+    /* Font settings */
+    text-align: center;
+    font-size: 16px;
+    font-family: "Pixelify Sans", sans-serif;
+
+    /* Visuals */
+    border-radius: 100px;
+    user-select: none;
+    font-family: "Pixelify Sans", sans-serif;
+    color: rgb(2, 3, 31);
+    background-color: whitesmoke;
+
+    /* Animation properties */
+    animation-duration: 0.5s;
+    animation-fill-mode: forwards;
+}
+
+#hint-box::after {
+    content: '';
+    position: absolute;
+    top: -30px;
+    left: 50%;
+    transform: translateX(-50%);
+
+    /* Triangle */
+    border-left: 20px solid transparent;
+    border-right: 20px solid transparent;
+    border-bottom: 30px solid whitesmoke;
+}
+
 #help-close:hover {
     color: lightgray;
     background-color: rgb(20, 50, 150);
@@ -134,11 +177,22 @@
     max-width: 50px;
 }
 
- @media only screen and (max-width: 768px) {
+@media only screen and (max-width: 768px) {
     #gui-menu {
         justify-content: space-evenly;
         width: 100%;
         left: 0%;
         right: 0%;
     }
- }
+
+    #hint-box {
+        right: 58vw;
+        font-size: 13px;
+    }
+}
+
+@media only screen and (max-width: 460px) {
+    #hint-box::after {
+        left: 45%;
+    }
+}

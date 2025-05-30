@@ -1,4 +1,4 @@
-export { InstructionsHTML as Instructions }
+export { InstructionsHTML as Instructions, Hint }
 
 const wasdIcon = `<img class="help-text-icon help-icon-enlarge" src="../images/icons/wasd-icon.png" alt="WASD">`;
 const eIcon = `<img class="help-text-icon" src="../images/icons/e-icon.png" alt="E">`;
@@ -15,10 +15,17 @@ Press ${wasdIcon} to move, hold ${shiftIcon} (shift) while moving to run.
 Press ${eIcon} when in front of an arcade machine or the arcade clerk to interact with them.
 `.trim();
 
+const intro = `
+Welcome to Jonathan's Project Arcade, below are the controls to move and interact with the world.
+If you want to see some projects Jonathan has worked on, move in front of the arcade machines and interact with them. If you want to know any additional information about Jonathan, go to the arcade clerk and interact with them.
+`.trim();
+
 const InstructionsHTML = `
-<p class="help-text">Welcome to Jonathan's Project Arcade, below are the controls to move and interact with the world.</p><br>
+<p class="help-text">${intro}</p><br>
 <b class="help-text help-section">Mobile Controls</b><br>
 <p class="help-text">${instructionsMobile}</p><br>
 <b class="help-text help-section">PC Controls</b><br>
 <p class="help-text">${instructionsPC}</p>
 `.trim();
+
+const Hint = "Confused? Press this to see the controls!";

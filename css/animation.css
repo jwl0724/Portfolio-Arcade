@@ -131,3 +131,14 @@
         opacity: 0;
     }
 }
+
+/* Hint Animations */
+@keyframes hint-show {
+    from { opacity: 0 }
+    to { opacity: 1 }
+}
+
+@keyframes hint-hide {
+    from { opacity: 1 }
+    to { opacity: 0 }
+}
