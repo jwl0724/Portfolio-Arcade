@@ -6,7 +6,7 @@ const TERRAIN_GENERATOR_SIMULATOR = Object.freeze({
 
     The island was generated using Perlin noise maps, which determined the elevation of each tile on the island. Each time the generate button is pressed a new noise map is used to create the island. Currently each tile is completely random, future considerations is to use noise maps to determine an area's "biome", where the appropriate tiles can then be selected based on the biome type.`,
     IMAGES: [
-        "../images/previews/terrainGeneratorSimulator/demo.gif"
+        "/images/previews/terrainGeneratorSimulator/demo.gif"
     ]
 });
 
@@ -19,11 +19,11 @@ const DUCK_HUNT_AT_HOME = Object.freeze({
     Through creating this project, it helped solidify my foundations in working within a 3D environment, as well as improving my code architecturing. I've also learned from some of the shortcomings from this project, such as the lack of object pooling, which is the cause of the game's performannce issues.
     `,
     IMAGES: [
-        "../images/previews/duckHuntAtHome/city.gif",
-        "../images/previews/duckHuntAtHome/plains.gif",
-        "../images/previews/duckHuntAtHome/space.gif",
-        "../images/previews/duckHuntAtHome/levels.gif",
-        "../images/previews/duckHuntAtHome/menu.gif"
+        "/images/previews/duckHuntAtHome/city.gif",
+        "/images/previews/duckHuntAtHome/plains.gif",
+        "/images/previews/duckHuntAtHome/space.gif",
+        "/images/previews/duckHuntAtHome/levels.gif",
+        "/images/previews/duckHuntAtHome/menu.gif"
     ]
 });
 
@@ -34,7 +34,7 @@ const PAWSITIVE = Object.freeze({
     The initial concept came from the idea that "gacha games" tend to have addictive elements to them that keeps their players hooked. We thought instead of using those addictive elements to exploit players, we should instead use them to build healthy habits in our players.
     `,
     IMAGES: [
-        "../images/previews/PAWsitive/homepage.png"
+        "/images/previews/PAWsitive/homepage.png"
     ]
 });
 
@@ -45,8 +45,8 @@ const SWING = Object.freeze({
         Swing was made with the PyGames library, as Python was the first language I was using at the time. The game helped me learn basic concepts such as game loops, collision detection, and basic physics. Nowadays I am capable of producing games like this in less than a day and I am reminded how far I have come since then.
     `,
     IMAGES: [
-        "../images/previews/swing/ingame.gif",
-        "../images/previews/swing/title.PNG"
+        "/images/previews/swing/ingame.gif",
+        "/images/previews/swing/title.PNG"
     ]
 });
 
@@ -57,7 +57,7 @@ const TOUHOU_AT_HOME = Object.freeze({
         The game was created within a week, where I learned the basics of Godot's scene systems, signals, and basic 2D physics. Creating this project was also the first time where I truly felt the importance of good code architecture, as the project quickly became incredibly difficult to extend as the project grew in complexity. Upon reflection, there were many different ways I could have improved the architecture such as using signals or decompose objects some more. Overall, the project was an incredibly learning experience that helped be me more conscioutious of my code architecture.
     `,
     IMAGES: [
-        "../images/previews/touhouAtHome/demo.png"
+        "/images/previews/touhouAtHome/demo.png"
     ]
 });
 
@@ -68,9 +68,9 @@ const ZOOM_TO_HOME = Object.freeze({
         The game was a summer project I worked on during the break from BCIT's CST program. The last project I created, Duck Hunt at Home, I found that the grappling hook mechanic was fun to play with, so I decided to expand on that idea and create a game around it. The game was a great opportunity to implement the fixes to the mistakes I made in Duck Hunt at Home, such as better code architecturing.
     `,
     IMAGES: [
-        "../images/previews/zoomToHome/tutorial.png",
-        "../images/previews/zoomToHome/goal.png",
-        "../images/previews/zoomToHome/result.png"
+        "/images/previews/zoomToHome/tutorial.png",
+        "/images/previews/zoomToHome/goal.png",
+        "/images/previews/zoomToHome/result.png"
     ]
 });
 
@@ -81,9 +81,9 @@ const SPIN_THE_BARREL = Object.freeze({
         The game was an opportunity to learn about Godot's multiplayer capabilities, where I learned the basics to creating a multiplayer game. Unfortunately, due to both the fast deadline and our first time working with Godot's multiplayer, the game has significant technical debt that would require a lot of work to refactor. The game likely will not be released, but it was a good learning experience for future multiplayer projects.
     `,
     IMAGES: [
-        "../images/previews/spinTheBarrel/ingame.png",
-        "../images/previews/spinTheBarrel/characterSelect.png",
-        "../images/previews/spinTheBarrel/title.png",
+        "/images/previews/spinTheBarrel/ingame.png",
+        "/images/previews/spinTheBarrel/characterSelect.png",
+        "/images/previews/spinTheBarrel/title.png",
     ]
 });
 
@@ -94,9 +94,9 @@ const AI_GAMER = Object.freeze({
         The game was an opportunity to learn about how neural networks worked and how to apply them to games. As for the choice of game, I wanted it to be something that was simple in mechanics, but not too simple such that I couldn't challenge myself with difficult problems. I ended up choosing Suika Game (translated to Watermelon Game) because of it's minimum player input, but complexity in object interactions.
     `,
     IMAGES: [
-        "../images/previews/AIGamer/mainMenu.png",
-        "../images/previews/AIGamer/gameplay.png",
-        "../images/previews/AIGamer/gameplay2.png"
+        "/images/previews/AIGamer/mainMenu.png",
+        "/images/previews/AIGamer/gameplay.png",
+        "/images/previews/AIGamer/gameplay2.png"
     ]
 });
 
