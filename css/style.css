@@ -4,6 +4,10 @@ body {
     font-family: "ByteBounce", "sans-serif";
 }
 
+html, body, canvas {
+    touch-action: none;
+}
+
 button {
     font-family: "ByteBounce", "sans-serif";
 }
