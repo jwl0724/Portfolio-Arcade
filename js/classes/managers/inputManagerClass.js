@@ -86,6 +86,7 @@ class InputManager {
 
         // For when interact is pressed
         document.addEventListener("keypress", (event) => {
+            if (this.#isPaused && !this.#arcadeClass.inDialogue()) return;
             const key = event.key.toLowerCase();
             if (key === "e") this.#arcadeClass.notifyInteractPressed();
         })
@@ -101,7 +102,7 @@ class InputManager {
 
             // Handle menu interactions (paused when in menus)
             if (this.#isPaused) {
-                this.#arcadeClass.notifyInteractPressed();
+                this.#arcadeClass.notifyInteractPressed(mouseEvent);
                 return;
             }
 

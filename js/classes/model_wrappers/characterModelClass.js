@@ -1,6 +1,7 @@
 import * as THREE from "three";
 import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import { debug } from "../arcadeClass";
+import { HitboxUtils } from "../utils/hitboxUtilsClass";
 
 export { CharacterModel };
 
@@ -76,7 +77,8 @@ class CharacterModel {
     createHitbox(arcadeScene) {
         // Needs to wait for the scene graph to update after adding model to scene
         requestAnimationFrame(() => {
-            this.#collisionBox = new THREE.Box3().setFromObject(this.#characterScene);
+            const originalHitbox = new THREE.Box3().setFromObject(this.#characterScene);
+            this.#collisionBox = HitboxUtils.createScaledHitbox(originalHitbox, 0.6);
             this.#collisionBox.getSize(this.#hitboxSize);
             if (debug) {
                 this.#debugBox = new THREE.Box3Helper(this.#collisionBox, 0xeeff00);

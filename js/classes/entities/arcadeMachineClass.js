@@ -4,6 +4,7 @@ import { GLTFLoader } from "three/examples/jsm/Addons.js";
 import { ProjectWindow } from "../visuals/projectWindowClass";
 import { debug } from "../arcadeClass";
 import { ShapeDrawer } from "../utils/shapeDrawerClass";
+import { HitboxUtils } from "../utils/hitboxUtilsClass";
 
 export { ArcadeMachine };
 
@@ -86,13 +87,14 @@ class ArcadeMachine {
         this.#scene.rotateY(this.#rotation * Math.PI / 180);
 
         // Create hitbox
-        this.#hitbox = new THREE.Box3().setFromObject(this.#scene);
+        const originalHitbox = new THREE.Box3().setFromObject(this.#scene);
+        this.#hitbox = HitboxUtils.createScaledHitbox(originalHitbox, 0.9);
         arcadeScene.add(this.#scene);
 
         // Create interact zone
         this.#interactBox = new THREE.Box3(
-            new THREE.Vector3(this.#position.x - 0.45, this.#position.y, this.#position.z - 0.3),
-            new THREE.Vector3(this.#position.x + 0.45, this.#position.y + 1, this.#position.z + 0.6)
+            new THREE.Vector3(this.#position.x - 0.3, this.#position.y, this.#position.z - 0.3),
+            new THREE.Vector3(this.#position.x + 0.3, this.#position.y + 1, this.#position.z + 0.6)
         );
 
         if (debug) {

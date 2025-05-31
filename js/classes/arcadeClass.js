@@ -82,6 +82,10 @@ class Arcade {
         return this.#cameraManager.getCamera();
     }
 
+    inDialogue() {
+        return this.#dialogueManager.isInDialogue();
+    }
+
     resizeRenderWindow(x, y) {
         this.#cameraManager.setAspectRatio(x / y);
         this.#renderer.setSize(x, y);
@@ -123,9 +127,9 @@ class Arcade {
         this.#notifyCompleteLoad();
     }
 
-    notifyInteractPressed(mouseEvent = null) {
+    notifyInteractPressed(event = null) {
         // Special cases for mouse events
-        if (mouseEvent) {
+        if (event instanceof MouseEvent) {
             if (this.#dialogueManager.isInDialogue()) this.#dialogueManager.nextDialogue();
             return;
         }

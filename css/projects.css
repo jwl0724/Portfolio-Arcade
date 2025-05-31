@@ -19,7 +19,6 @@
 
     /* visual properties */
     user-select: none;
-    font-family: "Pixelify Sans", sans-serif;
     color: whitesmoke;
     background-color: rgb(2, 3, 31);
     border-style: solid;
@@ -60,8 +59,8 @@
     position: absolute;
 
     /* Visuals */
+    font-family: "Pixelify Sans", "sans-serif";
     font-size: 72px;
-    font-family: "Pixelify Sans", sans-serif;
     color: rgb(221, 221, 221);
     background: none;
     border: none;
@@ -105,7 +104,7 @@
     padding-left: 2%;
     padding-right: 2%;
     text-align: justify;
-    font-size: 18px;
+    font-size: 25px;
     white-space: pre-wrap;
 
     /* Scroll bar visuals */
@@ -145,7 +144,7 @@
     position: relative;
     transform-origin: center;
     transform: rotate(90deg) translate(0, -37px);
-    font-family: "Pixelify Sans", sans-serif;
+    font-family: "Pixelify Sans", "sans-serif";
     font-size: 60px;
     color: rgb(0, 81, 255);
 

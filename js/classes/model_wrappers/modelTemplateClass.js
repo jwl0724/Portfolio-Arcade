@@ -67,9 +67,4 @@ class ModelTemplate {
             arcadeScene.add(boxHelper);
         }
     }
-
-    // TODO: DONT USE THIS, need to find some identifier to get a specific item from placed into scene
-    getModel(someIdentifier) {
-        return null;
-    }
 }

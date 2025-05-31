@@ -39,6 +39,7 @@ class AudioManager {
 
     constructor() {
         this.#musicPlayer = document.getElementById("bgm");
+        this.#musicPlayer.loop = true;
     }
 
     // Expects passing parameter from sfx collection list

@@ -63,10 +63,9 @@
 }
 
 .dialogue {
-    font-family: "Pixelify Sans", sans-serif;
     font-weight: bold;
     color: whitesmoke;
-    font-size: 4vh;
+    font-size: 4.5vh;
     text-align: center;
     vertical-align: middle;
 }
@@ -91,7 +90,7 @@
     padding: 0.5em 1em 0.5em 1em;
 
     /* visual properties */
-    font-size: 25px;
+    font-size: 27px;
     background-color: rgb(2, 3, 31);
     border-style: solid;
     border-color: whitesmoke;
@@ -125,7 +124,7 @@
     }
 
     .option {
-        font-size: 23px;
+        font-size: 25px;
     }
 
     #background-dim {
