@@ -39,7 +39,8 @@ class DialogueManager {
     );
     static #interestsTree = new Array(
         Dialogue.ABOUT_DIALOGUE.INTERESTS,
-        Dialogue.ABOUT_DIALOGUE.INTERESTS_2
+        Dialogue.ABOUT_DIALOGUE.INTERESTS_2,
+        Dialogue.ABOUT_DIALOGUE.INTERESTS_3
     );
     static #educationTree = new Array(
         Dialogue.ABOUT_DIALOGUE.EDUCATION,
