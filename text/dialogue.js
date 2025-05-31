@@ -18,8 +18,8 @@ const CLERK_INTRO = Object.freeze({
 const ABOUT_DIALOGUE = Object.freeze({
     INTERESTS: "Jonathan enjoys anything games related, from playing games to developing them.",
     INTERESTS_2: "Of course he also enjoys coding, I mean he's weird enough to create this arcade as a portfolio site.",
-    EDUCATION: "Jonathan is currently progressing through BCIT's CST program.",
-    EDUCATION_2: "He also has a bachelor's degree in Biology from SFU, for what that's worth.",
+    EDUCATION: "Jonathan recently just finished BCIT's CST program.",
+    EDUCATION_2: "He also has a bachelor's degree in Biology from SFU.",
     SKILLS: "In terms of programming languages, Jonathan is proficient in Java, C#, C++, JavaScript, and Python.",
     SKILLS_2: "In terms of tools, Jonathan is proficient in Godot, Unity, GitHub, NodeJS",
     SKILLS_3: "Right now he is trying to learn Unreal Engine and Blender, but his computer is too terrible to run them.",
