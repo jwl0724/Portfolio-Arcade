@@ -38,7 +38,11 @@ Move in front of the arcade machines and press E (or tap it on mobile) to see my
 
     Source: [Google Fonts](https://fonts.google.com/specimen/Pixelify+Sans)
 
-- **"ByteBounce"** by HipFonts
+- **"Aldrich"** by MADType
 
-    Source: [1001Fonts](https://www.1001fonts.com/bytebounce-font.html)
+    Source: [Google Fonts](https://fonts.google.com/specimen/Aldrich)
+
+- **"Noto Sans Symbols 2"** from Google Fonts
+
+    Source: [Google Fonts](https://fonts.google.com/noto/specimen/Noto+Sans+Symbols+2)
 
