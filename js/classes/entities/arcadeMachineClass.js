@@ -88,7 +88,7 @@ class ArcadeMachine {
 
         // Create hitbox
         const originalHitbox = new THREE.Box3().setFromObject(this.#scene);
-        this.#hitbox = HitboxUtils.createScaledHitbox(originalHitbox, 0.9);
+        this.#hitbox = HitboxUtils.createScaledHitbox(originalHitbox, 0.75);
         arcadeScene.add(this.#scene);
 
         // Create interact zone
