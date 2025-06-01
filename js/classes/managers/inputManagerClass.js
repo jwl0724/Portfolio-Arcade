@@ -112,7 +112,7 @@ class InputManager {
             this.#pointerHeld = true;
             this.#clickManager.setMouseRaycast(mouseEvent);
             this.#mouseWorldPos = this.#clickManager.getClickPosition();
-            if (this.#clickManager.interactableClicked()) this.#arcadeClass.notifyInteractPressed()
+            if (this.#clickManager.interactableClicked()) this.#arcadeClass.notifyInteractPressed(mouseEvent, this.#mouseWorldPos);
         });
 
         document.addEventListener("pointerup", (mouseEvent) => {
