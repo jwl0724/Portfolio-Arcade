@@ -46,6 +46,11 @@ class ProjectWindow {
     constructor(info) {
         this.#projectInfo = info;
         this.#imageIndex = 0;
+
+        info.IMAGES.forEach(path => {
+            const img = new Image();
+            img.src = path;
+        });
     }
 
     // Not static because every arcade machine has it's own information
