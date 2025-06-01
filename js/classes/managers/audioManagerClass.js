@@ -39,6 +39,7 @@ class AudioManager {
 
     constructor() {
         this.#musicPlayer = document.getElementById("bgm");
+        this.#musicPlayer.volume = 0.5;
         this.#musicPlayer.loop = true;
     }
 

@@ -150,19 +150,19 @@ class ArcadeBuilder {
         const terrainSimProject = new ArcadeMachine(Projects.TERRAIN_GENERATOR_SIMULATOR,
             new THREE.Vector3(2, 0, -0.5), 1);
         const duckHuntAtHome = new ArcadeMachine(Projects.DUCK_HUNT_AT_HOME,
-            new THREE.Vector3(2.6, 0, -0.5), -1);
+            new THREE.Vector3(3, 0, -0.5), -1);
         const PAWsitive = new ArcadeMachine(Projects.PAWSITIVE,
-            new THREE.Vector3(3.2, 0, -0.5), 0);
+            new THREE.Vector3(4, 0, -0.5), 0);
         const swing = new ArcadeMachine(Projects.SWING,
-            new THREE.Vector3(3.8, 0, -0.5), -1);
+            new THREE.Vector3(5, 0, -0.5), -1);
         const touhouAtHome = new ArcadeMachine(Projects.TOUHOU_AT_HOME,
-            new THREE.Vector3(4.4, 0, -0.5), 1);
+            new THREE.Vector3(5, 0, -2), 1);
         const zoomToHome = new ArcadeMachine(Projects.ZOOM_TO_HOME,
-            new THREE.Vector3(1.8, 0, -2), -1);
+            new THREE.Vector3(2, 0, -2), -1);
         const spinTheBarrel = new ArcadeMachine(Projects.SPIN_THE_BARREL,
-            new THREE.Vector3(2.4, 0, -2), 1);
+            new THREE.Vector3(3, 0, -2), 1);
         const aiGamer = new ArcadeMachine(Projects.AI_GAMER,
-            new THREE.Vector3(3, 0, -2), -1);
+            new THREE.Vector3(4, 0, -2), -1);
 
         // Put arcade machine onto scene
         terrainSimProject.spawn(scene, collisionManager);

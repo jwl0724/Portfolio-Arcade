@@ -26,7 +26,6 @@ class ProjectWindow {
 
     // Add event handlers for html elements
     static {
-        // document.getElementById("project-close").onclick = () => this.#closeProject();
         this.#closeFunctionQueue.push(() => ArcadeMachine.notifyWindowClosed());
         this.#closeFunctionQueue.push(() => this.#closeWindow());
         document.getElementById("project-close").onclick = () => this.#closeFunctionQueue.forEach(action => action());
@@ -65,7 +64,6 @@ class ProjectWindow {
             return;
         }
         // If the project does have pictures associated with it
-        ProjectWindow.#previewSection.style.display = "block";
         ProjectWindow.#previewImage.src = this.#projectInfo.IMAGES[this.#imageIndex];
 
         // If more than one picture
@@ -81,6 +79,8 @@ class ProjectWindow {
             ProjectWindow.#nextImageButton.style.display = "none";
             ProjectWindow.#prevImageButton.style.display = "none";
         }
+        // Only show preivew box after the picture file has loaded
+        ProjectWindow.#previewImage.onload = () => ProjectWindow.#previewSection.style.display = "block";
     }
 
     static #openWindow() {

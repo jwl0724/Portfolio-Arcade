@@ -21,10 +21,10 @@ If you want to see some projects Jonathan has worked on, move in front of the ar
 `.trim();
 
 const InstructionsHTML = `
-<p class="help-text">${intro}</p><br>
-<b class="help-text help-section">Mobile Controls</b><br>
-<p class="help-text">${instructionsMobile}</p><br>
-<b class="help-text help-section">PC Controls</b><br>
+<p class="help-text">${intro}</p>
+<b class="help-text help-section">Mobile Controls</b>
+<p class="help-text">${instructionsMobile}</p>
+<b class="help-text help-section">PC Controls</b>
 <p class="help-text">${instructionsPC}</p>
 `.trim();
 

@@ -1,7 +1,7 @@
 /* Global CSS */
 body {
     margin: 0;
-    font-family: "ByteBounce", "sans-serif";
+    font-family: "Aldrich", "sans-serif";
 }
 
 html, body, canvas {
@@ -9,7 +9,7 @@ html, body, canvas {
 }
 
 button {
-    font-family: "ByteBounce", "sans-serif";
+    font-family: "Aldrich", "sans-serif";
 }
 
 /* Imports */
@@ -21,8 +21,15 @@ button {
 }
 
 @font-face {
-    font-family: "ByteBounce";
-    src: url("/fonts/ByteBounce.woff") format("woff");
+    font-family: "Aldrich";
+    src: url("/fonts/Aldrich-Regular.ttf") format("truetype");
+    font-weight: normal;
+    font-style: normal;
+}
+
+@font-face {
+    font-family: "NotoSans Symbol";
+    src: url("/fonts/NotoSansSymbols2-Regular.ttf") format("truetype");
     font-weight: normal;
     font-style: normal;
 }

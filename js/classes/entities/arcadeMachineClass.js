@@ -40,9 +40,9 @@ class ArcadeMachine {
 
 
     // Helper methods to check if player interacted
-    static findInteractedMachine(player) {
+    static findInteractedMachine(player, mouseWorldPos = null) {
         for(let i = 0; i < ArcadeMachine.#allMachines.length; i++) {
-            if (ArcadeMachine.#allMachines[i].inRange(player))
+            if (ArcadeMachine.#allMachines[i].inRange(player, mouseWorldPos))
                 return ArcadeMachine.#allMachines[i];
         }
         return null;
@@ -88,7 +88,7 @@ class ArcadeMachine {
 
         // Create hitbox
         const originalHitbox = new THREE.Box3().setFromObject(this.#scene);
-        this.#hitbox = HitboxUtils.createScaledHitbox(originalHitbox, 0.9);
+        this.#hitbox = HitboxUtils.createScaledHitbox(originalHitbox, 0.75);
         arcadeScene.add(this.#scene);
 
         // Create interact zone
@@ -123,8 +123,12 @@ class ArcadeMachine {
         arcadeScene.add(this.#exclaimPrompt);
     }
 
-    inRange(player) {
+    inRange(player, mouseWorldPos) {
         if (!this.#ready || ArcadeMachine.#isInteracting) return false;
+        // Handle mouse click
+        if (mouseWorldPos !== null) {
+            return this.#interactBox.containsPoint(player.getModel().position) && this.#interactBox.containsPoint(mouseWorldPos);
+        }
         return this.#interactBox.containsPoint(player.getModel().position);
     }
 

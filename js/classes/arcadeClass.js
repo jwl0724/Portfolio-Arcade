@@ -127,10 +127,17 @@ class Arcade {
         this.#notifyCompleteLoad();
     }
 
-    notifyInteractPressed(event = null) {
+    notifyInteractPressed(event = null, mouseWorldPos = null) {
         // Special cases for mouse events
         if (event instanceof MouseEvent) {
             if (this.#dialogueManager.isInDialogue()) this.#dialogueManager.nextDialogue();
+            if (mouseWorldPos === null) return; // Early return if no mouse world position provided
+
+            // Handle interacts on clicking interactables
+            if (this.#clerk.validInteract(this.#player, mouseWorldPos)) this.enterDialogue();
+            const interactedMachine = ArcadeMachine.findInteractedMachine(this.#player, mouseWorldPos);
+            if (ArcadeMachine.isInteracting()) return;
+            else if (interactedMachine) this.openProject(interactedMachine);
             return;
         }
         // Dialogue Handlers

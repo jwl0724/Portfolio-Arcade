@@ -51,8 +51,11 @@ class Clerk {
         this.#ready = true;
     }
 
-    validInteract(player) {
+    validInteract(player, mouseWorldPos = null) {
         if (!this.#ready || this.#isInteracting) return false;
+        // Handle click interacts
+        if (mouseWorldPos !== null)
+            return this.#interactBox.containsPoint(player.getModel().position) && this.#interactBox.containsPoint(mouseWorldPos);
         // Check if player is in interact range
         if (!this.#interactBox.containsPoint(player.getModel().position)) return false;
         return true;

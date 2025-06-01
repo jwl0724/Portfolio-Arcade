@@ -4,7 +4,8 @@
     display: none;
 
     /* visual properties */
-    font-size: 100px;
+    font-family: "NotoSans Symbol";
+    font-size: 75px;
     color:whitesmoke;
 
     /* animation */
@@ -65,7 +66,7 @@
 .dialogue {
     font-weight: bold;
     color: whitesmoke;
-    font-size: 4.5vh;
+    font-size: 4vh;
     text-align: center;
     vertical-align: middle;
 }
@@ -90,7 +91,7 @@
     padding: 0.5em 1em 0.5em 1em;
 
     /* visual properties */
-    font-size: 27px;
+    font-size: 24px;
     background-color: rgb(2, 3, 31);
     border-style: solid;
     border-color: whitesmoke;
@@ -124,7 +125,7 @@
     }
 
     .option {
-        font-size: 25px;
+        font-size: 23px;
     }
 
     #background-dim {
