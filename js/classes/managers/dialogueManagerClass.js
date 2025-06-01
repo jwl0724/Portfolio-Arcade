@@ -52,7 +52,8 @@ class DialogueManager {
         Dialogue.ABOUT_DIALOGUE.SKILLS_3
     );
     static #projectsTree = new Array(
-        Dialogue.PROJECTS_DIALOGUE.INSTRUCTIONS_DESKTOP // Temp only for desktop, mobile support way later down the line
+        Dialogue.PROJECTS_DIALOGUE.INSTRUCTIONS_DESKTOP,
+        Dialogue.PROJECTS_DIALOGUE.INSTRUCTRICTIONS_MOBILE
     );
     static #repeatTree = new Array(
         Dialogue.CLERK_INTRO.REPEAT_PROMPT

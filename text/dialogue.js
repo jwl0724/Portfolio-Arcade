@@ -27,8 +27,8 @@ const ABOUT_DIALOGUE = Object.freeze({
 });
 
 const PROJECTS_DIALOGUE = Object.freeze({
-    INSTRUCTIONS_DESKTOP: "You can see his projects by pressing E when near the arcade cabinet",
-    INSTRUCTRICTIONS_MOBILE: "You can see his projects by tapping the arcade cabinet",
+    INSTRUCTIONS_DESKTOP: "You can see his projects by pressing E when in front of the arcade cabinets",
+    INSTRUCTRICTIONS_MOBILE: "Or you can tap on the arcade cabinets when in front of them if you're on mobile!",
 });
 
 const Dialogue = Object.freeze({
