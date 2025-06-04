@@ -147,11 +147,11 @@ class ArcadeBuilder {
 
         // Add ground labels to arcade sections
         const projectsText = ShapeDrawer.createFloorText("Projects", 57);
-        projectsText.position.set(3.5, 0.03, 0.2);
+        projectsText.position.set(3.5, 0.026, 0.2);
         projectsText.rotateX(-Math.PI / 2);
 
         const aboutText = ShapeDrawer.createFloorText("About", 57);
-        aboutText.position.set(7, 0.03, -4);
+        aboutText.position.set(7, 0.026, -4);
         aboutText.rotateX(-Math.PI / 2);
 
         scene.add(projectsText);

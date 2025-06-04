@@ -152,7 +152,7 @@ class ShapeDrawer {
         canvas.height = 256;
         const textContext = canvas.getContext('2d');
         textContext.font = `${fontSize}px Aldrich`;
-        textContext.fillStyle = 'white';
+        textContext.fillStyle = 'gray';
         textContext.textAlign = 'center';
         textContext.textBaseline = 'middle';
         textContext.fillText(text, canvas.width / 2, canvas.height / 2);
