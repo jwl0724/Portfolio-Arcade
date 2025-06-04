@@ -144,4 +144,31 @@ class ShapeDrawer {
         exclaimDotMesh.add(exclaimLineMesh); // Add line to child and return as one grouped mesh
         return exclaimDotMesh;
     }
+
+    static createFloorText(text, fontSize) {
+        // Create canvas with text
+        const canvas = document.createElement('canvas');
+        canvas.width = 512;
+        canvas.height = 256;
+        const textContext = canvas.getContext('2d');
+        textContext.font = `${fontSize}px Aldrich`;
+        textContext.fillStyle = 'white';
+        textContext.textAlign = 'center';
+        textContext.textBaseline = 'middle';
+        textContext.fillText(text, canvas.width / 2, canvas.height / 2);
+
+        // Create material from canvas
+        const texture = new THREE.CanvasTexture(canvas);
+        texture.needsUpdate = true;
+        const material = new THREE.MeshBasicMaterial({
+            map: texture,
+            transparent: true,
+            side: THREE.FrontSide
+        });
+
+        // Create plane mesh
+        const geometry = new THREE.PlaneGeometry(5, 2.5);
+        const mesh = new THREE.Mesh(geometry, material);
+        return mesh;
+    }
 }

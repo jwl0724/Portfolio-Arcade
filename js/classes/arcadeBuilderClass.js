@@ -5,6 +5,7 @@ import { Player } from "./entities/playerClass";
 import { Clerk } from "./entities/clerkClass";
 import { ArcadeMachine } from "./entities/arcadeMachineClass";
 import { Projects } from "../../text/projects";
+import { ShapeDrawer } from "./utils/shapeDrawerClass";
 
 export { ArcadeBuilder };
 
@@ -143,6 +144,18 @@ class ArcadeBuilder {
         // Add boundary wall at bottom of arcade
         const bottomBounds = new THREE.Box3(new THREE.Vector3(0, 0, 0.4), new THREE.Vector3(9, 5, 2));
         collisionManager.addEnvironmentHitbox(bottomBounds);
+
+        // Add ground labels to arcade sections
+        const projectsText = ShapeDrawer.createFloorText("Projects", 57);
+        projectsText.position.set(3.5, 0.03, 0.25);
+        projectsText.rotateX(-Math.PI / 2);
+
+        const aboutText = ShapeDrawer.createFloorText("About", 57);
+        aboutText.position.set(7, 0.03, -4);
+        aboutText.rotateX(-Math.PI / 2);
+
+        scene.add(projectsText);
+        scene.add(aboutText);
     }
 
     // Any updates to projects should be isolated to only here
