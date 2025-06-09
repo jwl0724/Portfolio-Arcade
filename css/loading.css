@@ -45,6 +45,21 @@
     animation-name: load-float;
 }
 
+#load-bar {
+    width: 80%;
+}
+
+#load-progress {
+    /* Progress visuals */
+    width: 0%;
+    height: 12px;
+    border-radius: 50px;
+    background-color: whitesmoke;
+
+    /* Transition */
+    transition: 0.5s ease;
+}
+
 #load-message {
     /* Font settings */
     font-weight: bold;
