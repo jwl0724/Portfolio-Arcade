@@ -58,6 +58,10 @@
 
     /* Transition */
     transition: 0.5s ease;
+
+    /* Animation properties */
+    animation-duration: 2s;
+    animation-fill-mode: forwards;
 }
 
 #load-message {
