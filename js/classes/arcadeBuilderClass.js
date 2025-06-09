@@ -12,7 +12,12 @@ export { ArcadeBuilder };
 // Only one should exists, what the script will interface with
 class ArcadeBuilder {
 
-    static async buildArcade(scene, collisionManager, animationMixers) {
+    static async buildArcade(arcadeClass, collisionManager, animationMixers) {
+        const scene = arcadeClass.getScene();
+        // Load sections: Load walls/floor, place walls/floor, load decor, place decor, setup hitboxes, draw floor labels
+        const loadSections = 6;
+        let progress = 0;
+
         // CREATING WALLS AND FLOORS
 
         // Load building templates
@@ -29,6 +34,8 @@ class ArcadeBuilder {
         await columnTemplate.loadTemplate();
         await windowTemplate.loadTemplate();
         await doorTemplate.loadTemplate();
+
+        arcadeClass.notifyProgress(++progress / loadSections);
 
         // Create main floor
         for(let row = 0; row < 5; row++)
@@ -76,6 +83,8 @@ class ArcadeBuilder {
         // Create door
         doorTemplate.place(scene, new THREE.Vector3(2, 0, -4));
 
+        arcadeClass.notifyProgress(++progress / loadSections);
+
         // ADD ARCADE DECOR TO SCENE
 
         // Load templates
@@ -103,6 +112,8 @@ class ArcadeBuilder {
         await ticketTemplate.loadTemplate();
         await clawTemplate.loadTemplate();
 
+        arcadeClass.notifyProgress(++progress / loadSections);
+
         // Place items with no animations
         hockeyTemplate.place(scene, new THREE.Vector3(3, 0, -3.25));
         basketballTemplate.place(scene, new THREE.Vector3(4.5, 0, -3.25));
@@ -122,6 +133,8 @@ class ArcadeBuilder {
         ticketTemplate.place(scene, new THREE.Vector3(5.55, 0, -4.88), 90, animationMixers);
         ticketTemplate.place(scene, new THREE.Vector3(5.55, 0, -4.35), 90, animationMixers);
         clawTemplate.place(scene, new THREE.Vector3(1, 0, -3.25), 90, animationMixers);
+
+        arcadeClass.notifyProgress(++progress / loadSections);
 
         // Add hitboxes to collision manager
         wallTemplate.getBoundingBoxes().forEach(hitbox => collisionManager.addEnvironmentHitbox(hitbox));
@@ -145,6 +158,8 @@ class ArcadeBuilder {
         const bottomBounds = new THREE.Box3(new THREE.Vector3(0, 0, 0.4), new THREE.Vector3(9, 5, 2));
         collisionManager.addEnvironmentHitbox(bottomBounds);
 
+        arcadeClass.notifyProgress(++progress / loadSections);
+
         // Add ground labels to arcade sections
         const projectsText = ShapeDrawer.createFloorText("Projects", 57);
         projectsText.position.set(3.5, 0.026, 0.2);
@@ -154,49 +169,79 @@ class ArcadeBuilder {
         aboutText.position.set(7, 0.026, -4);
         aboutText.rotateX(-Math.PI / 2);
 
+        arcadeClass.notifyProgress(++progress / loadSections);
+
         scene.add(projectsText);
         scene.add(aboutText);
     }
 
     // Any updates to projects should be isolated to only here
-    static async placeProjects(scene, collisionManager) {
+    static async placeProjects(arcadeClass, collisionManager) {
+        const scene = arcadeClass.getScene(), loadSteps = 16
+        let progress = 0;
+
+        // Notifying progress each step
         const terrainSimProject = new ArcadeMachine(Projects.TERRAIN_GENERATOR_SIMULATOR,
             new THREE.Vector3(2, 0, -0.5), 1);
+        arcadeClass.notifyProgress(++progress / loadSteps);
         const duckHuntAtHome = new ArcadeMachine(Projects.DUCK_HUNT_AT_HOME,
             new THREE.Vector3(3, 0, -0.5), -1);
+        arcadeClass.notifyProgress(++progress / loadSteps);
         const PAWsitive = new ArcadeMachine(Projects.PAWSITIVE,
             new THREE.Vector3(4, 0, -0.5), 0);
+        arcadeClass.notifyProgress(++progress / loadSteps);
         const swing = new ArcadeMachine(Projects.SWING,
             new THREE.Vector3(5, 0, -0.5), -1);
+        arcadeClass.notifyProgress(++progress / loadSteps);
         const touhouAtHome = new ArcadeMachine(Projects.TOUHOU_AT_HOME,
             new THREE.Vector3(5, 0, -2), 1);
+        arcadeClass.notifyProgress(++progress / loadSteps);
         const zoomToHome = new ArcadeMachine(Projects.ZOOM_TO_HOME,
             new THREE.Vector3(2, 0, -2), -1);
+        arcadeClass.notifyProgress(++progress / loadSteps);
         const spinTheBarrel = new ArcadeMachine(Projects.SPIN_THE_BARREL,
             new THREE.Vector3(3, 0, -2), 1);
+        arcadeClass.notifyProgress(++progress / loadSteps);
         const aiGamer = new ArcadeMachine(Projects.AI_GAMER,
             new THREE.Vector3(4, 0, -2), -1);
+        arcadeClass.notifyProgress(++progress / loadSteps);
 
         // Put arcade machine onto scene
         terrainSimProject.spawn(scene, collisionManager);
+        arcadeClass.notifyProgress(++progress / loadSteps);
         duckHuntAtHome.spawn(scene, collisionManager);
+        arcadeClass.notifyProgress(++progress / loadSteps);
         PAWsitive.spawn(scene, collisionManager);
+        arcadeClass.notifyProgress(++progress / loadSteps);
         swing.spawn(scene, collisionManager);
+        arcadeClass.notifyProgress(++progress / loadSteps);
         touhouAtHome.spawn(scene, collisionManager);
+        arcadeClass.notifyProgress(++progress / loadSteps);
         zoomToHome.spawn(scene, collisionManager);
+        arcadeClass.notifyProgress(++progress / loadSteps);
         spinTheBarrel.spawn(scene, collisionManager);
+        arcadeClass.notifyProgress(++progress / loadSteps);
         aiGamer.spawn(scene, collisionManager);
+        arcadeClass.notifyProgress(++progress / loadSteps);
     }
 
-    static async buildPlayer(scene, animationMixers, inputManager) {
+    static async buildPlayer(arcadeClass, animationMixers, inputManager) {
+        const scene = arcadeClass.getScene();
+
         const player = new Player(new THREE.Vector3(2, 0, -3.25), inputManager);
+        arcadeClass.notifyProgress(0.5);
         await player.createPlayer(scene, animationMixers);
+        arcadeClass.notifyProgress(1);
         return player;
     }
 
-    static async buildClerk(scene, animationMixers, inputManager) {
+    static async buildClerk(arcadeClass, animationMixers, inputManager) {
+        const scene = arcadeClass.getScene();
+
         const clerk = new Clerk(new THREE.Vector3(7, 0, -5.5), inputManager);
+        arcadeClass.notifyProgress(0.5);
         await clerk.createClerk(scene, animationMixers);
+        arcadeClass.notifyProgress(1);
         return clerk;
     }
 }
