@@ -10,6 +10,7 @@ class LoadScreenManager {
     #loadMessage;
     #loadIcon;
     #enterButton;
+    #loadProgress;
 
     #inputManager;
     #onCloseFunctionQueue = new Array(); // Queue of functions that need to be ran after loading screen closes
@@ -20,6 +21,7 @@ class LoadScreenManager {
         this.#loadMessage = document.getElementById("load-message");
         this.#loadIcon = document.getElementById("load-icon");
         this.#enterButton = document.getElementById("enter-button");
+        this.#loadProgress = document.getElementById("load-progress");
 
         this.#inputManager = inputManager;
         this.#inputManager.pauseInput(true);
@@ -29,10 +31,16 @@ class LoadScreenManager {
     showButton() {
         this.#fadeOutElement(this.#loadMessage);
         this.#fadeOutElement(this.#loadIcon);
+        this.#fadeOutElement(this.#loadProgress);
         setTimeout(() => {
             this.#fadeInElement(this.#siteTitle);
             this.#fadeInElement(this.#enterButton);
         }, LoadScreenManager.fadeTime * 1000);
+    }
+
+    setLoadBarProgress(loadPercent) {
+        const widthPercentage = `${loadPercent * 100}%`;
+        this.#loadProgress.style.width = widthPercentage;
     }
 
     // Function passed in cannot have any parameters

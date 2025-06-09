@@ -19,6 +19,9 @@ const debug = false;
 // Only one should exists, what the script will interface with
 class Arcade {
 
+    // Constants
+    static loadSteps = 4;
+
     // Managers
     #loadScreenManager;
     #collisionManager;
@@ -96,14 +99,13 @@ class Arcade {
     // Builds the environment
     async instantiateArcade() {
         ArcadeMachine.setArcadeReference(this); // Needed for middle man to notify project closing
-        await ArcadeBuilder.buildArcade(this.#arcadeScene, this.#collisionManager, this.#animationMixers);
-        await ArcadeBuilder.placeProjects(this.#arcadeScene, this.#collisionManager);
-        this.#notifyCompleteLoad();
+        await ArcadeBuilder.buildArcade(this, this.#collisionManager, this.#animationMixers);
+        await ArcadeBuilder.placeProjects(this, this.#collisionManager);
     }
 
     // Builds the player
     async instantiatePlayer() {
-        this.#player = await ArcadeBuilder.buildPlayer(this.#arcadeScene, this.#animationMixers, this.#inputManager);
+        this.#player = await ArcadeBuilder.buildPlayer(this, this.#animationMixers, this.#inputManager);
 
         // Add player processes
         this.#processManager.addPhysicsProcess((delta) => this.#player.playerPhysicsProcess(delta));
@@ -115,16 +117,13 @@ class Arcade {
         this.#collisionManager.addPlayerClass(this.#player);
         this.#processManager.addProcess((delta) => this.#collisionManager.collisionProcess(delta));
         this.#processManager.addProcess((delta) => ArcadeMachine.ArcadeMachinesPromptProcess(delta, this.#player));
-
-        this.#notifyCompleteLoad();
     }
 
     async instantiateClerk() {
-        this.#clerk = await ArcadeBuilder.buildClerk(this.#arcadeScene, this.#animationMixers);
+        this.#clerk = await ArcadeBuilder.buildClerk(this, this.#animationMixers);
         this.#dialogueManager.createChatPrompt(this.#clerk.getPosition());
         this.#dialogueManager.setInteractBox(this.#clerk.getInteractBox(), this.#player);
         this.#dialogueManager.setClerkModel(this.#clerk.getModel());
-        this.#notifyCompleteLoad();
     }
 
     notifyInteractPressed(event = null, mouseWorldPos = null) {
@@ -184,11 +183,12 @@ class Arcade {
         machine.openProject(this, this.#player);
     }
 
-    #notifyCompleteLoad() {
-        if (this.#readyCount === 2) { // Player, NPCs, Environment all loaded
+    notifyProgress(progress) { // Progress expected to be a decimal
+        this.#loadScreenManager.setLoadBarProgress((Math.min(progress, 1) + this.#readyCount) / Arcade.loadSteps);
+        if (progress >= 1) this.#readyCount++;
+        if (this.#readyCount === Arcade.loadSteps) {
             this.#loadScreenManager.showButton();
             return;
         }
-        this.#readyCount++;
     }
 }
