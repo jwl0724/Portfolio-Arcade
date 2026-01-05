@@ -177,7 +177,7 @@ class ArcadeBuilder {
 
     // Any updates to projects should be isolated to only here
     static async placeProjects(arcadeClass, collisionManager) {
-        const scene = arcadeClass.getScene(), loadSteps = 16
+        const scene = arcadeClass.getScene(), loadSteps = Object.keys(Projects).length * 2;
         let progress = 0;
 
         // Notifying progress each step
@@ -205,6 +205,9 @@ class ArcadeBuilder {
         const aiGamer = new ArcadeMachine(Projects.AI_GAMER,
             new THREE.Vector3(4, 0, -2), -1);
         arcadeClass.notifyProgress(++progress / loadSteps);
+        const paintedReverie = new ArcadeMachine(Projects.PAINTED_REVERIE,
+            new THREE.Vector3(6, 0, -2), 0.5);
+        arcadeClass.notifyProgress(++progress / loadSteps);
 
         // Put arcade machine onto scene
         terrainSimProject.spawn(scene, collisionManager);
@@ -222,6 +225,8 @@ class ArcadeBuilder {
         spinTheBarrel.spawn(scene, collisionManager);
         arcadeClass.notifyProgress(++progress / loadSteps);
         aiGamer.spawn(scene, collisionManager);
+        arcadeClass.notifyProgress(++progress / loadSteps);
+        paintedReverie.spawn(scene, collisionManager);
         arcadeClass.notifyProgress(++progress / loadSteps);
     }
 

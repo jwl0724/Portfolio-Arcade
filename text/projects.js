@@ -100,6 +100,26 @@ const AI_GAMER = Object.freeze({
     ]
 });
 
+const PAINTED_REVERIE = Object.freeze({
+    TITLE: "Painted Reverie",
+    ABOUT: `    Painted Reverie is a first person horror game created for SCREAM JAM 2025. It was made in Unity with a group of friends to see how scary we could make a game, as well as trying out a game jam for the first time.
+
+        The game is a loose adaptation of the chinese story called "The Painted Skin". You play as Wang, where you relive the final moments of his life and attempt to change his fate by collecting objects of mystical power. You can check out the itch.io page <a href="https://jackywucoder.itch.io/painted-reverie" target="_blank" rel="noopener noreferrer"">here!</a>
+
+        This game was the first time I worked on a game with very tight deadline, especially important within a group environment. Before the jam there were so many ideas that our group came up with during the ideation phase of development. We wanted to implement so many unique mechanics that would make the game much scarier to play through. As development went on, we quickly realized we would not be able to implement everything we wanted to and we had to cut lots of planned features in order to meet the deadline. Development also proved tricky trying to coordinate everyone in the project, since everyone has their own personal schedules that would sometimes clash with other member's schedules.
+
+        Fortunately we were able to pull through despite the difficulties, and the experience has made me much better at realizing and handling scope creep. I found myself much more easily able to identify what is possible and what isn't given a time window. I also found myself able to coordinate with others much more effectively after this experience, due to the nature of the tight deadline. Communication was essential and coordinating the work between everyone was crucial for allowing us to finish this project on time.
+    `,
+    IMAGES:
+    [
+        "https://img.itch.zone/aW1hZ2UvMzk2NTc1OC8yMzY0ODE3OS5wbmc=/original/VbAIpj.png",
+        "https://img.itch.zone/aW1hZ2UvMzk2NTc1OC8yMzY0Nzc2OC5wbmc=/original/pW1ax4.png",
+        "https://img.itch.zone/aW1hZ2UvMzk2NTc1OC8yMzY0Nzc2OS5wbmc=/original/ry5r4c.png",
+        "https://img.itch.zone/aW1hZ2UvMzk2NTc1OC8yMzY0Nzc3NS5wbmc=/original/D6Ym74.png",
+        "https://img.itch.zone/aW1hZ2UvMzk2NTc1OC8yMzY0Nzc3My5wbmc=/original/qlK6kD.png"
+    ]
+});
+
 const Projects = Object.freeze({
     TERRAIN_GENERATOR_SIMULATOR: TERRAIN_GENERATOR_SIMULATOR,
     DUCK_HUNT_AT_HOME: DUCK_HUNT_AT_HOME,
@@ -108,5 +128,6 @@ const Projects = Object.freeze({
     TOUHOU_AT_HOME: TOUHOU_AT_HOME,
     ZOOM_TO_HOME: ZOOM_TO_HOME,
     SPIN_THE_BARREL: SPIN_THE_BARREL,
-    AI_GAMER: AI_GAMER
+    AI_GAMER: AI_GAMER,
+    PAINTED_REVERIE: PAINTED_REVERIE,
 });
