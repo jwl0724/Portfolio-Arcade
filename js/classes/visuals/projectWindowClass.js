@@ -1,4 +1,5 @@
 import { ArcadeMachine } from "../entities/arcadeMachineClass";
+import { BoolUtils } from "../utils/boolUtilsClass";
 
 export { ProjectWindow };
 
@@ -12,6 +13,7 @@ class ProjectWindow {
     static #previewSection = document.getElementById("preview-carousel")
     static #nextImageButton = document.getElementById("next-preview");
     static #prevImageButton = document.getElementById("prev-preview");
+    static #gameEmbed = document.getElementById("game-embed");
 
     // Components
     static #isOpened = false;
@@ -70,6 +72,14 @@ class ProjectWindow {
         }
         // If the project does have pictures associated with it
         ProjectWindow.#previewImage.src = this.#projectInfo.IMAGES[this.#imageIndex];
+
+        // If the project has embed hosted on itch.io
+        if (this.#projectInfo.EMBED) {
+            ProjectWindow.#gameEmbed.innerHTML = "";
+            if (!BoolUtils.isOnMobile() || BoolUtils.isOnMobile() && this.#projectInfo.EMBED_MOBILE_SUPPORT) {
+                ProjectWindow.#gameEmbed.innerHTML = this.#projectInfo.EMBED;
+            }
+        }
 
         // If more than one picture
         if (this.#projectInfo.IMAGES.length > 1) {

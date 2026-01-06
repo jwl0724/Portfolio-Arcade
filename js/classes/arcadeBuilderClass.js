@@ -185,13 +185,13 @@ class ArcadeBuilder {
             new THREE.Vector3(2, 0, -0.5), 1);
         arcadeClass.notifyProgress(++progress / loadSteps);
         const duckHuntAtHome = new ArcadeMachine(Projects.DUCK_HUNT_AT_HOME,
-            new THREE.Vector3(3, 0, -0.5), -1);
+            new THREE.Vector3(2.75, 0, -0.5), -1);
         arcadeClass.notifyProgress(++progress / loadSteps);
         const PAWsitive = new ArcadeMachine(Projects.PAWSITIVE,
-            new THREE.Vector3(4, 0, -0.5), 0);
+            new THREE.Vector3(3.5, 0, -0.5), 0);
         arcadeClass.notifyProgress(++progress / loadSteps);
         const swing = new ArcadeMachine(Projects.SWING,
-            new THREE.Vector3(5, 0, -0.5), -1);
+            new THREE.Vector3(4.25, 0, -0.5), -1);
         arcadeClass.notifyProgress(++progress / loadSteps);
         const touhouAtHome = new ArcadeMachine(Projects.TOUHOU_AT_HOME,
             new THREE.Vector3(5, 0, -2), 1);
@@ -200,13 +200,19 @@ class ArcadeBuilder {
             new THREE.Vector3(2, 0, -2), -1);
         arcadeClass.notifyProgress(++progress / loadSteps);
         const spinTheBarrel = new ArcadeMachine(Projects.SPIN_THE_BARREL,
-            new THREE.Vector3(3, 0, -2), 1);
+            new THREE.Vector3(2.75, 0, -2), 1);
         arcadeClass.notifyProgress(++progress / loadSteps);
         const aiGamer = new ArcadeMachine(Projects.AI_GAMER,
-            new THREE.Vector3(4, 0, -2), -1);
+            new THREE.Vector3(3.5, 0, -2), -1);
         arcadeClass.notifyProgress(++progress / loadSteps);
         const paintedReverie = new ArcadeMachine(Projects.PAINTED_REVERIE,
-            new THREE.Vector3(6, 0, -2), 0.5);
+            new THREE.Vector3(4.25, 0, -2), 0.5);
+        arcadeClass.notifyProgress(++progress / loadSteps);
+        const soccergeddon = new ArcadeMachine(Projects.SOCCERGEDDON,
+            new THREE.Vector3(5, 0, -0.5), 2);
+        arcadeClass.notifyProgress(++progress / loadSteps);
+        const conversationSimulator = new ArcadeMachine(Projects.CONVERSATION_SIMULATOR,
+            new THREE.Vector3(5.75, 0, -0.5), 2);
         arcadeClass.notifyProgress(++progress / loadSteps);
 
         // Put arcade machine onto scene
@@ -227,6 +233,10 @@ class ArcadeBuilder {
         aiGamer.spawn(scene, collisionManager);
         arcadeClass.notifyProgress(++progress / loadSteps);
         paintedReverie.spawn(scene, collisionManager);
+        arcadeClass.notifyProgress(++progress / loadSteps);
+        soccergeddon.spawn(scene, collisionManager);
+        arcadeClass.notifyProgress(++progress / loadSteps);
+        conversationSimulator.spawn(scene, collisionManager);
         arcadeClass.notifyProgress(++progress / loadSteps);
     }
 

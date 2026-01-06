@@ -118,7 +118,7 @@ const PAINTED_REVERIE = Object.freeze({
     ]
 });
 
-const SOCCERGEDDON = Objects.freeze({
+const SOCCERGEDDON = Object.freeze({
     TITLE: "Soccergeddon",
     ABOUT: `
     <b>How to Play</b><br>
@@ -138,10 +138,11 @@ const SOCCERGEDDON = Objects.freeze({
         "https://img.itch.zone/aW1hZ2UvNDE0MTI2Ni8yNDY3OTAxMi5wbmc=/original/fmXCu%2F.png",
         "https://img.itch.zone/aW1hZ2UvNDE0MTI2Ni8yNDY3OTAxMy5wbmc=/original/MACOR%2B.png"
     ],
-    EMBED: `<iframe frameborder="0" src="https://itch.io/embed-upload/15923591?color=360185" allowfullscreen="false" width="1024" height="620"><a href="https://golden-rice.itch.io/soccergeddon">Play Soccergeddon on itch.io</a></iframe>`
+    EMBED: `<iframe frameborder="0" src="https://itch.io/embed-upload/15923591?color=360185" width="1024" height="620"><a href="https://golden-rice.itch.io/soccergeddon">Play Soccergeddon on itch.io</a></iframe>`,
+    EMBED_MOBILE_SUPPORT: false
 });
 
-const CONVERSATION_SIMULATOR = Objects.freeze({
+const CONVERSATION_SIMULATOR = Object.freeze({
     TITLE: "Conversation Simulator",
     ABOUT: `
         <b>How to Play</b><br>
@@ -158,7 +159,8 @@ const CONVERSATION_SIMULATOR = Objects.freeze({
         "https://img.itch.zone/aW1hZ2UvNDEyMzY1MS8yNDU3MjM5My5wbmc=/original/GRZ9Qw.png",
         "https://img.itch.zone/aW1hZ2UvNDEyMzY1MS8yNDU3MjM5NC5wbmc=/original/9Dfexs.png"
     ],
-    EMBED: `<iframe frameborder="0" src="https://itch.io/embed-upload/15855754?color=FF9013" allowfullscreen="false" width="1024" height="788"><a href="https://golden-rice.itch.io/conversation-simulator">Play Conversation Simulator on itch.io</a></iframe>`
+    EMBED: `<iframe frameborder="0" src="https://itch.io/embed-upload/15855754?color=FF9013" width="1024" height="788"><a href="https://golden-rice.itch.io/conversation-simulator">Play Conversation Simulator on itch.io</a></iframe>`,
+    EMBED_MOBILE_SUPPORT: true
 });
 
 const Projects = Object.freeze({
@@ -171,4 +173,6 @@ const Projects = Object.freeze({
     SPIN_THE_BARREL: SPIN_THE_BARREL,
     AI_GAMER: AI_GAMER,
     PAINTED_REVERIE: PAINTED_REVERIE,
+    SOCCERGEDDON: SOCCERGEDDON,
+    CONVERSATION_SIMULATOR: CONVERSATION_SIMULATOR
 });
