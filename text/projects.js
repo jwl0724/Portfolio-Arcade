@@ -110,14 +110,55 @@ const PAINTED_REVERIE = Object.freeze({
 
         Fortunately we were able to pull through despite the difficulties, and the experience has made me much better at realizing and handling scope creep. I found myself much more easily able to identify what is possible and what isn't given a time window. I also found myself able to coordinate with others much more effectively after this experience, due to the nature of the tight deadline. Communication was essential and coordinating the work between everyone was crucial for allowing us to finish this project on time.
     `,
-    IMAGES:
-    [
+    IMAGES: [
         "https://img.itch.zone/aW1hZ2UvMzk2NTc1OC8yMzY0ODE3OS5wbmc=/original/VbAIpj.png",
         "https://img.itch.zone/aW1hZ2UvMzk2NTc1OC8yMzY0Nzc2OC5wbmc=/original/pW1ax4.png",
         "https://img.itch.zone/aW1hZ2UvMzk2NTc1OC8yMzY0Nzc2OS5wbmc=/original/ry5r4c.png",
-        "https://img.itch.zone/aW1hZ2UvMzk2NTc1OC8yMzY0Nzc3NS5wbmc=/original/D6Ym74.png",
         "https://img.itch.zone/aW1hZ2UvMzk2NTc1OC8yMzY0Nzc3My5wbmc=/original/qlK6kD.png"
     ]
+});
+
+const SOCCERGEDDON = Objects.freeze({
+    TITLE: "Soccergeddon",
+    ABOUT: `
+    <b>How to Play</b><br>
+    <p>WASD or Arrow Keys - Move</p>
+    <p>Left Click or Space - Kick ball when near it</p>
+    <p>Right Click or E - Call ball to return to your locaiton</p>
+    <p>Esc - Pause</p>
+
+    Soccergeddon is a mash-up between soccer and action rogue-lite games like Vampire Survivors. It was created in Godot 3 for ScoreJam #37 within a 2 day deadline. I joined the jam to challenge myself with handling all aspects of game development within an extremely tight deadline.
+
+    The idea came from my love of action rogue-lite games and the theme of the Jam, which was soccer. I thought it would probably be satisfying to kick a ball into a crowd of enemies and watch them go flying as your score goes up, hence the game idea was born.
+
+    I found this project incredibly difficult to manage due to the overwhelming amount of work required for a solo developer, especially within a 2 day time window. This project required me to code the mechanics, create the visual assets, and find appropriate music and sound effects. In addition to an opportunity to practice pixel art, because the project had required from different fields within a solo project, I found myself setting up the project in a way that allowed for easy incorporation of the assets once they were finished. For example, I knew I wanted different enemy variety, which required different sprites with their own animations depending on the enemy type, but I was nowhere close to finishing those sprites. To address this problem, I planned a standard animation list that all sprites will have, and setup a factory class that allowed for dragging and dropping the sprites for their corresponding enemy type. Setting it up like this was slow initially, but it ended up being a crucial step in development, as it streamlined the implementation of all of the assets when the deadline was extremely close. Overall, this game was an incredible learning opportunity in foundational setup and planning for these types of projects.
+    `,
+    IMAGES: [
+        "https://img.itch.zone/aW1hZ2UvNDE0MTI2Ni8yNDY3OTAxMS5wbmc=/original/kuPrbR.png",
+        "https://img.itch.zone/aW1hZ2UvNDE0MTI2Ni8yNDY3OTAxMi5wbmc=/original/fmXCu%2F.png",
+        "https://img.itch.zone/aW1hZ2UvNDE0MTI2Ni8yNDY3OTAxMy5wbmc=/original/MACOR%2B.png"
+    ],
+    EMBED: `<iframe frameborder="0" src="https://itch.io/embed-upload/15923591?color=360185" allowfullscreen="false" width="1024" height="620"><a href="https://golden-rice.itch.io/soccergeddon">Play Soccergeddon on itch.io</a></iframe>`
+});
+
+const CONVERSATION_SIMULATOR = Objects.freeze({
+    TITLE: "Conversation Simulator",
+    ABOUT: `
+        <b>How to Play</b><br>
+        Use the mouse to drag words into the boxes at the bottom. Try to form a coherent sentence with those words that makes sense within the context to progress.
+
+        Conversation Simulator is a frantic puzzle word game, where you have to form a coherent sentences that make sense within the context of the situation. It was created in Godot 3 for the 20 Second Game Jam, where the goal was to create a game that can be played within 20 seconds. I joined this jam because it was an incredibly unique theme that demanded efficiency in teaching game mechanics, and what the game is all about.
+
+        Both the idea and the name of the game came from the experience of trying to find the right words to say in a conversational setting. More specifically, I wanted to gamify the experience where you would run a conversation in your mind over and over again to make the perfect response. The premise is that you play as someone that has social anxiety, and your mother is trying to help you get over it by letting you order at a fast food restraunt. I felt that it was a heartwarming premise and the importance of which is downplayed a lot in online discussions, so I wanted to create a game to share that experience.
+
+        This project was an opportunity for me to translate something from real world experience, into a tangible game mechanic that emulates the same feeling. For example, usually people struggle with their words in conversation because they are panicked, so I wanted the player to have that sense of feeling too. The jam's theme was perfect for eliciting said emotion, since people tend to panic when under a time crunch. To further sell the feeling of panic, I added increasing visual effects simiular to that of vertigo as the timer goes on, along with a tinnitus sound effect. The nature of the jam also gave me an opportunity to go outside my comfort zone and try something different in order to optimize the learning experience for the player. The main menu was a result of said optimization, before you're even able to play the game, you have to drag the Play button into empty box. This immediately tells the player how to play the game, since to even start the game in the first place they needed to drag the Play button into the empty box. Overall, this project was an incredible learning experience in implementing game design principles, and gave me an opportunity to step away from the technical aspect of game development and focus on the part that I had not put as much thought in.
+    `,
+    IMAGES: [
+        "https://img.itch.zone/aW1hZ2UvNDEyMzY1MS8yNDU3MjM5NS5wbmc=/original/y0LFqc.png",
+        "https://img.itch.zone/aW1hZ2UvNDEyMzY1MS8yNDU3MjM5My5wbmc=/original/GRZ9Qw.png",
+        "https://img.itch.zone/aW1hZ2UvNDEyMzY1MS8yNDU3MjM5NC5wbmc=/original/9Dfexs.png"
+    ],
+    EMBED: `<iframe frameborder="0" src="https://itch.io/embed-upload/15855754?color=FF9013" allowfullscreen="false" width="1024" height="788"><a href="https://golden-rice.itch.io/conversation-simulator">Play Conversation Simulator on itch.io</a></iframe>`
 });
 
 const Projects = Object.freeze({
