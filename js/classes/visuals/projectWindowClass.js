@@ -61,6 +61,10 @@ class ProjectWindow {
         ProjectWindow.#openWindow();
     }
 
+    hasGameEmbed() {
+        return this.#projectInfo.EMBED_MOBILE_SUPPORT != undefined; // If project has embed, then this will always be defined
+    }
+
     #populateWindow() {
         ProjectWindow.#projectTitleLabel.innerHTML = this.#projectInfo.TITLE;
         ProjectWindow.#projectDescriptionLabel.innerHTML = this.#projectInfo.ABOUT;

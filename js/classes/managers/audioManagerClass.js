@@ -78,7 +78,13 @@ class AudioManager {
     }
 
     toggleSFX() {
-        this.#sfxEnabled =  !this.#sfxEnabled;
+        this.#sfxEnabled = !this.#sfxEnabled;
+    }
+
+    tempDisableMusic(disable) {
+        if (!this.#musicEnabled) return;
+        if (disable) this.#musicPlayer.pause();
+        else this.#musicPlayer.play();
     }
 
     musicEnabled() {

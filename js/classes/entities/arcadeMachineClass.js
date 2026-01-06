@@ -140,6 +140,10 @@ class ArcadeMachine {
         this.#projectWindow.openProject();
     }
 
+    hasGameEmbed() {
+        return this.#projectWindow.hasGameEmbed();
+    }
+
     process(delta, player) {
         this.#checkInRange(player);
         this.#hoverAndSpingEffect(delta);

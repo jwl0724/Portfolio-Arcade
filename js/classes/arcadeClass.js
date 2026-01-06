@@ -74,6 +74,7 @@ class Arcade {
         ProjectWindow.addCloseAction(() => {
             this.#guiManager.showUI();
             this.#guiManager.disable(false);
+            this.#audioManager.tempDisableMusic(false);
         });
     }
 
@@ -181,6 +182,9 @@ class Arcade {
         this.#guiManager.disable(true);
         this.#audioManager.playSFX(this.#audioManager.chooseRandomSFX(AudioManager.sfx.arcade));
         machine.openProject(this, this.#player);
+        if (machine.hasGameEmbed()) {
+            this.#audioManager.tempDisableMusic(true);
+        }
     }
 
     notifyProgress(progress) { // Progress expected to be a decimal
