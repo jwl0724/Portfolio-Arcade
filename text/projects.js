@@ -121,11 +121,11 @@ const PAINTED_REVERIE = Object.freeze({
 const SOCCERGEDDON = Object.freeze({
     TITLE: "Soccergeddon",
     ABOUT: `
-    <b>How to Play</b><br>
-    <p>WASD or Arrow Keys - Move</p>
-    <p>Left Click or Space - Kick ball when near it</p>
-    <p>Right Click or E - Call ball to return to your locaiton</p>
-    <p>Esc - Pause</p>
+    <b>How to Play</b>
+    WASD or Arrow Keys - Move
+    Left Click or Space - Kick ball when near it
+    Right Click or E - Call ball to return to your locaiton
+    Esc - Pause
 
     Soccergeddon is a mash-up between soccer and action rogue-lite games like Vampire Survivors. It was created in Godot 3 for ScoreJam #37 within a 2 day deadline. I joined the jam to challenge myself with handling all aspects of game development within an extremely tight deadline.
 

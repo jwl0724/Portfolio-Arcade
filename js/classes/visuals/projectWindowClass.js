@@ -49,6 +49,7 @@ class ProjectWindow {
         this.#projectInfo = info;
         this.#imageIndex = 0;
 
+        if (!info.IMAGES) return;
         info.IMAGES.forEach(path => {
             const img = new Image();
             img.src = path;
@@ -69,20 +70,22 @@ class ProjectWindow {
         ProjectWindow.#projectTitleLabel.innerHTML = this.#projectInfo.TITLE;
         ProjectWindow.#projectDescriptionLabel.innerHTML = this.#projectInfo.ABOUT;
 
-        // If the project doesn't have pictures associated with it
-        if (!this.#projectInfo.IMAGES || this.#projectInfo.IMAGES?.length < 1) {
-            ProjectWindow.#previewSection.display = "none";
-            return;
-        }
-        // If the project does have pictures associated with it
-        ProjectWindow.#previewImage.src = this.#projectInfo.IMAGES[this.#imageIndex];
-
         // If the project has embed hosted on itch.io
         if (this.#projectInfo.EMBED) {
             if (!BoolUtils.isOnMobile() || BoolUtils.isOnMobile() && this.#projectInfo.EMBED_MOBILE_SUPPORT) {
                 ProjectWindow.#gameEmbed.innerHTML = this.#projectInfo.EMBED;
             }
         }
+
+        // If the project doesn't have pictures associated with it
+        if (!this.#projectInfo.IMAGES || this.#projectInfo.IMAGES?.length < 1) {
+            ProjectWindow.#previewSection.style.display = "none";
+            return;
+        }
+
+        // If the project does have pictures associated with it
+        ProjectWindow.#previewSection.style.display = "block";
+        ProjectWindow.#previewImage.src = this.#projectInfo.IMAGES[this.#imageIndex];
 
         // If more than one picture
         if (this.#projectInfo.IMAGES.length > 1) {
