@@ -79,7 +79,6 @@ class ProjectWindow {
 
         // If the project has embed hosted on itch.io
         if (this.#projectInfo.EMBED) {
-            ProjectWindow.#gameEmbed.innerHTML = "";
             if (!BoolUtils.isOnMobile() || BoolUtils.isOnMobile() && this.#projectInfo.EMBED_MOBILE_SUPPORT) {
                 ProjectWindow.#gameEmbed.innerHTML = this.#projectInfo.EMBED;
             }
@@ -125,6 +124,7 @@ class ProjectWindow {
             ProjectWindow.#projectSection.style.display = "none";
             this.#inAnimation = false;
             this.#isOpened = false;
+            this.#gameEmbed.innerHTML = "";
         }, (this.#animationTimeInSeconds - 0.1) * 1000);
     }
 
