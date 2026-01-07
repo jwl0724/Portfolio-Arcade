@@ -1,5 +1,5 @@
 /* Container for project */
-.project-box {
+.project-box, #game-embed {
     /* positioning/size */
     position: fixed;
     top: 2%;
@@ -36,6 +36,32 @@
     letter-spacing: 0.5vw;
     margin: 0;
     text-align: center;
+}
+
+#play-embed {
+    /* positional */
+    position: absolute;
+    right: 5%;
+    top: 5%;
+    padding: 12px;
+
+    /* font properties */
+    font-weight: bold;
+    font-size: 4vh;
+
+    /* visuals */
+    color: rgb(2, 3, 31);
+    background-color: whitesmoke;
+    border-style: solid;
+    border-color: lightslategray;
+    border-width: 5px;
+    border-radius: 25px;
+}
+
+#play-embed:hover {
+    background-color: rgb(2, 3, 31);
+    border-color: whitesmoke;
+    color: white;
 }
 
 #preview-carousel {
