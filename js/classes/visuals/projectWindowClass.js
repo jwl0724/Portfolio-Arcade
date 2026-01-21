@@ -1,5 +1,6 @@
 import { ArcadeMachine } from "../entities/arcadeMachineClass";
 import { BoolUtils } from "../utils/boolUtilsClass";
+import { EmbedManager } from "../managers/embedManagerClass";
 
 export { ProjectWindow };
 
@@ -13,21 +14,24 @@ class ProjectWindow {
     static #previewSection = document.getElementById("preview-carousel")
     static #nextImageButton = document.getElementById("next-preview");
     static #prevImageButton = document.getElementById("prev-preview");
-    static #gameEmbed = document.getElementById("game-embed");
+    static #playButton = document.getElementById("play-embed");
 
     // Components
     static #isOpened = false;
     static #inAnimation = false;
+    static #currentEmbedManager = null;
+
     #imageIndex;
     #projectInfo;
+    #embedManager;
 
     // Constants
     static #animationTimeInSeconds = parseFloat(getComputedStyle(ProjectWindow.#projectSection).animationDuration);
-
     static #closeFunctionQueue = new Array(); // Functions to run when closing the window
 
     // Add event handlers for html elements
     static {
+        this.#playButton.onclick = () => this.#openEmbed();
         this.#closeFunctionQueue.push(() => ArcadeMachine.notifyWindowClosed());
         this.#closeFunctionQueue.push(() => this.#closeWindow());
         document.getElementById("project-close").onclick = () => this.#closeFunctionQueue.forEach(action => action());
@@ -48,6 +52,10 @@ class ProjectWindow {
     constructor(info) {
         this.#projectInfo = info;
         this.#imageIndex = 0;
+
+        if (this.#projectInfo.EMBED) {
+            this.#embedManager = new EmbedManager(this.#projectInfo.EMBED);
+        }
 
         if (!info.IMAGES) return;
         info.IMAGES.forEach(path => {
@@ -71,9 +79,12 @@ class ProjectWindow {
         ProjectWindow.#projectDescriptionLabel.innerHTML = this.#projectInfo.ABOUT;
 
         // If the project has embed hosted on itch.io
-        if (this.#projectInfo.EMBED) {
+        ProjectWindow.#playButton.style.display = "none";
+        ProjectWindow.#currentEmbedManager = null;
+        if (this.#embedManager) {
             if (!BoolUtils.isOnMobile() || BoolUtils.isOnMobile() && this.#projectInfo.EMBED_MOBILE_SUPPORT) {
-                ProjectWindow.#gameEmbed.innerHTML = this.#projectInfo.EMBED;
+                ProjectWindow.#currentEmbedManager = this.#embedManager;
+                ProjectWindow.#playButton.style.display = "block";
             }
         }
 
@@ -121,14 +132,20 @@ class ProjectWindow {
         if (!this.#isOpened || this.#inAnimation) return;
 
         ProjectWindow.#projectSection.style.animationName = "project-hide";
+        this.#currentEmbedManager.closeGame(); // In case project close somehow pressed before game close pressed
 
         this.#inAnimation = true;
         setTimeout(() => {
             ProjectWindow.#projectSection.style.display = "none";
             this.#inAnimation = false;
             this.#isOpened = false;
-            this.#gameEmbed.innerHTML = "";
         }, (this.#animationTimeInSeconds - 0.1) * 1000);
+    }
+
+    // Close is handled by embed manager
+    static #openEmbed() {
+        if (this.#currentEmbedManager == null) return;
+        this.#currentEmbedManager.openGame();
     }
 
     #nextImage() {
