@@ -72,6 +72,8 @@
 }
 
 #play-embed {
+    z-index: 10; 
+
     /* positional */
     position: absolute;
     right: 5%;
