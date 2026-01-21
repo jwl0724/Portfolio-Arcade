@@ -16,8 +16,12 @@ export { Arcade, debug };
 // Set this line to false to disable debug mode
 const debug = false;
 
+// TODO: NEED TO NOT SHOW THE PLAY BUTTON SCREEN SIZE NOT AS BIG AS SUPPORTED
+
 // Only one should exists, what the script will interface with
 class Arcade {
+
+    static singleton = null;
 
     // Constants
     static loadSteps = 4;
@@ -44,6 +48,9 @@ class Arcade {
     #animationMixers;
 
     constructor() {
+        if (Arcade.singleton) return this;
+        Arcade.singleton = this;
+
         // Set data members
         this.#arcadeScene = new THREE.Scene();
         this.#cameraManager = new CameraManager(75, window.innerWidth / window.innerHeight, 0.1, 300);
@@ -88,6 +95,10 @@ class Arcade {
 
     inDialogue() {
         return this.#dialogueManager.isInDialogue();
+    }
+
+    forceDisableMusic(disable) {
+        this.#audioManager.tempDisableMusic(disable);
     }
 
     resizeRenderWindow(x, y) {
@@ -182,9 +193,6 @@ class Arcade {
         this.#guiManager.disable(true);
         this.#audioManager.playSFX(this.#audioManager.chooseRandomSFX(AudioManager.sfx.arcade));
         machine.openProject(this, this.#player);
-        if (machine.hasGameEmbed()) {
-            this.#audioManager.tempDisableMusic(true);
-        }
     }
 
     notifyProgress(progress) { // Progress expected to be a decimal

@@ -1,3 +1,4 @@
+import { Arcade } from "../arcadeClass";
 
 export { EmbedManager }
 
@@ -19,10 +20,12 @@ class EmbedManager {
     openGame() {
         EmbedManager.#embedWindow.style.display = "block";
         EmbedManager.#gameDiv.innerHTML = this.#embedLink;
+        Arcade.singleton.forceDisableMusic(true);
     }
 
     closeGame() {
         EmbedManager.#embedWindow.style.display = "none";
         EmbedManager.#gameDiv.innerHTML = "";
+        Arcade.singleton.forceDisableMusic(false);
     }
 }
