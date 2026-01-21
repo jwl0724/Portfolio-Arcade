@@ -128,7 +128,7 @@ class ProjectWindow {
         if (!this.#isOpened || this.#inAnimation) return;
 
         ProjectWindow.#projectSection.style.animationName = "project-hide";
-        this.#currentEmbedManager.closeGame(); // In case project close somehow pressed before game close pressed
+        if (this.#currentEmbedManager != null) this.#currentEmbedManager.closeGame(); // In case project close somehow pressed before game close pressed
 
         this.#inAnimation = true;
         setTimeout(() => {
