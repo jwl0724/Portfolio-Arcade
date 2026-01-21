@@ -120,13 +120,13 @@ const PAINTED_REVERIE = Object.freeze({
 
 const SOCCERGEDDON = Object.freeze({
     TITLE: "Soccergeddon",
-    ABOUT: `
-    <b>How to Play</b>
-    WASD or Arrow Keys - Move
-    Left Click or Space - Kick ball when near it
-    Right Click or E - Call ball to return to your locaiton
-    Esc - Pause
+    ABOUT: `<b>How to Play</b>
+WASD or Arrow Keys - Move
+Left Click or Space - Kick ball when near it
+Right Click or E - Call ball to return to your locaiton
+Esc - Pause
 
+<b>About</b>
     Soccergeddon is a mash-up between soccer and action rogue-lite games like Vampire Survivors. It was created in Godot 3 for ScoreJam #37 within a 2 day deadline. I joined the jam to challenge myself with handling all aspects of game development within an extremely tight deadline.
 
     The idea came from my love of action rogue-lite games and the theme of the Jam, which was soccer. I thought it would probably be satisfying to kick a ball into a crowd of enemies and watch them go flying as your score goes up, hence the game idea was born.
@@ -144,15 +144,15 @@ const SOCCERGEDDON = Object.freeze({
 
 const CONVERSATION_SIMULATOR = Object.freeze({
     TITLE: "Conversation Simulator",
-    ABOUT: `
-        <b>How to Play</b><br>
-        Use the mouse to drag words into the boxes at the bottom. Try to form a coherent sentence with those words that makes sense within the context to progress.
+    ABOUT: `<b>How to Play</b>
+Use the mouse to drag words into the boxes at the bottom. Try to form a coherent sentence with those words that makes sense within the context to progress.
 
-        Conversation Simulator is a frantic puzzle word game, where you have to form a coherent sentences that make sense within the context of the situation. It was created in Godot 3 for the 20 Second Game Jam, where the goal was to create a game that can be played within 20 seconds. I joined this jam because it was an incredibly unique theme that demanded efficiency in teaching game mechanics, and what the game is all about.
+<b>About</b>
+    Conversation Simulator is a frantic puzzle word game, where you have to form a coherent sentences that make sense within the context of the situation. It was created in Godot 3 for the 20 Second Game Jam, where the goal was to create a game that can be played within 20 seconds. I joined this jam because it was an incredibly unique theme that demanded efficiency in teaching game mechanics, and what the game is all about.
 
-        Both the idea and the name of the game came from the experience of trying to find the right words to say in a conversational setting. More specifically, I wanted to gamify the experience where you would run a conversation in your mind over and over again to make the perfect response. The premise is that you play as someone that has social anxiety, and your mother is trying to help you get over it by letting you order at a fast food restraunt. I felt that it was a heartwarming premise and the importance of which is downplayed a lot in online discussions, so I wanted to create a game to share that experience.
+    Both the idea and the name of the game came from the experience of trying to find the right words to say in a conversational setting. More specifically, I wanted to gamify the experience where you would run a conversation in your mind over and over again to make the perfect response. The premise is that you play as someone that has social anxiety, and your mother is trying to help you get over it by letting you order at a fast food restraunt. I felt that it was a heartwarming premise and the importance of which is downplayed a lot in online discussions, so I wanted to create a game to share that experience.
 
-        This project was an opportunity for me to translate something from real world experience, into a tangible game mechanic that emulates the same feeling. For example, usually people struggle with their words in conversation because they are panicked, so I wanted the player to have that sense of feeling too. The jam's theme was perfect for eliciting said emotion, since people tend to panic when under a time crunch. To further sell the feeling of panic, I added increasing visual effects simiular to that of vertigo as the timer goes on, along with a tinnitus sound effect. The nature of the jam also gave me an opportunity to go outside my comfort zone and try something different in order to optimize the learning experience for the player. The main menu was a result of said optimization, before you're even able to play the game, you have to drag the Play button into empty box. This immediately tells the player how to play the game, since to even start the game in the first place they needed to drag the Play button into the empty box. Overall, this project was an incredible learning experience in implementing game design principles, and gave me an opportunity to step away from the technical aspect of game development and focus on the part that I had not put as much thought in.
+    This project was an opportunity for me to translate something from real world experience, into a tangible game mechanic that emulates the same feeling. For example, usually people struggle with their words in conversation because they are panicked, so I wanted the player to have that sense of feeling too. The jam's theme was perfect for eliciting said emotion, since people tend to panic when under a time crunch. To further sell the feeling of panic, I added increasing visual effects simiular to that of vertigo as the timer goes on, along with a tinnitus sound effect. The nature of the jam also gave me an opportunity to go outside my comfort zone and try something different in order to optimize the learning experience for the player. The main menu was a result of said optimization, before you're even able to play the game, you have to drag the Play button into empty box. This immediately tells the player how to play the game, since to even start the game in the first place they needed to drag the Play button into the empty box. Overall, this project was an incredible learning experience in implementing game design principles, and gave me an opportunity to step away from the technical aspect of game development and focus on the part that I had not put as much thought in.
     `,
     IMAGES: [
         "https://img.itch.zone/aW1hZ2UvNDEyMzY1MS8yNDU3MjM5NS5wbmc=/original/y0LFqc.png",

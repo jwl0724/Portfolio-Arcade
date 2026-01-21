@@ -1,5 +1,5 @@
 /* Container for project */
-.project-box, #game-embed {
+.project-box {
     /* positioning/size */
     position: fixed;
     top: 2%;
@@ -30,12 +30,45 @@
     animation-duration: 0.5s;
 }
 
-/* Container elements */
-#project-name {
-    font-size: 6vh;
-    letter-spacing: 0.5vw;
-    margin: 0;
-    text-align: center;
+/* Embed elements */
+#embed-window {
+    background-color: rgba(0, 0, 0, 0.75);
+
+    display: none;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+}
+
+#game-embed {
+    width: 100%;
+    height: 90%;
+
+    /* center game window */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#embed-close {
+    /* positional */
+    position: absolute;
+    right: 2rem;
+    top: 1rem;
+
+    /* visuals */
+    font-weight: bold;
+    font-size: 10vh;
+    background-color: transparent;
+    color: lightslategray;
+    border-width: 0;
+}
+
+#embed-close:hover {
+    color: white;
+    cursor: pointer;
 }
 
 #play-embed {
@@ -62,6 +95,14 @@
     background-color: rgb(2, 3, 31);
     border-color: whitesmoke;
     color: white;
+}
+
+/* Container elements */
+#project-name {
+    font-size: 6vh;
+    letter-spacing: 0.5vw;
+    margin: 0;
+    text-align: center;
 }
 
 #preview-carousel {

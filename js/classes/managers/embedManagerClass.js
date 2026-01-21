@@ -10,7 +10,11 @@ class EmbedManager {
     #embedLink;
 
     static {
-        document.getElementById("embed-close").onclick = () => closeGame;
+        document.getElementById("embed-close").onclick = () => {
+            this.#embedWindow.style.display = "none";
+            this.#gameDiv.innerHTML = "";
+            Arcade.singleton.forceDisableMusic(false);
+        }
     }
 
     constructor(link) {
