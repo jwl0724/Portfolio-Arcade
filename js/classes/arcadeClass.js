@@ -16,8 +16,6 @@ export { Arcade, debug };
 // Set this line to false to disable debug mode
 const debug = false;
 
-// TODO: NEED TO NOT SHOW THE PLAY BUTTON SCREEN SIZE NOT AS BIG AS SUPPORTED
-
 // Only one should exists, what the script will interface with
 class Arcade {
 
