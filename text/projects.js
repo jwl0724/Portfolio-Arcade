@@ -160,7 +160,7 @@ Use the mouse to drag words into the boxes at the bottom. Try to form a coherent
         "https://img.itch.zone/aW1hZ2UvNDEyMzY1MS8yNDU3MjM5NC5wbmc=/original/9Dfexs.png"
     ],
     EMBED: `<iframe frameborder="0" src="https://itch.io/embed-upload/15855754?color=FF9013" width="1024" height="788"><a href="https://golden-rice.itch.io/conversation-simulator">Play Conversation Simulator on itch.io</a></iframe>`,
-    EMBED_MOBILE_SUPPORT: true
+    EMBED_MOBILE_SUPPORT: false
 });
 
 const Projects = Object.freeze({
