@@ -163,8 +163,51 @@ Use the mouse to drag words into the boxes at the bottom. Try to form a coherent
     EMBED_MOBILE_SUPPORT: false
 });
 
+const ENVOY = Object.freeze({
+    TITLE: "Envoy",
+    ABOUT: `<b>How to Play</b>
+Use the WASD keys to move around your character, aim the flashlight with your mouse. Follow the tutorial in the beginning to get the basics on how to play.
+
+<b>About</b>
+    Envoy is top-down horror survival game where the goal is to figure out the history of the lab you find yourself in. It was created with Godot 4.6 using GDScript so that the project can be exported to be playable on browser. The project was created in a group made for Noise Jam 3, where the theme of the jam was applying noise to your game in some way. Our team decided to apply noise to our graphics, hence the grainy VHS-like aesthetics of the game.
+
+    The name came from the theme requirement of the jam, which we had to incorporate angels into our game. Our team knew we wanted to create a horror game for this jam, so the idea of using biblically accurate angels as the monsters of the game seemed very fitting. We drafted an entire story where the main theme is humanity's hubris in the exploitation of power when given the opportunity to do so. We also came up with elaborate backstories for all of the monsters in our game, with the common theme of sterile experimentation.
+
+    This project was an opportunity to use a different language while still working within the workspace of something familiar, that being the Godot engine. All my previous projects up to this project were all made in C#, even downgrading to Godot 3 in order to still work in C# for the sake of exporting to web. During the beginning stages of this project, I did initially find the transition rather jarring. Particularly, I was not used to the GDScript's python-like syntax and its style of OOP. However, I quickly got used to the language peculiarities and it eventually became second nature like how C# originally was for me. It quickly became obvious that while what I wrote was somewhat different, my thought processes in how to design classes and their interactions did not change. This project gave me an opportunity to step outside my comfort zone and become used to adapting to new languages, it was a great learning experience and an eye opening moment that different languages does not necessarily mean different ways of approaching problems.
+    `,
+    IMAGES: [
+        "https://img.itch.zone/aW1hZ2UvNDY3MTc3NC8yNzg0MTEyMi5wbmc=/347x500/Cyl4J8.png",
+        "https://img.itch.zone/aW1hZ2UvNDY3MTc3NC8yNzg0MTEyNi5wbmc=/347x500/koJA63.png",
+        "https://img.itch.zone/aW1hZ2UvNDY3MTc3NC8yNzg0MTExOS5wbmc=/347x500/NHhcGA.png"
+    ],
+    EMBED: `<iframe frameborder="0" src="https://itch.io/embed-upload/17913031?color=20201b" allowfullscreen="" width="1152" height="668"><a href="https://golden-rice.itch.io/envoy">Play Envoy on itch.io</a></iframe>`,
+    EMBED_MOBILE_SUPPORT: false
+});
+
+const AQUARIMENT = Object.freeze({
+    TITLE: "Aquariment",
+    ABOUT: `<b>How to Play</b>
+Click on the top hotbar to spawn fish into the tank, click on the screen to drop food to feed said fish. Click on the coins that the fish drop to get money, and use the money to buy upgrades in the upgrade menu that can be accessed through the top hotbar with the 2 up arrows icon.
+
+<b>About</b>
+    Aquariment is an incremental game inspired by the likes of Insaniquarium created by PopCap Games back in 2006. An incremental game is one in which your progress scales exponentially as you progress further in an upgrade tree, while your obstacle also scales exponentially. It was a solo project created in Godot 4.6 for Comfy Jam: Summer 2026, and was created from scratch in the span of 4 days, though the music, art, and sound effect assets were created by others found from various open art sites such as OpenGameArt.org
+
+    The name came from the combination of the words "Incremental" and "Aquarium". Prior to this project, I had always wanted to try creating an incremental game, given they were a genre of games I was particularly fond of. Simultaneously, I grew up playing Insaniquarium in my childhood and I wanted to see if I could recreate the mechanics of that game. Naturally the idea of combining the two inspirations came about from those desires, and I felt that taking care of and watching over fish was a rather cozy activity, so it felt like a natural fit with the theme of the jam.
+
+    This project gave me the opportunity to work with assets that don't necessarily perfectly fit my requirements. Before this, I tended to create my own art assets through drawing my own pixel art since my own art usually has a cohesive style to them since they were all drawn by me. However, due to the tight deadline of the jam, this was not an option since it would take too much time to create everything from scratch. This gave me a unique opportunity to focus solely on the coding aspect of the game, and structure the code in a way that allowed for easy slotting of any game assets I might change. The way I created classes changed, where I changed classes to rely on exported Godot resources, and each resource was standardized to allow for easy swapping between different assets. It also made me extremely conscientious about separating game logic from visuals, where sprite visuals was managed by a dedicated class that read the state of the class responsible for the logic.
+    `,
+    IMAGES: [
+        "https://img.itch.zone/aW1hZ2UvNDY5MzY2Ni8yNzk3MTg2Ni5wbmc=/347x500/l96ODy.png",
+        "https://img.itch.zone/aW1hZ2UvNDY5MzY2Ni8yNzk3MTg2NS5wbmc=/347x500/aqyBUm.png",
+        "https://img.itch.zone/aW1hZ2UvNDY5MzY2Ni8yNzk3MTg2Ny5wbmc=/347x500/1b5mzP.png",
+        "https://img.itch.zone/aW1hZ2UvNDY5MzY2Ni8yNzk3MTg2NC5wbmc=/347x500/CY%2FbJE.png"
+    ],
+    EMBED: `<iframe frameborder="0" src="https://itch.io/embed-upload/17996657?color=000000" allowfullscreen="" width="1152" height="668"><a href="https://golden-rice.itch.io/aquariment">Play Aquariment on itch.io</a></iframe>`,
+    EMBED_MOBILE_SUPPORT: false
+});
+
 const Projects = Object.freeze({
-    TERRAIN_GENERATOR_SIMULATOR: TERRAIN_GENERATOR_SIMULATOR,
+    ENVOY: ENVOY,
     DUCK_HUNT_AT_HOME: DUCK_HUNT_AT_HOME,
     PAWSITIVE: PAWSITIVE,
     SWING: SWING,
@@ -174,5 +217,6 @@ const Projects = Object.freeze({
     AI_GAMER: AI_GAMER,
     PAINTED_REVERIE: PAINTED_REVERIE,
     SOCCERGEDDON: SOCCERGEDDON,
-    CONVERSATION_SIMULATOR: CONVERSATION_SIMULATOR
+    CONVERSATION_SIMULATOR: CONVERSATION_SIMULATOR,
+    AQUARIMENT: AQUARIMENT
 });

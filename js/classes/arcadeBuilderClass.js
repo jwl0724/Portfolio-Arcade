@@ -162,7 +162,7 @@ class ArcadeBuilder {
 
         // Add ground labels to arcade sections
         const projectsText = ShapeDrawer.createFloorText("Projects", 57);
-        projectsText.position.set(3.5, 0.026, 0.2);
+        projectsText.position.set(4, 0.026, 0.2);
         projectsText.rotateX(-Math.PI / 2);
 
         const aboutText = ShapeDrawer.createFloorText("About", 57);
@@ -181,7 +181,7 @@ class ArcadeBuilder {
         let progress = 0;
 
         // Notifying progress each step
-        const terrainSimProject = new ArcadeMachine(Projects.TERRAIN_GENERATOR_SIMULATOR,
+        const envoy = new ArcadeMachine(Projects.ENVOY,
             new THREE.Vector3(2, 0, -0.5), 1);
         arcadeClass.notifyProgress(++progress / loadSteps);
         const duckHuntAtHome = new ArcadeMachine(Projects.DUCK_HUNT_AT_HOME,
@@ -214,9 +214,12 @@ class ArcadeBuilder {
         const conversationSimulator = new ArcadeMachine(Projects.CONVERSATION_SIMULATOR,
             new THREE.Vector3(5.75, 0, -0.5), 2);
         arcadeClass.notifyProgress(++progress / loadSteps);
+        const aquariment = new ArcadeMachine(Projects.AQUARIMENT,
+            new THREE.Vector3(5.75, 0, -2), 2);
+        arcadeClass.notifyProgress(++progress / loadSteps);
 
         // Put arcade machine onto scene
-        terrainSimProject.spawn(scene, collisionManager);
+        envoy.spawn(scene, collisionManager);
         arcadeClass.notifyProgress(++progress / loadSteps);
         duckHuntAtHome.spawn(scene, collisionManager);
         arcadeClass.notifyProgress(++progress / loadSteps);
@@ -237,6 +240,8 @@ class ArcadeBuilder {
         soccergeddon.spawn(scene, collisionManager);
         arcadeClass.notifyProgress(++progress / loadSteps);
         conversationSimulator.spawn(scene, collisionManager);
+        arcadeClass.notifyProgress(++progress / loadSteps);
+        aquariment.spawn(scene, collisionManager);
         arcadeClass.notifyProgress(++progress / loadSteps);
     }
 
